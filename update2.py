@@ -7,7 +7,7 @@ cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
 #now = datetime.now(timezone.utc)
-siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
+siteId = 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c'
 
 now = datetime.utcnow()
 while True:

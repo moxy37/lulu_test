@@ -1,6 +1,7 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
@@ -61,8 +62,15 @@ router.put('/api/style/list', function (req, res) {
 });
 
 router.get('/api/sync/metro', function (req, res) {
-    var cmd=require('node-cmd');
+    var cmd = require('node-cmd');
     cmd.run('python3 /home/ubuntu/lulu_test/update.py');
+    return res.send("OK");
+});
+
+router.get('/api/sync/wested', function (req, res) {
+    var cmd = require('node-cmd');
+    cmd.run('python3 /home/ubuntu/lulu_test/update2.py');
+    return res.send("OK");
 });
 
 router.put('/api/upc/list', function (req, res) {
@@ -86,9 +94,5 @@ router.put('/api/points/list', function (req, res) {
         return res.send(list);
     });
 });
-
-// router.get('/tetris', function (req, res) {
-//     res.render('wemos/tetris');
-// });
 
 module.exports = router;
