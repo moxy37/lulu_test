@@ -1,0 +1,42 @@
+{
+  "name": "wedding_new",
+  "version": "1.0.0",
+  "description": "New Wedding System",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moxy37/wedding_new.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moxy37/wedding_new/issues"
+  },
+  "homepage": "https://github.com/moxy37/wedding_new#readme",
+  "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "consolidate": "^0.15.1",
+    "express": "^4.16.4",
+    "file-type": "^10.7.1",
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
+    "msnodesqlv8": "^2.0.15",
+    "mssql": "^6.3.1",
+    "multer": "^1.4.2",
+    "mysql2": "^1.6.5",
+    "net": "^1.0.2",
+    "node-cmd": "^3.0.0",
+    "node-kmeans": "^1.1.9",
+    "node-uuid": "^1.4.8",
+    "path": "^0.12.7",
+    "read-chunk": "^3.0.0",
+    "readline": "^1.3.0",
+    "swig": "^1.4.2",
+    "ws": "^6.1.3",
+    "xlsx": "^0.14.3"
+  }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <script type="text/javascript" src="javascripts/libs/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/webfonts/css/all.css">
+</head>
+
+<body>
+
+    <header>
+        <i class="fas fa-bars fa-2x" id="menu" onclick="searchDiv()"></i>
+    </header>
+    <aside>
+        <ul>
+            <li>
+                <label for="">Department:</label>
+                <select id="DeptSelect"  class="CheckLoader" onchange="AllSubDepts();"></select>
+            </li>
+            <li>
+                <label for="">Sub-Department:</label>
+                <select id="SubDeptSelect" class="CheckLoader" onchange="AllClasses();"></select>
+            </li>
+            <li>
+                <label for="">Class:</label>
+                <select id="ClassSelect" class="CheckLoader" onchange="AllSubClasses();"></select>
+            </li>
+            <li>
+                <label for="">Sub-Class:</label>
+                <select id="SubClassSelect" class="CheckLoader" onchange="AllStyles();"></select>
+            </li>
+            <li>
+                <label for="">Style:</label>
+                <select id="StyleSelect" class="CheckLoader" onchange="LoadUPC();"></select>
+            </li>
+            <li>
+                <label for="">Year:</label>
+                <input type="number" class="CheckLoader" value="2021" id="Year" min="2020" max="2021">
+            </li>
+            <li>
+                <label for="">Month:</label>
+                <input type="number" class="CheckLoader" value="4" id="Month" min="1" max="12">
+            </li>
+            <li>
+                <label for="">Day:</label>
+                <input type="number" class="CheckLoader" value="6" id="Day" min="1" max="31">
+            </li>
+            <li class="UpcStuff">
+                <label for="">Product ID:</label>
+                <select id="UpcSelect" class="CheckLoader" multiple></select>
+            </li>
+            <li class="EpcStuff">
+                <label for="">EPC's:</label>
+                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
+            </li>
+            <li class="EpcStuff">
+                <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
+                <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
+            </li>
+            <li id="DUDER">
+                <label for="">Source:</label>
+                <select id="TableSelect" class="CheckLoader" >
+                    <option value="EpcMovements">All Movements</option>
+                    <option value="Snapshot">Daily Snapshots</option>
+
+                </select>
+            </li>
+            <li>
+                <label for="">Result Limit:</label>
+                <input type="number" class="CheckLoader" value="0" id="Limit">
+            </li>
+            <li class="UpcStuff">
+                <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
+                <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button>
+                <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
+            </li>
+        </ul>
+    </aside>
+    <section id="MapSection">
+        <div>
+            <ul class="pointContainer">
+                <li></li>
+            </ul>
+            <img src="css/map-metrotown.png" alt="" id="MapDiv">
+
+        </div>
+        <div id="Message"></div>
+    </section>
+    <section id="loading"></section>
+    <script>
+
+    </script>
+</body>
+<script type="text/javascript" src="javascripts/indexview.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        gOffset = $("#MapDiv").offset();
+        width = $("#MapDiv").width();
+        height = $("#MapDiv").height();
+        gPosY = gOffset.top - $(window).scrollTop();
+        gPosX = gOffset.left - $(window).scrollLeft();
+        $("#DUDER").hide();
+        AllDepts();
+    });
+</script>
+
+</html>
