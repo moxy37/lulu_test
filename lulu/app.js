@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 5
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.listen(3001, function () {
+app.listen(80, function () {
     console.log('Spartacus Node listening on port 3001!');
     var con = require(__base + 'dbConnection');
     con.query("SELECT * FROM DeptNames", function (err, list) {
