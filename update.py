@@ -5,15 +5,16 @@ from time import sleep
 import mysql.connector
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
 cccc  = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
-added = 0
-deleted = 0
+
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 
 
 for i in range(0, 10000):
     now = datetime.utcnow()
-
+    added = 0
+    deleted = 0
+    print("New query")
     url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=200000&returnCount=false'
     sleep(10)
     #print(str(url))
