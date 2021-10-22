@@ -9,9 +9,9 @@ cccc  = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy.
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 
-
+now = datetime.utcnow()
 for i in range(0, 10000):
-    now = datetime.utcnow()
+    
     added = 0
     deleted = 0
     print("New query")
@@ -21,7 +21,7 @@ for i in range(0, 10000):
     headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
 
 
-
+    now = datetime.utcnow()
     response = requests.request("GET", url, headers=headers)
     jsonResponse = response.json()
     for o in jsonResponse['content']:
