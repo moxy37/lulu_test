@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
+cccc  = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
 added = 0
 deleted = 0
 #now = datetime.now(timezone.utc)
@@ -72,7 +73,9 @@ for i in range(0, 10000):
             print(str(e))
             deleted = deleted + 1
         print("Added: " + str(added) + ", Errors: " + str(deleted))
-
-
+    cursor2 = cccc.cursor()
+    cursor2.execute("UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId = t2.sku SET t1.deptCode = t2.deptCode, t1.deptName = t2.deptName, t1.subDeptCode = t2.subDeptCode, t1.subDeptName = t2.subDeptName, t1.classCode = t2.classCode, t1.className = t2.className, t1.subClassName=t2.subClassName, t1.styleCode = t2.styleCode, t1.styleName = t2.styleName, t1.price = t2.price WHERE t1.productId <> '9999999' AND t1.styleName IS NULL")
+    cccc.commit()
+    
 
 
