@@ -7,9 +7,9 @@ import mysql.connector
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 
-now = datetime.utcnow() - relativedelta(seconds=60)
+now = datetime.utcnow() - relativedelta(seconds=3600)
 
-url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=20000&returnCount=false'
+url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=200000&returnCount=false'
 #sleep(10)
 #print(str(url))
 headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
