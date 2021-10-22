@@ -21,7 +21,7 @@ deleted = 0
 response = requests.request("GET", url, headers=headers)
 jsonResponse = response.json()
 for o in jsonResponse['content']:
-    print(str(o))
+    #print(str(o))
     cursor = cnxn.cursor()
     isValid = 0
     isMove = 0
@@ -32,6 +32,8 @@ for o in jsonResponse['content']:
     isExit = 0
     isDeparture = 0
     #'2021-10-22T20:16:07.468Z'
+    ts = o['timestamp'].replace('T', ' ')
+    ts = ts.replace('Z', '')
     tsData = o['timestamp'].split('T')
     tsData2 = tsData[0].split('-')
     yyyy = tsData2[0]
@@ -57,8 +59,8 @@ for o in jsonResponse['content']:
         isDeparture = 1
     if 'VALID' in o['events']:
         isValid = 1
-    sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES (%s, %s, %s, %s, %s, CONVERT_TZ(%s, '+00:00', '+00:00'), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    vals = (o['id'], o['productId'], o['site'], o['siteName'], o['region'], o['regionName'], o['timestamp'], o['x'], o['y'], o['z'], o['confidence'], isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd)
+    sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    vals = (o['id'], o['productId'], o['site'], o['siteName'], o['region'], o['regionName'], ts, o['x'], o['y'], o['z'], o['confidence'], isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd)
     try:
         cursor = cnxn.cursor()
         cursor.execute(sql, vals)
