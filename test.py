@@ -37,6 +37,7 @@ for o in jsonResponse['content']:
     yyyy = tsData2[0]
     mm = tsData2[1]
     dd = tsData2[2]
+    #SELECT CONVERT_TZ('2009-03-04T17:49:20Z', '+00:00', '+00:00')
     #str_to_date('2009-03-04T17:49:20Z', '%Y-%m-%dT%H:%i:%sZ')
     if o['state'] == 'VALID':
         isValid = 1
@@ -56,7 +57,7 @@ for o in jsonResponse['content']:
         isDeparture = 1
     if 'VALID' in o['events']:
         isValid = 1
-    sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES (%s, %s, %s, %s, %s, str_to_date(%s, '%Y-%m-%dT%H:%i:%sZ'), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES (%s, %s, %s, %s, %s, CONVERT_TZ(%s, '+00:00', '+00:00'), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     vals = (o['id'], o['productId'], o['site'], o['siteName'], o['region'], o['regionName'], o['timestamp'], o['x'], o['y'], o['z'], o['confidence'], isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd)
     try:
         cursor = cnxn.cursor()
