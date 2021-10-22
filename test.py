@@ -2,6 +2,7 @@ from datetime import datetime,timezone
 import requests
 from dateutil.relativedelta import relativedelta
 from time import sleep
+import mysql.connector
 
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
