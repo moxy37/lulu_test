@@ -39,7 +39,7 @@ process.on('SIGINT', function () {
 
 });
 
-
+app.use('/', require('./controllers/testcontroller'));
 
 app.get('/', function (req, res) { res.render('index'); });
 
