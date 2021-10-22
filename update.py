@@ -3,8 +3,8 @@ import requests
 from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
-cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
-cccc  = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
+cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'

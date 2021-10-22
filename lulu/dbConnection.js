@@ -4,7 +4,7 @@ var dbConnection = mysql.createPool({
     host:"localhost",
     connectionLimit: 10,
     user: "luluuser",
-    password: "Moxy..37",
+    password: "Moxy..37Moxy..37",
     database: "lulu"
 });
 
