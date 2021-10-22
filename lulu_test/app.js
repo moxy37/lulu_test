@@ -19,14 +19,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(80, function () {
     console.log('Spartacus Node listening on port 80!');
-    // var con = require(__base + 'dbConnection');
-    // con.query("SELECT * FROM DeptNames", function (err, list) {
-    //     if(err){
-    //         console.log(JSON.stringify(err));
-    //     }
-    //     console.log(JSON.stringify(list));
-
-    // });
+    var con = require(__base + 'dbConnection');
+    con.query("SELECT * FROM DeptNames", function (err, list) {
+        if (err) {
+            console.log(JSON.stringify(err));
+        }
+        console.log(JSON.stringify(list));
+    });
 });
 
 process.on('uncaughtException', function (err) { console.log(err); });
@@ -41,17 +40,7 @@ process.on('SIGINT', function () {
 });
 
 
-// const mysql = require('mysql');
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'luluuser',
-//   password: 'Moxy..37Moxy..37',
-//   database: 'lulu'
-// });
-// connection.connect((err) => {
-//   if (err) throw err;
-//   console.log('Connected!');
-// });
+
 app.get('/', function (req, res) { res.render('index'); });
 
 
