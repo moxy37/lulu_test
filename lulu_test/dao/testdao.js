@@ -86,7 +86,7 @@ function TestDAO() {
                 var o = new Object();
                 o.dept = r.deptCode;
                 o.deptName = r.deptName;
-                o.subDept = r.subDept;
+                o.subDept = r.subDeptCode;
                 o.subDeptName = r.subDeptName;
                 o.total = r.total;
                 list.push(o);

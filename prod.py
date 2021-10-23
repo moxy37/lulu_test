@@ -5,7 +5,7 @@ import json
 import mysql.connector
 import datetime
 
-cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37", database="lulu")
+cnxn = mysql.connector.connect(host="localhost", user="root", passwd="root", database="lulu")
 added = 0
 deleted = 0
 
