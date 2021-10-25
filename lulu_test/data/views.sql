@@ -5,11 +5,11 @@ DROP VIEW IF EXISTS AllClass;
 DROP VIEW IF EXISTS AllSubClass;
 DROP VIEW IF EXISTS AllStyle;
 
-CREATE VIEW AllDept AS SELECT deptCode, deptName, COUNT(*) AS total FROM EpcMovement GROUP BY deptCode, deptName;
-CREATE VIEW AllSubDept AS SELECT deptCode, deptName, subDeptCode, subDeptName, COUNT(*) AS total FROM EpcMovement GROUP BY deptCode, deptName, subDeptCode, subDeptName;
-CREATE VIEW AllClass AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, COUNT(*) AS total FROM EpcMovement GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className;
-CREATE VIEW AllSubClass AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, COUNT(*) AS total FROM EpcMovement GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName;
-CREATE VIEW AllStyle AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, COUNT(*) AS total FROM EpcMovement GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName;
+CREATE VIEW AllDept AS SELECT deptCode, deptName, COUNT(*) AS total FROM EpcMovement WHERE deptCode IS NOT NULL GROUP BY deptCode, deptName;
+CREATE VIEW AllSubDept AS SELECT deptCode, deptName, subDeptCode, subDeptName, COUNT(*) AS total FROM EpcMovement WHERE deptCode IS NOT NULL GROUP BY deptCode, deptName, subDeptCode, subDeptName;
+CREATE VIEW AllClass AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, COUNT(*) AS total FROM EpcMovement WHERE deptCode IS NOT NULL GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className;
+CREATE VIEW AllSubClass AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, COUNT(*) AS total FROM EpcMovement WHERE deptCode IS NOT NULL GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName;
+CREATE VIEW AllStyle AS SELECT deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, COUNT(*) AS total FROM EpcMovement WHERE deptCode IS NOT NULL GROUP BY deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName;
 
 DROP VIEW IF EXISTS LastRead;
 CREATE VIEW LastRead AS SELECT id, MAX(idx) AS idx FROM EpcMovement GROUP BY id ;

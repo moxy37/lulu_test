@@ -5,11 +5,20 @@ module.exports = TestDAO;
 
 function TestDAO() {
     this.upc = function (deptId, subDeptId, classId, subClassId, styleId, year, month, day, table, limit, next) {
-        var sql = "SELECT productId, styleName, COUNT(*) AS total FROM " + table + " WHERE yyyy=? AND mm=? AND dd=? ";
+        var sql = "SELECT productId, styleName, COUNT(*) AS total FROM " + table + " WHERE styleName IS NOT NULL ";
         var parmList = [];
-        parmList.push(year);
-        parmList.push(month);
-        parmList.push(day);
+        if (year !== undefined && year !== '') {
+            sql += "AND yyyy=? ";
+            parmList.push(parseInt(year));
+        }
+        if (month !== undefined && month !== '') {
+            sql += "AND mm=? ";
+            parmList.push(parseInt(month));
+        }
+        if (day !== undefined && day !== '') {
+            sql += "AND dd=? ";
+            parmList.push(parseInt(day));
+        }
         if (deptId !== undefined) {
             sql += "AND deptCode=? ";
             parmList.push(deptId);
