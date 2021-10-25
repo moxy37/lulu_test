@@ -42,6 +42,7 @@ process.on('SIGINT', function () {
 app.use('/', require('./controllers/testcontroller'));
 
 app.get('/', function (req, res) { res.render('index'); });
+
 app.get('/map', function (req, res) { res.render('map'); });
 
 

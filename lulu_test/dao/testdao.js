@@ -5,7 +5,7 @@ module.exports = TestDAO;
 
 function TestDAO() {
     this.upc = function (deptId, subDeptId, classId, subClassId, styleId, year, month, day, table, limit, next) {
-        var sql = "SELECT productId, styleName, COUNT(*) AS total FROM " + table + " WHERE yyyy=? AND mm=? AND dd=? AND styleName IS NOT NULL ";
+        var sql = "SELECT productId, styleName, COUNT(*) AS total FROM " + table + " WHERE yyyy=? AND mm=? AND dd=? ";
         var parmList = [];
         parmList.push(year);
         parmList.push(month);
@@ -54,7 +54,7 @@ function TestDAO() {
     }
 
     this.allDept = function (next) {
-        var sql = "SELECT * FROM AllDept";
+        var sql = "SELECT * FROM AllDept ORDER BY deptName";
         con.query(sql, function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -75,7 +75,7 @@ function TestDAO() {
     }
 
     this.subDept = function (id, next) {
-        var sql = "SELECT * FROM AllSubDept WHERE deptCode=?";
+        var sql = "SELECT * FROM AllSubDept WHERE deptCode=? ORDER BY subDeptName";
         con.query(sql, id, function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -98,7 +98,7 @@ function TestDAO() {
     }
 
     this.classes = function (deptId, subDeptId, next) {
-        var sql = "SELECT * FROM AllClass WHERE deptCode=? AND subDeptCode=?";
+        var sql = "SELECT * FROM AllClass WHERE deptCode=? AND subDeptCode=? ";
         con.query(sql, [deptId, subDeptId], function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -123,7 +123,7 @@ function TestDAO() {
     }
 
     this.subClasses = function (deptId, subDeptId, classId, next) {
-        var sql = "SELECT * FROM AllSubClass WHERE deptCode=? AND subDeptCode=? AND classCode=?";
+        var sql = "SELECT * FROM AllSubClass WHERE deptCode=? AND subDeptCode=? AND classCode=? ORDER BY subClassName";
         con.query(sql, [deptId, subDeptId, classId], function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -150,7 +150,7 @@ function TestDAO() {
     }
 
     this.style = function (deptId, subDeptId, classId, subClassId, next) {
-        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=?";
+        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=? ORDER BY styleName";
         con.query(sql, [deptId, subDeptId, classId, subClassId], function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -179,28 +179,37 @@ function TestDAO() {
     }
 
     this.points = function (deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, table, limit, next) {
-        var sql = "SELECT * FROM " + table + " WHERE yyyy=? AND mm=? AND dd=? AND styleName IS NOT NULL ";
+        var sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
         var parmList = [];
-        parmList.push(year);
-        parmList.push(month);
-        parmList.push(day);
-        if (deptId !== undefined) {
+        if (year !== undefined && year !== '') {
+            sql += "AND yyyy=? ";
+            parmList.push(parseInt(year));
+        }
+        if (month !== undefined && month !== '') {
+            sql += "AND mm=? ";
+            parmList.push(parseInt(month));
+        }
+        if (day !== undefined && day !== '') {
+            sql += "AND dd=? ";
+            parmList.push(parseInt(day));
+        }
+        if (deptId !== undefined && deptId !== '') {
             sql += "AND deptCode=? ";
             parmList.push(deptId);
         }
-        if (subDeptId !== undefined) {
+        if (subDeptId !== undefined && subDeptId !== '') {
             sql += "AND subDeptCode=? ";
             parmList.push(subDeptId);
         }
-        if (classId !== undefined) {
+        if (classId !== undefined && classId !== '') {
             sql += "AND classCode=? ";
             parmList.push(classId);
         }
-        if (subClassId !== undefined) {
+        if (subClassId !== undefined && subClassId !== '') {
             sql += "AND subClassCode=? ";
             parmList.push(subClassId);
         }
-        if (styleId !== undefined) {
+        if (styleId !== undefined && styleId !== '') {
             sql += "AND styleCode=? ";
             parmList.push(styleId);
         }
@@ -217,6 +226,8 @@ function TestDAO() {
         // if (limit !== undefined) {
         //     sql += "LIMIT " + limit;
         // }
+        console.log(sql);
+        console.log(parmList);
         con.query(sql, parmList, function (err, results) {
             if (err) {
                 console.log(err.message);
@@ -248,6 +259,7 @@ function TestDAO() {
                 o.timestamp = r.ts;
                 o.id = r.id;
                 o.productId = r.productId;
+                o.name = r.styleName;
                 o.style = r.styleCode;
                 o.styleName = r.styleName;
                 obj.paths[r.id].push(o);
