@@ -52,12 +52,13 @@ CREATE TABLE Stores (
 	storeNumber INTEGER
 );
 
+DROP TABLE IF EXISTS Sales;
 CREATE TABLE Sales (
 	id VARCHAR(30) NOT NULL,
 	soldTimestamp DATETIME,
-	isSale INTEGER DEFAULT 0,
-	reason VARCHAR(250),
-	PRIMARY KEY (id, soldTimestamp, isSale)
+	transactionType VARCHAR(20),
+	storeId VARCHAR(40) NOT NULL,
+	PRIMARY KEY (id, soldTimestamp, transactionType, storeId)
 );
 
 DROP TABLE IF EXISTS EpcMovement;
