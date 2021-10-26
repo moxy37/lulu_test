@@ -17,38 +17,7 @@ var gY = 0;
 
 var gD = 0;
 var gSD = 0;
-function TestLoadSKU() {
-    ShowLoader();
-    var obj = new Object();
-    obj.productId = $("#SKU_TEST").val();
 
-    $.ajax({
-        type: "PUT",
-        url: "/api/points/list/",
-        data: obj,
-        cache: false,
-        dataType: "json",
-        success: function (results) {
-            var list = results.list;
-            var paths = results.paths;
-            gPaths = paths;
-            gList = list;
-            var keys = Object.keys(paths);
-            gPathKeys = keys;
-            var html = '';
-            for (var i = 0; i < keys.length; i++) {
-                html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
-            }
-            CleanUp('EpcSelect', html);
-            HideLoader();
-            ShowAll();
-        },
-        error: function (results) {
-            HideLoader();
-            alert(JSON.stringify(results));
-        }
-    });
-}
 function searchDiv() {
     if (searchMenu == 0) {
         searchMenu++;

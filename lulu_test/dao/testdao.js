@@ -231,7 +231,6 @@ function TestDAO() {
             }
             sql += ") ";
         }
-        sql += "AND isSold = 0 ";
         sql += "ORDER BY styleName, ts ";
         // if (limit !== undefined) {
         //     sql += "LIMIT " + limit;

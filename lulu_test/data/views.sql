@@ -1,7 +1,7 @@
 DROP VIEW IF EXISTS LastRead;
 CREATE VIEW LastRead AS SELECT id, MAX(idx) AS idx FROM EpcMovement GROUP BY id ;
 DROP VIEW IF EXISTS CurrentLocation;
-CREATE VIEW CurrentLocation AS SELECT cl.id, m.productId, m.deptCode, m.deptName, m.subDeptCode, m.subDeptName, m.classCode, m.className, m.subClassCode, m.subClassName, m.styleCode, m.styleName, m.price, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd FROM LastRead cl JOIN EpcMovement m ON cl.idx=m.idx;
+CREATE VIEW CurrentLocation AS SELECT cl.id, m.productId, m.deptCode, m.deptName, m.subDeptCode, m.subDeptName, m.classCode, m.className, m.subClassCode, m.subClassName, m.styleCode, m.styleName, m.price, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid FROM LastRead cl JOIN EpcMovement m ON cl.idx=m.idx;
 
 DROP VIEW IF EXISTS AllDept;
 DROP VIEW IF EXISTS AllSubDept;
