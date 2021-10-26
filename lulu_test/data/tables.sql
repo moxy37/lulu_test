@@ -55,6 +55,7 @@ CREATE TABLE Stores (
 DROP TABLE IF EXISTS Sales;
 CREATE TABLE Sales (
 	id VARCHAR(30) NOT NULL,
+	productId varchar(20),
 	soldTimestamp DATETIME,
 	transactionType VARCHAR(20),
 	storeId VARCHAR(40) NOT NULL,
