@@ -58,8 +58,7 @@ CREATE TABLE Sales (
 	productId varchar(20),
 	soldTimestamp DATETIME,
 	transactionType VARCHAR(20),
-	storeId VARCHAR(40) NOT NULL,
-	PRIMARY KEY (id, soldTimestamp, transactionType, storeId)
+	storeId VARCHAR(40) NOT NULL
 );
 
 DROP TABLE IF EXISTS EpcMovement;
@@ -103,3 +102,15 @@ CREATE TABLE EpcMovement (
 	dd INTEGER
 );
 
+DROP TABLE IF EXISTS Moments;
+CREATE TABLE Moments (
+	id VARCHAR(40) NOT NULL,
+	storeId VARCHAR(40) NOT NULL,
+	itemId VARCHAR(30) NOT NULL,
+	productId VARCHAR(40),
+	originRegionId VARCHAR(40),
+	regionId VARCHAR(40),
+	ts DATETIME,
+	isFlag INTEGER DEFAULT 0,
+	PRIMARY KEY (id, storeId, itemId)
+);

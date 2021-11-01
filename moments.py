@@ -8,8 +8,6 @@ cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 added = 0
 error = 0
 
-
-
 with open('mom.json') as f:
     json_file = json.load(f)
     for o in json_file['content']:
