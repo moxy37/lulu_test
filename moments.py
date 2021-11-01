@@ -6,10 +6,12 @@ import datetime
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 added = 0
-deleted = 0
 error = 0
 
-with open('mom.json', encoding="UTF-8") as json_file:
+
+
+with open('mom.json') as f:
+    json_file = json.load(f)
     for o in json_file['content']:
         try:
             itemId = o['itemId']
