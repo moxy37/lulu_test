@@ -295,6 +295,7 @@ function TestDAO() {
                     o.id = r.id;
                     o.productId = r.productId;
                     o.name = r.styleName;
+                    o.regionName = r.regionName;
                     o.styleName = r.styleName;
                     obj.paths[r.id].push(o);
                     obj.list.push(o);
@@ -426,8 +427,9 @@ function TestDAO() {
                             o.timestamp = r.ts;
                             o.id = r.id;
                             o.productId = r.productId;
-                            o.name = r.styleName;
+                            o.name = r.styleName;1
                             o.styleName = r.styleName;
+                            o.regionName = r.regionName;
                             obj.paths[r.id].push(o);
                             obj.list.push(o);
                             callback();
