@@ -45,5 +45,20 @@ app.get('/', function (req, res) { res.render('index'); });
 
 app.get('/map', function (req, res) { res.render('map'); });
 
+var cron = require('node-cron');
+cron.schedule('*/5 * * * *', function () {
+    var con = require(__base + 'dbConnection');
+    con.query("TRUNCATE TABLE ValidEpc", function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        con.query("INSERT INTO ValidEpc (id, productId, storeId, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, idx) SELECT id, productId, storeId, MAX(isDeleted), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isRegion), MAX( isSold), MAX(isValid), MAX(idx) FROM EpcMovement GROUP BY storeId, productId, id", function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            console.log("Cron ran");
+        });
+    });
+});
 
 module.exports = app;

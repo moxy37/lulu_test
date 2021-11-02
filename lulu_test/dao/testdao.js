@@ -1,12 +1,17 @@
 var con = require(__base + 'dbConnection');
 var async = require('async');
+const { param } = require('../app');
 
 module.exports = TestDAO;
 
 function TestDAO() {
-    this.upc = function (deptId, subDeptId, classId, subClassId, styleId, year, month, day, table, limit, next) {
+    this.upc = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, table, limit, next) {
         var sql = "SELECT productId, styleName, COUNT(*) AS total FROM " + table + " WHERE styleName IS NOT NULL ";
         var parmList = [];
+        if(storeId !==undefined && storeId!==''){
+            sql+="AND storeId=? ";
+            parmList.push(storeId);
+        }
         if (year !== undefined && year !== '') {
             sql += "AND yyyy=? ";
             parmList.push(parseInt(year));
@@ -62,9 +67,9 @@ function TestDAO() {
         });
     }
 
-    this.allDept = function (next) {
-        var sql = "SELECT * FROM AllDept ORDER BY deptName";
-        con.query(sql, function (err, results) {
+    this.allDept = function (storeId, next) {
+        var sql = "SELECT * FROM AllDept WHERE storeId=? ORDER BY deptName";
+        con.query(sql, storeId, function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -83,9 +88,9 @@ function TestDAO() {
         });
     }
 
-    this.subDept = function (id, next) {
-        var sql = "SELECT * FROM AllSubDept WHERE deptCode=? ORDER BY subDeptName";
-        con.query(sql, id, function (err, results) {
+    this.subDept = function (storeId, id, next) {
+        var sql = "SELECT * FROM AllSubDept WHERE deptCode=? AND storeId=? ORDER BY subDeptName";
+        con.query(sql, [id, storeId], function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -106,9 +111,9 @@ function TestDAO() {
         });
     }
 
-    this.classes = function (deptId, subDeptId, next) {
-        var sql = "SELECT * FROM AllClass WHERE deptCode=? AND subDeptCode=? ";
-        con.query(sql, [deptId, subDeptId], function (err, results) {
+    this.classes = function (storeId, deptId, subDeptId, next) {
+        var sql = "SELECT * FROM AllClass WHERE deptCode=? AND subDeptCode=? AND storeId=? ";
+        con.query(sql, [deptId, subDeptId, storeId], function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -131,9 +136,9 @@ function TestDAO() {
         });
     }
 
-    this.subClasses = function (deptId, subDeptId, classId, next) {
-        var sql = "SELECT * FROM AllSubClass WHERE deptCode=? AND subDeptCode=? AND classCode=? ORDER BY subClassName";
-        con.query(sql, [deptId, subDeptId, classId], function (err, results) {
+    this.subClasses = function (storeId, deptId, subDeptId, classId, next) {
+        var sql = "SELECT * FROM AllSubClass WHERE deptCode=? AND subDeptCode=? AND classCode=? AND storeId=? ORDER BY subClassName";
+        con.query(sql, [deptId, subDeptId, classId, storeId], function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -158,9 +163,9 @@ function TestDAO() {
         });
     }
 
-    this.style = function (deptId, subDeptId, classId, subClassId, next) {
-        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=? ORDER BY styleName";
-        con.query(sql, [deptId, subDeptId, classId, subClassId], function (err, results) {
+    this.style = function (storeId, deptId, subDeptId, classId, subClassId, next) {
+        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=? AND storeId=? ORDER BY styleName";
+        con.query(sql, [deptId, subDeptId, classId, subClassId, storeId], function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -187,9 +192,13 @@ function TestDAO() {
         });
     }
 
-    this.points = function (deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, table, limit, next) {
         var sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
         var parmList = [];
+        if(storeId !==undefined && storeId!==''){
+            sql+="AND storeId=? ";
+            parmList.push(storeId);
+        }
         if (year !== undefined && year !== '') {
             sql += "AND yyyy=? ";
             parmList.push(parseInt(year));

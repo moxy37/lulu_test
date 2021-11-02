@@ -5,9 +5,9 @@ var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
 
-router.get('/api/dept/list', function (req, res) {
-
-    testDao.allDept(function (err, list) {
+router.put('/api/dept/list', function (req, res) {
+    var obj = req.body;
+    testDao.allDept(obj.storeId, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -18,7 +18,7 @@ router.get('/api/dept/list', function (req, res) {
 
 router.put('/api/subdept/list', function (req, res) {
     var obj = req.body;
-    testDao.subDept(obj.dept, function (err, list) {
+    testDao.subDept(obj.storeId, obj.dept, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -29,7 +29,7 @@ router.put('/api/subdept/list', function (req, res) {
 
 router.put('/api/class/list', function (req, res) {
     var obj = req.body;
-    testDao.classes(obj.dept, obj.subDept, function (err, list) {
+    testDao.classes(obj.storeId, obj.dept, obj.subDept, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -40,7 +40,7 @@ router.put('/api/class/list', function (req, res) {
 
 router.put('/api/subclass/list', function (req, res) {
     var obj = req.body;
-    testDao.subClasses(obj.dept, obj.subDept, obj.class, function (err, list) {
+    testDao.subClasses(obj.storeId, obj.dept, obj.subDept, obj.class, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -51,7 +51,7 @@ router.put('/api/subclass/list', function (req, res) {
 
 router.put('/api/style/list', function (req, res) {
     var obj = req.body;
-    testDao.style(obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
+    testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -74,7 +74,7 @@ router.get('/api/sync/wested', function (req, res) {
 
 router.put('/api/upc/list', function (req, res) {
     var obj = req.body;
-    testDao.upc(obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.table, obj.limit, function (err, list) {
+    testDao.upc(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.table, obj.limit, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
@@ -85,7 +85,7 @@ router.put('/api/upc/list', function (req, res) {
 
 router.put('/api/points/list', function (req, res) {
     var obj = req.body;
-    testDao.points(obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.productId, obj.table, obj.limit, function (err, list) {
+    testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.productId, obj.table, obj.limit, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);

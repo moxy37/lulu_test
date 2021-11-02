@@ -33,9 +33,12 @@ function searchDiv() {
 
 function AllDepts() {
     ShowLoader();
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     $.ajax({
-        type: "GET",
+        type: "PUT",
         url: "/api/dept/list/",
+        data: obj,
         cache: false,
         dataType: "json",
         success: function (results) {
@@ -56,6 +59,7 @@ function AllDepts() {
 function AllSubDepts() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     $.ajax({
         type: "PUT",
@@ -80,6 +84,7 @@ function AllSubDepts() {
 function AllClasses() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     obj.subDept = $("#SubDeptSelect option:selected").val();
     $.ajax({
@@ -105,6 +110,7 @@ function AllClasses() {
 function AllSubClasses() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     obj.subDept = $("#SubDeptSelect option:selected").val();
     obj.class = $("#ClassSelect option:selected").val();
@@ -131,6 +137,7 @@ function AllSubClasses() {
 function AllStyles() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     obj.subDept = $("#SubDeptSelect option:selected").val();
     obj.class = $("#ClassSelect option:selected").val();
@@ -158,6 +165,7 @@ function AllStyles() {
 function LoadUPC() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     obj.subDept = $("#SubDeptSelect option:selected").val();
     obj.class = $("#ClassSelect option:selected").val();
@@ -197,6 +205,7 @@ function LoadUPC() {
 function LoadIt() {
     ShowLoader();
     var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
     obj.dept = $("#DeptSelect option:selected").val();
     obj.subDept = $("#SubDeptSelect option:selected").val();
     obj.class = $("#ClassSelect option:selected").val();
