@@ -257,28 +257,18 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-            if (year !== undefined && year !== '' && month !== undefined && month !== '' && day !== undefined && day !== '') {
-                if (month.length === 1) {
-                    month = '0' + month;
-                }
-                if (day.length === 1) {
-                    day = '0' + day;
-                }
-                var tsText = year + '-' + month + '-' + day;
-                sql += "AND ts<'" + tsText + "' ";
-            } else {
-                if (year !== undefined && year !== '') {
-                    sql += "AND yyyy=? ";
-                    parmList.push(parseInt(year));
-                }
-                if (month !== undefined && month !== '') {
-                    sql += "AND mm=? ";
-                    parmList.push(parseInt(month));
-                }
-                if (day !== undefined && day !== '') {
-                    sql += "AND dd=? ";
-                    parmList.push(parseInt(day));
-                }
+
+            if (year !== undefined && year !== '') {
+                sql += "AND yyyy=? ";
+                parmList.push(parseInt(year));
+            }
+            if (month !== undefined && month !== '') {
+                sql += "AND mm=? ";
+                parmList.push(parseInt(month));
+            }
+            if (day !== undefined && day !== '') {
+                sql += "AND dd=? ";
+                parmList.push(parseInt(day));
             }
 
             sql += "ORDER BY styleName, ts ";
