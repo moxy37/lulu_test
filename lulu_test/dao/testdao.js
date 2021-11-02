@@ -250,76 +250,26 @@ function TestDAO() {
     }
 
     this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, table, limit, next) {
-        con.query("TRUNCATE TABLE EpcReport", function (err, result) {
-            var sql = "INSERT INTO EpcReport (productId, styleName) SELECT sku, styleName FROM Products ";
-            var whereAdded = false;
-            var parmList = [];
-            if (deptId !== undefined && deptId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "deptCode=? ";
-                parmList.push(deptId);
+        if (table === 'Moments') {
+            sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
+            parmList = [];
+            if (storeId !== undefined && storeId !== '') {
+                sql += "AND storeId=? ";
+                parmList.push(storeId);
             }
-            if (subDeptId !== undefined && subDeptId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "subDeptCode=? ";
-                parmList.push(subDeptId);
+            if (year !== undefined && year !== '') {
+                sql += "AND yyyy=? ";
+                parmList.push(parseInt(year));
             }
-            if (classId !== undefined && classId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "classCode=? ";
-                parmList.push(classId);
+            if (month !== undefined && month !== '') {
+                sql += "AND mm=? ";
+                parmList.push(parseInt(month));
             }
-            if (subClassId !== undefined && subClassId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "subClassCode=? ";
-                parmList.push(subClassId);
+            if (day !== undefined && day !== '') {
+                sql += "AND dd=? ";
+                parmList.push(parseInt(day));
             }
-            if (styleId !== undefined && styleId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "styleCode=? ";
-                parmList.push(styleId);
-            }
-            if (productId !== undefined && productId.length > 0) {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "sku IN (";
-                for (var i = 0; i < productId.length; i++) {
-                    if (i > 0) { sql += ", "; }
-                    sql += "?";
-                    parmList.push(productId[i]);
-                }
-                sql += ") ";
-            }
-            sql += "GROUP BY sku, styleName ";
+            sql += "ORDER BY styleName, ts ";
             console.log(sql);
             console.log(parmList);
             con.query(sql, parmList, function (err, results) {
@@ -327,25 +277,105 @@ function TestDAO() {
                     console.log(err.message);
                     return next(err);
                 }
-                sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
-                parmList = [];
-                if (storeId !== undefined && storeId !== '') {
-                    sql += "AND storeId=? ";
-                    parmList.push(storeId);
+                var obj = new Object();
+                obj.list = [];
+                obj.paths = new Object();
+                var lastId = '';
+                async.forEach(results, function (r, callback) {
+                    if (r.id !== lastId) {
+                        lastId = r.id;
+                        obj.paths[r.id] = [];
+                    }
+                    var o = new Object();
+                    o.x = r.x;
+                    o.y = r.y;
+                    o.z = r.z;
+                    o.confidence = r.confidence;
+                    o.timestamp = r.ts;
+                    o.id = r.id;
+                    o.productId = r.productId;
+                    o.name = r.styleName;
+                    o.styleName = r.styleName;
+                    obj.paths[r.id].push(o);
+                    obj.list.push(o);
+                    callback();
+                }, function (err) {
+                    return next(null, obj);
+                });
+            });
+        } else {
+
+
+            con.query("TRUNCATE TABLE EpcReport", function (err, result) {
+                var sql = "INSERT INTO EpcReport (productId, styleName) SELECT sku, styleName FROM Products ";
+                var whereAdded = false;
+                var parmList = [];
+                if (deptId !== undefined && deptId !== '') {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "deptCode=? ";
+                    parmList.push(deptId);
                 }
-                if (year !== undefined && year !== '') {
-                    sql += "AND yyyy=? ";
-                    parmList.push(parseInt(year));
+                if (subDeptId !== undefined && subDeptId !== '') {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "subDeptCode=? ";
+                    parmList.push(subDeptId);
                 }
-                if (month !== undefined && month !== '') {
-                    sql += "AND mm=? ";
-                    parmList.push(parseInt(month));
+                if (classId !== undefined && classId !== '') {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "classCode=? ";
+                    parmList.push(classId);
                 }
-                if (day !== undefined && day !== '') {
-                    sql += "AND dd=? ";
-                    parmList.push(parseInt(day));
+                if (subClassId !== undefined && subClassId !== '') {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "subClassCode=? ";
+                    parmList.push(subClassId);
                 }
-                sql += "ORDER BY styleName, ts ";
+                if (styleId !== undefined && styleId !== '') {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "styleCode=? ";
+                    parmList.push(styleId);
+                }
+                if (productId !== undefined && productId.length > 0) {
+                    if (whereAdded) {
+                        sql += "AND ";
+                    } else {
+                        sql += "WHERE ";
+                        whereAdded = true;
+                    }
+                    sql += "sku IN (";
+                    for (var i = 0; i < productId.length; i++) {
+                        if (i > 0) { sql += ", "; }
+                        sql += "?";
+                        parmList.push(productId[i]);
+                    }
+                    sql += ") ";
+                }
+                sql += "GROUP BY sku, styleName ";
                 console.log(sql);
                 console.log(parmList);
                 con.query(sql, parmList, function (err, results) {
@@ -353,35 +383,61 @@ function TestDAO() {
                         console.log(err.message);
                         return next(err);
                     }
-                    var obj = new Object();
-                    obj.list = [];
-                    obj.paths = new Object();
-                    var lastId = '';
-                    async.forEach(results, function (r, callback) {
-                        if (r.id !== lastId) {
-                            lastId = r.id;
-                            obj.paths[r.id] = [];
+                    sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
+                    parmList = [];
+                    if (storeId !== undefined && storeId !== '') {
+                        sql += "AND storeId=? ";
+                        parmList.push(storeId);
+                    }
+                    if (year !== undefined && year !== '') {
+                        sql += "AND yyyy=? ";
+                        parmList.push(parseInt(year));
+                    }
+                    if (month !== undefined && month !== '') {
+                        sql += "AND mm=? ";
+                        parmList.push(parseInt(month));
+                    }
+                    if (day !== undefined && day !== '') {
+                        sql += "AND dd=? ";
+                        parmList.push(parseInt(day));
+                    }
+                    sql += "ORDER BY styleName, ts ";
+                    console.log(sql);
+                    console.log(parmList);
+                    con.query(sql, parmList, function (err, results) {
+                        if (err) {
+                            console.log(err.message);
+                            return next(err);
                         }
-                        var o = new Object();
-                        o.x = r.x;
-                        o.y = r.y;
-                        o.z = r.z;
-                        o.confidence = r.confidence;
-                        o.timestamp = r.ts;
-                        o.id = r.id;
-                        o.productId = r.productId;
-                        o.name = r.styleName;
-                        o.style = r.styleCode;
-                        o.styleName = r.styleName;
-                        obj.paths[r.id].push(o);
-                        obj.list.push(o);
-                        callback();
-                    }, function (err) {
-                        return next(null, obj);
+                        var obj = new Object();
+                        obj.list = [];
+                        obj.paths = new Object();
+                        var lastId = '';
+                        async.forEach(results, function (r, callback) {
+                            if (r.id !== lastId) {
+                                lastId = r.id;
+                                obj.paths[r.id] = [];
+                            }
+                            var o = new Object();
+                            o.x = r.x;
+                            o.y = r.y;
+                            o.z = r.z;
+                            o.confidence = r.confidence;
+                            o.timestamp = r.ts;
+                            o.id = r.id;
+                            o.productId = r.productId;
+                            o.name = r.styleName;
+                            o.styleName = r.styleName;
+                            obj.paths[r.id].push(o);
+                            obj.list.push(o);
+                            callback();
+                        }, function (err) {
+                            return next(null, obj);
+                        });
                     });
                 });
             });
-        });
+        }
     }
 
 }
