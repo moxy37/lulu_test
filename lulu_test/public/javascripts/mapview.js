@@ -18,6 +18,9 @@ var gY = 0;
 var gD = 0;
 var gSD = 0;
 
+var imageHeight = 1111;
+var imageWidth = 1195;
+
 function searchDiv() {
     if (searchMenu == 0) {
         searchMenu++;
@@ -256,8 +259,8 @@ function Forward() {
         gCurrentPathIndex++;
 
         var o = list[gCurrentPathIndex];
-        var x = gPosX + o.x * width / 1111;
-        var y = gPosY + height - o.y * height / 1195;
+        var x = gPosX + o.x * width / imageWidth;
+        var y = gPosY + height - o.y * height / imageHeight;
         $(".pointContainer li").removeClass('newpoint');
         var html = '<li class="point newpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
         $(".pointContainer").append(html);
@@ -307,8 +310,8 @@ function ChangeEpcView() {
             var list = gPaths[id];
             for (var j = 0; j < list.length; j++) {
                 var o = list[gCurrentPathIndex];
-                var x = gPosX + o.x * width / 1111;
-                var y = gPosY + height - o.y * height / 1195;
+                var x = gPosX + o.x * width / imageWidth;
+                var y = gPosY + height - o.y * height / imageHeight;
                 var html = '<li class="point oldpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
                 $(".pointContainer").append(html);
                 $("#Message").empty();
@@ -330,8 +333,8 @@ function ShowAll() {
     gSD = 0;
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
-        var x = gPosX + o.x * width / 1111;
-        var y = gPosY + height - o.y * height / 1195;
+        var x = gPosX + o.x * width / imageWidth;
+        var y = gPosY + height - o.y * height / imageHeight;
         var html = '<li class="point oldpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
         gX = gX + o.x;
         gY = gY + o.y;
@@ -351,18 +354,18 @@ function ShowAll() {
         var gSD = gSD + (d - gD) * (d - gD);
     }
     gSD = Math.sqrt(gSD / (gList.length - 1));
-    var x = gPosX + gX * width / 1111;
-    var y = gPosY + height - gY * height / 1195;
+    var x = gPosX + gX * width / imageWidth;
+    var y = gPosY + height - gY * height / imageHeight;
     var h4 = '<li class="point newpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
     $(".pointContainer").append(h4);
     var h2 = '<h4>Centroid X: ' + gX + ', Y: ' + gY + '. SD: ' + gSD + '</h4>';
     $("#Message").empty();
     $("#Message").append(h2);
-    var xx = Math.floor(gPosX + (gX - gSD) * width / 1111 - 8);
-    var yy = Math.floor(gPosY + height - (gY + gSD) * height / 1195 - 8);
+    var xx = Math.floor(gPosX + (gX - gSD) * width / imageWidth - 8);
+    var yy = Math.floor(gPosY + height - (gY + gSD) * height / imageHeight - 8);
     var temp = Math.floor(gSD * 2 + 1);
     var hh = '<li class="radius" style="top: ' + yy + 'px; left: ' + xx + 'px; height: ' + temp + 'px !important; width: ' + temp + 'px !important;"></li>';
-    $(".pointContainer").append(hh);
+    //$(".pointContainer").append(hh);
     HideLoader();
 }
 
@@ -408,5 +411,13 @@ function ShowLoader() {
 function SwitchMap() {
     var storeId = 'assets/images/' + $("#StoreSelect option:selected").val() + '.png';
     $("#MapDiv").attr("src", storeId);
+
+    if ($("#StoreSelect option:selected").val() === '1597647a-7056-3fe9-94c1-ae5c9d16d69b') {
+        imageHeight = 1195;
+        imageWidth = 1111;
+    } else {
+        imageHeight = 2531;
+        imageWidth = 1481;
+    }
     AllDepts();
 }
