@@ -253,6 +253,7 @@ function TestDAO() {
         con.query("TRUNCATE TABLE EpcReport", function (err, result) {
             var sql = "INSERT INTO EpcReport (productId, styleName) SELECT sku, styleName FROM Products ";
             var whereAdded = false;
+            var parmList = [];
             if (deptId !== undefined && deptId !== '') {
                 if (whereAdded) {
                     sql += "AND ";
