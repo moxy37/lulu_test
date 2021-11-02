@@ -122,3 +122,26 @@ CREATE TABLE ValidEpc (
 	isValid INTEGER DEFAULT 0,
 	PRIMARY KEY (id, productId, storeId)
 );
+
+DROP TABLE IF EXISTS EpcMoments;
+CREATE TABLE EpcMoments (
+	id VARCHAR(30) NOT NULL,
+	productId VARCHAR(40) NOT NULL,
+	styleName VARCHAR(100),
+	yyyy INTEGER,
+	mm INTEGER,
+	dd INTEGER
+);
+
+DROP TABLE IF EXISTS EpcReport;
+CREATE TABLE EpcReport (
+	productId VARCHAR(40) NOT NULL,
+	styleName VARCHAR(100)
+);
+
+DROP TABLE IF EXISTS LastRead;
+CREATE TABLE LastRead (
+	id VARCHAR(30) NOT NULL,
+	idx INTEGER,
+	productId VARCHAR(40)
+);

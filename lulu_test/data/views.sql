@@ -24,4 +24,4 @@ DROP VIEW IF EXISTS CurrentLocation;
 CREATE VIEW CurrentLocation AS SELECT m.storeId, m.id, m.productId, p.styleName, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid, m.regionName FROM EpcMovement m JOIN EpcReport p ON m.productId=p.productId JOIN LastRead cl ON cl.idx=m.idx;
 
 DROP VIEW IF EXISTS MomentsView;
-CREATE VIEW MomentsView AS SELECT m.id, m.productId, m.storeId, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid, p.styleName, m.regionName FROM EpcMovement m JOIN EpcMoments p ON m.id=p.id;
+CREATE VIEW MomentsView AS SELECT m.id, m.productId, m.storeId, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid, p.styleName, m.regionName FROM EpcMovement m JOIN EpcMoments p ON m.id=p.id AND m.yyyy=p.yyyy AND m.mm=p.mm AND m.dd=p.dd;
