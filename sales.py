@@ -28,7 +28,7 @@ with open('sales.csv') as csvDataFile:
                 storeId = 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c'
             try:
                 cursor = cnxn.cursor()
-                if o[5] == 'Return':
+                if o[4] == 'Return':
                     cursor.execute("DELETE FROM Sales WHERE id='" + str(o[1]) + "' AND storeId='" + str(storeId) + "' ")
                     deleted = deleted + 1
                 else:
