@@ -225,7 +225,7 @@ function LoadIt() {
     if (obj.style === 'XXX') { obj.style = undefined; }
     $.ajax({
         type: "PUT",
-        url: "/api/points/list/",
+        url: "/api/points/list",
         data: obj,
         cache: false,
         dataType: "json",

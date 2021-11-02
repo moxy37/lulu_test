@@ -56,7 +56,17 @@ cron.schedule('*/5 * * * *', function () {
             if (err) {
                 console.log(err);
             }
-            console.log("Cron ran");
+            con.query("TRUNCATE TABLE LastRead", function (err, result) {
+                if (err) {
+                    console.log(err);
+                }
+                con.query("INSERT INTO LastRead (id, productId, idx) SELECT id, productId, MAX(idx) FROM EpcMovement GROUP BY id, productId ", function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Cron ran");
+                });
+            });
         });
     });
 });
