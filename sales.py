@@ -6,11 +6,18 @@ import mysql.connector
 import datetime
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+
+c = cccc.cursor()
+c.execute("TRUNCATE TABLE Sales")
+cccc.commit()
 added = 0
 deleted = 0
 error = 0
 firstLine = True
-with open('Sales-160.csv') as csvDataFile:
+with open('sales.csv') as csvDataFile:
     csvReader = csv.reader(csvDataFile)
     for o in csvReader:
         if firstLine:
@@ -22,7 +29,7 @@ with open('Sales-160.csv') as csvDataFile:
             try:
                 cursor = cnxn.cursor()
                 if o[5] == 'Return':
-                    cursor.execute("DELETE FROM Sales WHERE id='" + str(o[2]) + "' ")
+                    cursor.execute("DELETE FROM Sales WHERE id='" + str(o[2]) + "' AND storeId='" + str(storeId) + "' ")
                     deleted = deleted + 1
                 else:
                     cursor.execute("INSERT INTO Sales (id, productId, soldTimestamp, transactionType, storeId) VALUES (%s, %s, %s, %s, %s)", (o[2], o[3], o[4], o[5], storeId))
@@ -34,3 +41,10 @@ with open('Sales-160.csv') as csvDataFile:
                 errpr = error + 1
             print("Added: " + str(added) + ", Deleted: " + str(deleted) + ", Errors: " + str(error))
             
+
+c3 = dddd.cursor()
+c3.execute("UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id SET t1.soldTimestamp=t2.soldTimestamp")
+dddd.commit()
+c4 = eeee.cursor()
+c4.execute("UPDATE EpcMovement SET isSold=1 WHERE soldTimestamp>ts")
+eeee.commit()

@@ -22,7 +22,3 @@ CREATE VIEW EpcMovementView AS SELECT m.storeId, m.regionId, m.regionName, m.sto
 
 DROP VIEW IF EXISTS CurrentLocation;
 CREATE VIEW CurrentLocation AS SELECT m.storeId, m.id, m.productId, p.styleName, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid FROM EpcMovement m JOIN EpcReport p ON m.productId=p.productId JOIN LastRead cl ON cl.idx=m.idx;
-
-
-
-LastRead cl JOIN EpcMovement m ON cl.idx=m.idx JOIN Products p ON m.productId=p.sku;
