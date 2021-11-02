@@ -265,6 +265,7 @@ function Forward() {
         var t = gCurrentPathIndex;
         var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + '</h4>';
         $("#Message").append(h2);
+        $("#Message").show();
     } else {
 
         $(".pointContainer li").removeClass('newpoint');
