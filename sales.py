@@ -43,8 +43,5 @@ with open('sales.csv') as csvDataFile:
             
 
 c3 = dddd.cursor()
-c3.execute("UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id SET t1.soldTimestamp=t2.soldTimestamp")
+c3.execute("UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id SET t1.soldTimestamp=t2.soldTimestamp, isSold=1")
 dddd.commit()
-c4 = eeee.cursor()
-c4.execute("UPDATE EpcMovement SET isSold=1 WHERE soldTimestamp>ts")
-eeee.commit()
