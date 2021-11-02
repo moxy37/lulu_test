@@ -29,10 +29,10 @@ with open('sales.csv') as csvDataFile:
             try:
                 cursor = cnxn.cursor()
                 if o[5] == 'Return':
-                    cursor.execute("DELETE FROM Sales WHERE id='" + str(o[2]) + "' AND storeId='" + str(storeId) + "' ")
+                    cursor.execute("DELETE FROM Sales WHERE id='" + str(o[1]) + "' AND storeId='" + str(storeId) + "' ")
                     deleted = deleted + 1
                 else:
-                    cursor.execute("INSERT INTO Sales (id, productId, soldTimestamp, transactionType, storeId) VALUES (%s, %s, %s, %s, %s)", (o[2], o[3], o[4], o[5], storeId))
+                    cursor.execute("INSERT INTO Sales (id, productId, soldTimestamp, transactionType, storeId) VALUES (%s, %s, %s, %s, %s)", (o[1], o[2], o[3], o[4], storeId))
                     added = added + 1
                 cnxn.commit()
                 added = added + 1
