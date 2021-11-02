@@ -408,4 +408,5 @@ function ShowLoader() {
 function SwitchMap() {
     var storeId = 'assets/images/' + $("#StoreSelect option:selected").val() + '.png';
     $("#MapDiv").attr("src", storeId);
+    AllDepts();
 }
