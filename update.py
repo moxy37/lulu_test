@@ -10,8 +10,6 @@ eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 #now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
-now = datetime.utcnow()
-print(str(now))mdm
 while True:
     d3 = dddd.cursor()
     d3.execute("SELECT * FROM LastPull")
