@@ -75,5 +75,5 @@ while True:
                 print("Added: " + str(added) + ", Errors: " + str(deleted))
         except Exception as e:
             print(str(e))
-
+    sleep(10)
 
