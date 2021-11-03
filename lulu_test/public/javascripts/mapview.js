@@ -269,8 +269,6 @@ function Forward() {
         var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' IsExit: ' + o.isExit + '. IsDeparture: ' + o.isDeparture + '</h4>';
         $("#Message").append(h2);
         $("#Message").show();
-        $("#menu").empty();
-        $("#menu").append(h2);
         
     } else {
 
@@ -364,8 +362,6 @@ function ShowAll() {
     var h2 = '<h4>Centroid X: ' + gX + ', Y: ' + gY + '. SD: ' + gSD + '</h4>';
     $("#Message").empty();
     $("#Message").append(h2);
-    $("#menu").empty();
-    $("#menu").append(h2);
     var xx = Math.floor(gPosX + (gX - gSD) * width / imageWidth - 8);
     var yy = Math.floor(gPosY + height - (gY + gSD) * height / imageHeight - 8);
     var temp = Math.floor(gSD * 2 + 1);
