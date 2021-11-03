@@ -73,6 +73,7 @@ router.get('/api/sync/wested', function (req, res) {
 });
 
 router.put('/api/sku/list', function (req, res) {
+    var obj = req.body;
     testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, function (err, list) {
         if (err) {
             console.log(err);
