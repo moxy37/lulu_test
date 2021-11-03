@@ -22,7 +22,7 @@ try:
     myresult = d3.fetchall()
     print("Got em")
     for o in myresult:
-        storeId = r[2]
+        storeId = o[2]
         productId = o[1]
         i = o[0]
         regionId = o[3]
