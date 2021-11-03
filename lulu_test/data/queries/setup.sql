@@ -56,15 +56,7 @@ CREATE TABLE LastCord (
 );
 
 
-
-
-
-
-
-
-
-
-
+SET autocommit=0;
 
 START TRANSACTION;
 INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence) SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement ORDER BY id, ts;
@@ -74,3 +66,4 @@ UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.i
 UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
 
 COMMIT;
+SET autocommit=1;
