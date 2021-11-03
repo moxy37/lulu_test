@@ -15,6 +15,7 @@ while True:
         d3 = dddd.cursor()
         d3.execute("SELECT * FROM LastPull")
         myresult = d3.fetchall()
+        print(str(myresult))
         for rrr in myresult:
             siteId = rrr[0]
             now = rrr[1]
