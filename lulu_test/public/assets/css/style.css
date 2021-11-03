@@ -41,6 +41,7 @@ aside{
 
 aside ul li label{
     color:#5f6062;
+    float:left;
 }
 
 aside ul li select{
