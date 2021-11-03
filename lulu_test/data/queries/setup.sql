@@ -15,7 +15,16 @@ CREATE TABLE EpcMoveCombined (
 	dHome FLOAT DEFAULT 0,
     dLast FLOAT DEFAULT 0,
     homeX FLOAT DEFAULT 0,
-    homeY FLOAT DEFAULT 0
+    homeY FLOAT DEFAULT 0,
+    isDeparture INTEGER DEFAULT 0,
+	isExit INTEGER DEFAULT 0,
+	isGhost INTEGER DEFAULT 0,
+	isMissing INTEGER DEFAULT 0,
+	isMove INTEGER DEFAULT 0,
+	isReacquired INTEGER DEFAULT 0,
+	isRegion INTEGER DEFAULT 0,
+	isSold INTEGER DEFAULT 0,
+	isValid INTEGER DEFAULT 0
 );
 
 CREATE INDEX test2 ON EpcMoveCombined (id, idx, lastX, lastY);
@@ -57,16 +66,19 @@ CREATE TABLE LastCord (
 );
 
 
-SET autocommit=0;
-START TRANSACTION;
-INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence) SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement WHERE isValid=1 AND isMissing=0 AND isGhost=0 AND isDeparture=0 AND isExit=0  ORDER BY id, ts;
-INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
-UPDATE LastCord SET lastIdx = idx + 1;
-UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
-UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
-COMMIT;
-SET autocommit=1;
+INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid) SELECT id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid FROM EpcMovement ORDER BY id, ts;
 
+INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
+
+UPDATE LastCord SET lastIdx = idx + 1;
+
+UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
+
+UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
+
+
+
+SELECT COUNT(*) FROM EpcMoveCombined;
 --RUN THE COMMAND "python3 cluster.py 2"
 --RUN THE COMMAND "python3 cluster.py 3"
 --RUN THE COMMAND "python3 cluster.py 4"
@@ -90,3 +102,10 @@ UPDATE EpcMoveCombined SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3
 
 COMMIT;
 SET autocommit=1;
+
+
+CREATE INDEX epc_test_4 ON EpcMovement (id, productId, storeId, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, idx);
+
+
+
+SELECT id, productId, storeId, MAX(isDeleted), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isRegion), MAX( isSold), MAX(isValid), MAX(idx) FROM EpcMovement GROUP BY storeId, productId, id

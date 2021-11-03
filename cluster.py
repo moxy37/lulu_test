@@ -23,7 +23,6 @@ a4 = aaaa.cursor()
 a4.execute("SELECT idx, productId, id, ts, x, y, storeId FROM EpcMoveCombined ORDER BY storeId, productId, id, ts")
 print("Finished execute")
 obj = dict()
-storeObj = dict()
 myresultA = a4.fetchall()
 print("Finished fetchall starting load")
 testNumber = 0
