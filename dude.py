@@ -12,7 +12,7 @@ errors = 0
 
 try:
     d3 = dddd.cursor()
-    d3.execute("SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement ORDER BY id, ts;")
+    d3.execute("SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement ORDER BY id, ts")
     lastX = 0
     lastY = 0
     lastId = ''
