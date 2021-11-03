@@ -157,6 +157,7 @@ function AllStyles() {
                 html += '<option value="' + results[i].style + '">' + results[i].styleName + ' - ' + results[i].total + '</option>';
             }
             CleanUp('StyleSelect', html);
+            $("#TableSelect").val('EpcMoveView');
             HideLoader();
         },
         error: function (results) {

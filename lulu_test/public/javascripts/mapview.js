@@ -152,11 +152,12 @@ function AllStyles() {
         cache: false,
         dataType: "json",
         success: function (results) {
-            var html = '<option value="XXX"></option>';
+            var html = '<option value=""></option>';
             for (var i = 0; i < results.length; i++) {
                 html += '<option value="' + results[i].style + '">' + results[i].styleName + ' - ' + results[i].total + '</option>';
             }
             CleanUp('StyleSelect', html);
+            $("#TableSelect").val('EpcMoveView');
             HideLoader();
         },
         error: function (results) {
