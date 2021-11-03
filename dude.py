@@ -21,7 +21,7 @@ try:
     print("Query done fetching")
     myresult = d3.fetchall()
     print("Got em")
-    for r in myresult:
+    for o in myresult:
         storeId = r[2]
         productId = o[1]
         i = o[0]
