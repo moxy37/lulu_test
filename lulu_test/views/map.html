@@ -15,7 +15,6 @@
 
     <header>
         <i class="fas fa-bars fa-2x" id="menu" onclick="searchDiv()"></i>
-        <div id="Message"></div>
     </header>
     <aside>
         <ul>
@@ -79,18 +78,13 @@
                     <option value="Moments">AP Events</option>
                 </select>
             </li>
-            <!-- <li>
-                <label for="">Enter SKU:</label>
-                <input type="text" class="CheckLoader" id="SKU_TEST">
-                <button onclick="TestLoadSKU();" class="apply_button CheckLoader">Load This SKU</button>
-            </li> -->
             <li class="UpcStuff">
                 <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
                 <!-- <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button> -->
                 <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
             </li>
             <li>
-               
+                <div id="Message"></div>
             </li>
         </ul>
     </aside>
