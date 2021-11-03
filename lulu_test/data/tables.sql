@@ -145,3 +145,5 @@ CREATE TABLE LastRead (
 	idx INTEGER,
 	productId VARCHAR(40)
 );
+
+
