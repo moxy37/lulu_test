@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <script type="text/javascript" src="javascripts/libs/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/webfonts/css/all.css">
+</head>
+
+<body>
+
+    <header>
+        <i class="fas fa-bars fa-2x" id="menu" onclick="searchDiv()"></i>
+    </header>
+    <aside>
+        <ul>
+            <li>
+                <label for="">Store</label>
+                <select id="StoreSelect" class="CheckLoader" onchange="SwitchMap();">
+                   
+                    <option value="d4f87b6f-5199-43ac-b231-fbe6e3a8039c">West Ed</option>
+                    <option value="1597647a-7056-3fe9-94c1-ae5c9d16d69b">Metortown</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Department:</label>
+                <select id="DeptSelect" class="CheckLoader" onchange="AllSubDepts();"></select>
+            </li>
+            <li>
+                <label for="">Sub-Department:</label>
+                <select id="SubDeptSelect" class="CheckLoader" onchange="AllClasses();"></select>
+            </li>
+            <li>
+                <label for="">Class:</label>
+                <select id="ClassSelect" class="CheckLoader" onchange="AllSubClasses();"></select>
+            </li>
+            <li>
+                <label for="">Sub-Class:</label>
+                <select id="SubClassSelect" class="CheckLoader" onchange="AllStyles();"></select>
+            </li>
+            <li>
+                <label for="">Style:</label>
+                <select id="StyleSelect" class="CheckLoader" onchange="LoadIt();"></select>
+            </li>
+            <li>
+                <label for="">Year:</label>
+                <input type="number" class="CheckLoader" value="2021" id="Year" min="2020" max="2021">
+            </li>
+            <li>
+                <label for="">Month:</label>
+                <input type="number" class="CheckLoader" value="" id="Month" min="1" max="12">
+            </li>
+            <li>
+                <label for="">Day:</label>
+                <input type="number" class="CheckLoader" value="" id="Day" min="1" max="31">
+            </li>
+            <li>
+                <label for="">SKU:</label>
+                <input type="text" class="CheckLoader" value="" id="SkuText" />
+            </li>
+            <li class="EpcStuff">
+                <label for="">EPC's:</label>
+                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
+            </li>
+            <li class="EpcStuff">
+                <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
+                <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
+                <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
+            </li>
+
+            <li class="UpcStuff">
+                <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
+                <!-- <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button> -->
+                <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
+            </li>
+            <li>
+                <div id="Message"></div>
+            </li>
+            <li>
+                <label for="">Source:</label>
+                <select id="TableSelect" class="CheckLoader">
+                    <option value="CurrentLocation">Current Location</option>
+                    <option value="EpcMoveView">All Movements</option>
+                    <option value="Moments">AP Events</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Exit Events:</label>
+                <select id="IsExitSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Ghost Events:</label>
+                <select id="IsGhostSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Missing Events:</label>
+                <select id="IsMissingSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Move Events:</label>
+                <select id="IsMoveSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Region Events:</label>
+                <select id="IsRegionSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1" >True</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Valid Events:</label>
+                <select id="IsValidSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1" >True</option>
+                </select>
+            </li>
+            <li>
+                <button onclick="ClearIsFields();" class="reset_button CheckLoader">Clear Events</button>
+            </li>
+        </ul>
+    </aside>
+    <section id="MapSection">
+        <div>
+            <ul class="pointContainer">
+                <li></li>
+            </ul>
+            <img src="assets/images/d4f87b6f-5199-43ac-b231-fbe6e3a8039c.png" alt="" id="MapDiv">
+
+        </div>
+
+    </section>
+    <section id="loading"></section>
+    <script>
+
+    </script>
+</body>
+<script type="text/javascript" src="javascripts/mapview2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        gOffset = $("#MapDiv").offset();
+        width = $("#MapDiv").width();
+        height = $("#MapDiv").height();
+        gPosY = gOffset.top - $(window).scrollTop();
+        gPosX = gOffset.left - $(window).scrollLeft();
+        $("#DUDER").hide();
+        AllDepts();
+    });
+</script>
+
+</html>

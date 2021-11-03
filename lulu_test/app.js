@@ -37,6 +37,7 @@ app.use('/', require('./controllers/testcontroller'));
 app.get('/', function (req, res) { res.render('index'); });
 
 app.get('/map', function (req, res) { res.render('map'); });
+app.get('/map2', function (req, res) { res.render('map2'); });
 
 var cron = require('node-cron');
 cron.schedule('*/30 * * * *', function () {

@@ -18,8 +18,8 @@ var gY = 0;
 var gD = 0;
 var gSD = 0;
 
-var imageHeight = 1111;
-var imageWidth = 1195;
+var imageHeight = 2531;
+var imageWidth = 1481;
 
 function searchDiv() {
     if (searchMenu == 0) {
@@ -329,7 +329,7 @@ function Forward() {
     }
 }
 
-function ClearIsFields() {
+function ClearIsFields(){
     $(".IsSelect").removeClass('RedClass');
     $(".IsSelect").val('');
 }
@@ -451,7 +451,7 @@ function ShowLoader() {
 }
 
 function SwitchMap() {
-    if ($("#StoreSelect option:selected").val() !== '1597647a-7056-3fe9-94c1-ae5c9d16d69b') {
-        window.location.href = '/map2';
+    if ($("#StoreSelect option:selected").val() === '1597647a-7056-3fe9-94c1-ae5c9d16d69b') {
+        window.location.href = '/map';
     }
 }
