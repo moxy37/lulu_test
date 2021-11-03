@@ -4,124 +4,49 @@ var async = require('async');
 module.exports = TestDAO;
 
 function TestDAO() {
-    this.upc = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, table, limit, next) {
-        con.query("TRUNCATE TABLE EpcReport", function (err, result) {
-            var sql = "INSERT INTO EpcReport (productId, styleName) SELECT sku, styleName FROM Products ";
-            var whereAdded = false;
-            if (deptId !== undefined && deptId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "deptCode=? ";
-                parmList.push(deptId);
+    this.sku = function (storeId, deptId, subDeptId, classId, subClassId, styleId, next) {
+        var sql = "SELECT productId, styleName FROM CurrentLocation WHERE styleName IS NOT NULL ";
+        var parmList = [];
+        if (deptId !== undefined && deptId !== '') {
+            sql += "AND deptCode=? ";
+            parmList.push(deptId);
+        }
+        if (subDeptId !== undefined && subDeptId !== '') {
+            sql += "AND subDeptCode=? ";
+            parmList.push(subDeptId);
+        }
+        if (classId !== undefined && classId !== '') {
+            sql += "AND classCode=? ";
+            parmList.push(classId);
+        }
+        if (subClassId !== undefined && subClassId !== '') {
+            sql += "AND subClassCode=? ";
+            parmList.push(subClassId);
+        }
+        if (styleId !== undefined && styleId !== '') {
+            sql += "AND styleCode=? ";
+            parmList.push(styleId);
+        }
+        if (storeId !== undefined && storeId !== '') {
+            sql += "AND storeId=? ";
+            parmList.push(storeId);
+        }
+        con.query(sql, parmList, function (err, results) {
+            if (err) {
+                console.log(err.message);
+                return next(err);
             }
-            if (subDeptId !== undefined && subDeptId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "subDeptCode=? ";
-                parmList.push(subDeptId);
-            }
-            if (classId !== undefined && classId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "classCode=? ";
-                parmList.push(classId);
-            }
-            if (subClassId !== undefined && subClassId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "subClassCode=? ";
-                parmList.push(subClassId);
-            }
-            if (styleId !== undefined && styleId !== '') {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "styleCode=? ";
-                parmList.push(styleId);
-            }
-            if (productId !== undefined && productId.length > 0) {
-                if (whereAdded) {
-                    sql += "AND ";
-                } else {
-                    sql += "WHERE ";
-                    whereAdded = true;
-                }
-                sql += "sku IN (";
-                for (var i = 0; i < productId.length; i++) {
-                    if (i > 0) { sql += ", "; }
-                    sql += "?";
-                    parmList.push(productId[i]);
-                }
-                sql += ") ";
-            }
-            sql += "GROUP BY sku, styleName ";
-            console.log(sql);
-            console.log(parmList);
-            con.query(sql, parmList, function (err, results) {
-                if (err) {
-                    console.log(err.message);
-                    return next(err);
-                }
-                sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
-                parmList = [];
-                if (storeId !== undefined && storeId !== '') {
-                    sql += "AND storeId=? ";
-                    parmList.push(storeId);
-                }
-                if (year !== undefined && year !== '') {
-                    sql += "AND yyyy=? ";
-                    parmList.push(parseInt(year));
-                }
-                if (month !== undefined && month !== '') {
-                    sql += "AND mm=? ";
-                    parmList.push(parseInt(month));
-                }
-                if (day !== undefined && day !== '') {
-                    sql += "AND dd=? ";
-                    parmList.push(parseInt(day));
-                }
-                sql += "ORDER BY styleName, ts ";
-                console.log(sql);
-                console.log(parmList);
-                con.query(sql, parmList, function (err, results) {
-                    if (err) {
-                        console.log(err.message);
-                        return next(err);
-                    }
-                    var list = [];
-                    async.forEach(results, function (r, callback) {
-                        var o = new Object();
-                        o.productId = r.productId;
-                        o.name = r.styleName;
-                        o.total = r.total;
-                        list.push(o);
-                        callback();
-                    }, function (err) {
-                        return next(null, list);
-                    });
-                });
+            var list = [];
+            async.forEach(results, function (r, callback) {
+                var o = new Object();
+                o.styleName = r.styleName;
+                o.productId = r.productId;
+                list.push(o);
+                callback();
+            }, function (err) {
+                return next(null, list);
             });
         });
-
     }
 
     this.allDept = function (storeId, next) {

@@ -174,27 +174,17 @@ function LoadUPC() {
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
     obj.style = $("#StyleSelect option:selected").val();
-    obj.year = $("#Year").val();
-    obj.month = $("#Month").val();
-    obj.day = $("#Day").val();
-    obj.limit = $("#Limit").val();
-    obj.table = $("#TableSelect option:selected").val();
-    if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
-    if (obj.dept === 'XXX') { obj.dept = undefined; }
-    if (obj.subDept === 'XXX') { obj.subDept = undefined; }
-    if (obj.class === 'XXX') { obj.class = undefined; }
-    if (obj.subClass === 'XXX') { obj.subClass = undefined; }
-    if (obj.style === 'XXX') { obj.style = undefined; }
+
     $.ajax({
         type: "PUT",
-        url: "/api/upc/list/",
+        url: "/api/sku/list/",
         data: obj,
         cache: false,
         dataType: "json",
         success: function (results) {
-            var html = '';
+            var html = '<option value=""></option>';
             for (var i = 0; i < results.length; i++) {
-                html += '<option value="' + results[i].productId + '">' + results[i].productId + ' - ' + results[i].name + ' (' + results[i].total + ' reads)</option>';
+                html += '<option value="' + results[i].productId + '">' + results[i].productId + ' - ' + results[i].styleName + '</option>';
             }
             CleanUp('UpcSelect', html);
             HideLoader();
@@ -203,6 +193,12 @@ function LoadUPC() {
             HideLoader();
         }
     });
+}
+
+function StartLoadingIt() {
+    var sku = $("#UpcSelect option:selected").val();
+    $("#SkuText").val(sku);
+    LoadIt();
 }
 
 function LoadIt() {

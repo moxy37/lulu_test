@@ -70,7 +70,10 @@
                 <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
                 <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
             </li>
-
+            <li class="UpcStuff">
+                <label for="">Sku's:</label>
+                <select id="UpcSelect" class="CheckLoader" onchange="StartLoadingIt();"></select>
+            </li>
             <li class="UpcStuff">
                 <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
                 <!-- <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button> -->

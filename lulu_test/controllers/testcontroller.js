@@ -1,6 +1,7 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
@@ -72,9 +73,8 @@ router.get('/api/sync/wested', function (req, res) {
     return res.send("OK");
 });
 
-router.put('/api/upc/list', function (req, res) {
-    var obj = req.body;
-    testDao.upc(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.table, obj.limit, function (err, list) {
+router.put('/api/sku/list', function (req, res) {
+    testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);
