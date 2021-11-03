@@ -31,8 +31,9 @@ CREATE INDEX test2 ON EpcMoveCombined (id, idx, lastX, lastY);
 CREATE INDEX test23 ON EpcMoveCombined (id, idx, lastX, lastY, storeId);
 
 CREATE INDEX temp_me_god ON EpcMovement (id, productId, storeId, regionId, ts, x, y, confidence);
-
-
+CREATE INDEX s222 ON EpcMovement (id, productId, storeId);
+CREATE INDEX s222x ON EpcMovement (idx, id, productId, storeId);
+CREATE INDEX temp_me_DDDDD ON EpcMovement (id, productId, storeId, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, idx);
 
 DROP TABLE IF EXISTS Zones;
 CREATE TABLE Zones (

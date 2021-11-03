@@ -19,13 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(80, function () {
     console.log('Spartacus Node listening on port 80!');
-    var con = require(__base + 'dbConnection');
-    con.query("SELECT * FROM AllDept", function (err, list) {
-        if (err) {
-            console.log(JSON.stringify(err));
-        }
-        console.log(JSON.stringify(list));
-    });
 });
 
 process.on('uncaughtException', function (err) { console.log(err); });
@@ -46,27 +39,57 @@ app.get('/', function (req, res) { res.render('index'); });
 app.get('/map', function (req, res) { res.render('map'); });
 
 var cron = require('node-cron');
-cron.schedule('*/5 * * * *', function () {
+cron.schedule('*/30 * * * *', function () {
     var con = require(__base + 'dbConnection');
     var async = require('async');
     async.series([
         function (callback) {
-            con.query("TRUNCATE TABLE ValidEpc", function (err, result) {
+            con.query("DROP TABLE IF EXISTS ValidEpc_Bak", function (err, result) {
                 callback();
             });
         },
         function (callback) {
-            con.query("INSERT INTO ValidEpc (id, productId, storeId, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, idx) SELECT id, productId, storeId, MAX(isDeleted), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isRegion), MAX( isSold), MAX(isValid), MAX(idx) FROM EpcMovement GROUP BY storeId, productId, id", function (err, result) {
+            con.query("CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, idx INTEGER NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, PRIMARY KEY (id, productId, storeId))", function (err, result) {
                 callback();
             });
         },
         function (callback) {
-            con.query("TRUNCATE TABLE LastRead", function (err, result) {
+            con.query("INSERT INTO ValidEpc_Bak (id, productId, storeId, idx) SELECT id, productId, storeId, MAX(idx) FROM EpcMovement GROUP BY id, productId, storeId ", function (err, result) {
                 callback();
             });
         },
         function (callback) {
-            con.query("INSERT INTO LastRead (id, productId, idx) SELECT id, productId, MAX(idx) FROM EpcMovement GROUP BY id, productId ", function (err, result) {
+            con.query("DROP TABLE IF EXISTS ValidEpc", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("RENAME TABLE ValidEpc_Bak TO ValidEpc", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("DROP TABLE IF EXISTS AllStyle_Bak", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("CREATE TABLE AllStyle_Bak (storeId VARCHAR(40),deptCode VARCHAR(50), deptName VARCHAR(100),  subDeptCode varchar(50) NULL, subDeptName varchar(100) NULL, classCode varchar(50) NULL, className varchar(100) NULL, subClassCode varchar(50) NULL, subClassName varchar(100) NULL, styleCode varchar(50) NULL, styleName varchar(100) NULL, total INTEGER DEFAULT 0 )", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("INSERT INTO AllStyle_Bak (storeId, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, total) SELECT  x.storeId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCode, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName, COUNT(*)  FROM ValidEpc x JOIN Products p ON x.productId=p.sku GROUP BY x.storeId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCode, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("DROP TABLE IF EXISTS AllStyle", function (err, result) {
+                callback();
+            });
+        },
+        function (callback) {
+            con.query("RENAME TABLE AllStyle_Bak TO AllStyle", function (err, result) {
                 callback();
             });
         }

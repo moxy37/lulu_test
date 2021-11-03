@@ -45,6 +45,7 @@ CREATE TABLE Products (
 	styleName varchar(100) NULL,
 	price float NOT NULL DEFAULT 0
 );
+CREATE INDEX p_1 ON Products(sku, deptCode, deptName);
 
 CREATE TABLE Stores (
 	id VARCHAR(40) PRIMARY KEY,
@@ -110,18 +111,10 @@ CREATE TABLE ValidEpc (
 	idx INTEGER NOT NULL,
 	productId VARCHAR(40) NOT NULL,
 	storeId VARCHAR(40) NOT NULL,
-	isDeleted INTEGER DEFAULT 0,
-	isDeparture INTEGER DEFAULT 0,
-	isExit INTEGER DEFAULT 0,
-	isGhost INTEGER DEFAULT 0,
-	isMissing INTEGER DEFAULT 0,
-	isMove INTEGER DEFAULT 0,
-	isReacquired INTEGER DEFAULT 0,
-	isRegion INTEGER DEFAULT 0,
-	isSold INTEGER DEFAULT 0,
-	isValid INTEGER DEFAULT 0,
 	PRIMARY KEY (id, productId, storeId)
 );
+CREATE INDEX valid_1 ON ValidEpc(id, productId);
+CREATE INDEX valid_2 ON ValidEpc(id, productId, storeId);
 
 DROP TABLE IF EXISTS EpcMoments;
 CREATE TABLE EpcMoments (
@@ -139,11 +132,27 @@ CREATE TABLE EpcReport (
 	styleName VARCHAR(100)
 );
 
-DROP TABLE IF EXISTS LastRead;
-CREATE TABLE LastRead (
-	id VARCHAR(30) NOT NULL,
-	idx INTEGER,
-	productId VARCHAR(40)
+CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, idx INTEGER NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL);
+INSERT INTO ValidEpc_Bak (id, idx, productId, storeId) SELECT id, idx, productId, storeId FROM ValidEpc;
+
+
+CREATE TABLE Products_bak (
+	sku varchar(20),
+	deptCode varchar(50) NULL,
+	deptName varchar(100) NULL,
+	subDeptCode varchar(50) NULL,
+	subDeptName varchar(100) NULL,
+	classCode varchar(50) NULL,
+	className varchar(100) NULL,
+	subClassCode varchar(50) NULL,
+	subClassName varchar(100) NULL,
+	styleCode varchar(50) NULL,
+	styleName varchar(100) NULL,
+	price float NOT NULL DEFAULT 0
 );
 
+DROP TABLE IF EXISTS ValidSku;
+CREATE TABLE ValidSku (productId VARCHAR(20), storeId VARCHAR(40), total INTEGER DEFAULT 0);
+INSERT INTO ValidSku (productId, storeId, total) SELECT productId, storeId, COUNT(*) FROM ValidEpc GROUP BY storeId, productId;
 
+INSERT INTO Products_bak (sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, price) SELECT sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, price FROM Products;
