@@ -58,14 +58,12 @@ CREATE TABLE LastCord (
 
 
 SET autocommit=0;
-
 START TRANSACTION;
 INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence) SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement WHERE isValid=1 AND isMissing=0 AND isGhost=0 AND isDeparture=0 AND isExit=0  ORDER BY id, ts;
 INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
 UPDATE LastCord SET lastIdx = idx + 1;
 UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
 UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
-
 COMMIT;
 SET autocommit=1;
 
@@ -73,18 +71,22 @@ SET autocommit=1;
 --RUN THE COMMAND "python3 cluster.py 3"
 --RUN THE COMMAND "python3 cluster.py 4"
 
-SET autocommit=0;
+ALTER TABLE EpcMoveCombined ADD isSold INTEGER DEFAULT 0;
 
+SELECT id, regionName FROM Regions WHERE storeId='d4f87b6f-5199-43ac-b231-fbe6e3a8039c';
+
+SET autocommit=0;
 START TRANSACTION;
 
-UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.productId = t2.productId AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.xHome=t2.xCenter, t1.yHome=t2.yCenter;
+UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.productId=t2.productId AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.xHome=t2.xCenter, t1.yHome=t2.yCenter;
 
 UPDATE EpcMoveCombined SET dHome = SQRT((x - xHome)*(x - xHome) + (y - yHome)*(y - yHome));
 
 UPDATE EpcMoveCombined t1 INNER JOIN Sales t2 ON t1.id=t2.id AND t1.storeId=t2.storeId SET t1.soldTimestamp=t2.soldTimestamp;
 
-ALTER TABLE EpcMoveCombined ADD isSold INTEGER DEFAULT 0;
+
 UPDATE EpcMoveCombined SET isSold=0;
 UPDATE EpcMoveCombined SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3 HOUR); 
+
 COMMIT;
 SET autocommit=1;
