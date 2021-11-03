@@ -28,6 +28,7 @@ CREATE INDEX temp_me_god ON EpcMovement (id, productId, storeId, regionId, ts, x
 DROP TABLE IF EXISTS Zones;
 CREATE TABLE Zones (
     productId VARCHAR(40) NOT NULL,
+    storeId VARCHAR(40),
     zoneNumber INTEGER NOT NULL,
     radius FLOAT DEFAULT 0,
     xCenter FLOAT DEFAULT 0,
@@ -71,5 +72,5 @@ INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM
 UPDATE LastCord SET lastIdx = idx + 1;
 UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
 UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
-DROP TABLE IF EXISTS LastCord;
+
 COMMIT;

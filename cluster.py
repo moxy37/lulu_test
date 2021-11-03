@@ -103,7 +103,7 @@ for sId in obj:
                     k = kSize
                     inZoneCount = dCount[j]
                     b4 = bbbb.cursor()
-                    b4.execute("INSERT INTO Zones (productId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, totalCount, isHome, kSize, radiusAvg, radiusSD))
+                    b4.execute("INSERT INTO Zones (storeId, productId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, totalCount, isHome, kSize, radiusAvg, radiusSD))
                     bbbb.commit()
                 added = added + 1
             else:
