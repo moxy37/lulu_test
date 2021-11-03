@@ -364,6 +364,9 @@ function TestDAO() {
                     return next(err);
                 }
                 var lastId = '';
+                var obj = new Object();
+                obj.list = [];
+                obj.paths = new Object();
                 async.forEach(results, function (r, callback) {
                     if (r.id !== lastId) {
                         lastId = r.id;
