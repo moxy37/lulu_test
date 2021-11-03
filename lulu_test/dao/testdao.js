@@ -299,6 +299,14 @@ function TestDAO() {
                     o.name = r.styleName;
                     o.regionName = r.regionName;
                     o.styleName = r.styleName;
+                    o.isExit = r.isExit;
+                    o.isGhost = r.isGhost;
+                    o.isMissing = r.isMissing;
+                    o.isMove = r.isMove;
+                    o.isReacquired = r.isReacquired;
+                    o.isRegion = r.isRegion;
+                    o.isSold = r.isSold;
+                    o.isValid = r.isValid;
                     obj.paths[r.id].push(o);
                     obj.list.push(o);
                     callback();
@@ -383,6 +391,15 @@ function TestDAO() {
                     o.name = r.styleName;
                     o.styleName = r.styleName;
                     o.regionName = r.regionName;
+                    // m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid
+                    o.isExit = r.isExit;
+                    o.isGhost = r.isGhost;
+                    o.isMissing = r.isMissing;
+                    o.isMove = r.isMove;
+                    o.isReacquired = r.isReacquired;
+                    o.isRegion = r.isRegion;
+                    o.isSold = r.isSold;
+                    o.isValid = r.isValid;
                     obj.paths[r.id].push(o);
                     obj.list.push(o);
                     callback();
