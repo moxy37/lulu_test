@@ -273,12 +273,31 @@ function Forward() {
         $("#Message").empty();
         var t = gCurrentPathIndex;
         var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + '</h4>';
+        $(".IsSelect").removeClass('RedClass');
         $("#IsExitSelect").val(o.isExit);
+        if (o.isExit === 1 || o.isExit === '1') {
+            $("#IsExitSelect").addClass('RedClass');
+        }
         $("#IsGhostSelect").val(o.isGhost);
+        if (o.isGhost === 1 || o.isGhost === '1') {
+            $("#IsGhostSelect").addClass('RedClass');
+        }
         $("#IsMissingSelect").val(o.isMissing);
+        if (o.isMissing === 1 || o.isMissing === '1') {
+            $("#IsMissingSelect").addClass('RedClass');
+        }
         $("#IsMoveSelect").val(o.isMove);
+        if (o.isMove === 1 || o.isMove === '1') {
+            $("#IsMoveSelect").addClass('RedClass');
+        }
         $("#IsRegionSelect").val(o.isRegion);
+        if (o.isRegion === 1 || o.isRegion === '1') {
+            $("#IsRegionSelect").addClass('RedClass');
+        }
         $("#IsValidSelect").val(o.isValid);
+        if (o.isValid === 1 || o.isValid === '1') {
+            $("#IsValidSelect").addClass('RedClass');
+        }
         $("#Message").append(h2);
         $("#Message").show();
 
