@@ -358,29 +358,29 @@ function TestDAO() {
                 sql += "AND dd=? ";
                 parmList.push(parseInt(day));
             }
-            if (isExit !== undefined) {
+            if (isExit !== undefined && isExit !== '') {
                 sql += "AND isExit=? ";
-                parmList.push(1);
+                parmList.push(isExit);
             }
-            if (isGhost !== undefined) {
+            if (isGhost !== undefined && isGhost !== '') {
                 sql += "AND isGhost=? ";
-                parmList.push(1);
+                parmList.push(isGhost);
             }
-            if (isMissing !== undefined) {
+            if (isMissing !== undefined && isMissing !== '') {
                 sql += "AND isMissing=? ";
-                parmList.push(1);
+                parmList.push(isMissing);
             }
-            if (isMove !== undefined) {
+            if (isMove !== undefined && isMove !== '') {
                 sql += "AND isMove=? ";
-                parmList.push(1);
+                parmList.push(isMove);
             }
-            if (isRegion !== undefined) {
+            if (isRegion !== undefined && isRegion !== '') {
                 sql += "AND isRegion=? ";
-                parmList.push(1);
+                parmList.push(isRegion);
             }
-            if (isValid !== undefined) {
+            if (isValid !== undefined && isValid !== '') {
                 sql += "AND isValid=? ";
-                parmList.push(1);
+                parmList.push(isValid);
             }
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
