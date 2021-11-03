@@ -182,32 +182,15 @@ section div img{
 .switch {
     position: relative;
     display: inline-block;
+    margin-left:14em;
     width: 60px;
     height: 34px;
   }
 
-  .WrapperThing {
-    display: table;
-    table-layout: fixed;
-
-    width:90%;
-  }
-
-  .WrapperThing div {
-    display: table-cell;
-  }
-
-  .CheckLabel {
-    font-size: x-large;
-    color:#5f6062;
-    vertical-align: middle;
-    width: 50%;
-  }
+  
   
   .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
+    display: none;
   }
   
   .slider {
@@ -220,6 +203,8 @@ section div img{
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
+    padding-left: 50px;
+
   }
   
   .slider:before {
@@ -256,3 +241,18 @@ section div img{
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .switch h5 {
+    position: relative;
+    left: -200px;
+    width: 175px;
+    font-size: large;
+    vertical-align: bottom;
+    margin-top:10px;
+    text-align: left;
+  }
+
+.mycheckbox {
+    margin-top:5px;
+    margin-bottom: 5px;
+}
