@@ -329,6 +329,10 @@ function Forward() {
     }
 }
 
+function ClearIsFields(){
+    $(".IsSelect").removeClass('RedClass');
+    $(".IsSelect").val('');
+}
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
     $(".pointContainer").empty();
