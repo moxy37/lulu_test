@@ -18,12 +18,12 @@ CREATE TABLE EpcMoveCombined (
     homeY FLOAT DEFAULT 0
 );
 
-ALTER TABLE EpcMoveCombined ADD homeX FLOAT DEFAULT 0;
-ALTER TABLE EpcMoveCombined ADD homeY FLOAT DEFAULT 0;
+CREATE INDEX test2 ON EpcMoveCombined (id, idx, lastX, lastY);
+CREATE INDEX test23 ON EpcMoveCombined (id, idx, lastX, lastY, storeId);
 
 CREATE INDEX temp_me_god ON EpcMovement (id, productId, storeId, regionId, ts, x, y, confidence);
 
-INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence) SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement ORDER BY id, ts;
+
 
 DROP TABLE IF EXISTS Zones;
 CREATE TABLE Zones (
@@ -54,12 +54,21 @@ CREATE TABLE LastCord (
         id VARCHAR(30)
 );
 
-INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
 
-UPDATE LastCord SET lastIdx = idx + 1;
 
-UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
+
+
+
+
 
 DROP TABLE IF EXISTS LastCord;
 
+
+
+START TRANSACTION;
+INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence) SELECT id, productId, storeId, regionId, ts, x, y, confidence FROM EpcMovement ORDER BY id, ts;
+INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
+UPDATE LastCord SET lastIdx = idx + 1;
+UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
 UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
+COMMIT;
