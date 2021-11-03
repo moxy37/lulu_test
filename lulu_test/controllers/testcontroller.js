@@ -85,7 +85,7 @@ router.put('/api/sku/list', function (req, res) {
 
 router.put('/api/points/list', function (req, res) {
     var obj = req.body;
-    testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.productId, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isValid, obj.table, obj.limit, function (err, list) {
+    testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.productId, obj.id, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isValid, obj.table, obj.limit, function (err, list) {
         if (err) {
             console.log(err);
             return res.send(err);

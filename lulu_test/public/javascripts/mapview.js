@@ -84,6 +84,8 @@ function AllSubDepts() {
     });
 }
 
+
+
 function AllClasses() {
     ShowLoader();
     var obj = new Object();
@@ -354,6 +356,40 @@ function ChangeEpcView() {
             }
         }
     }
+}
+
+function LoadJustThisEpc() {
+    ShowLoader();
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
+    obj.table = 'EpcMoveView';
+    $("#TableSelect").val(obj.table);
+    obj.id = gCurrentPathId;
+    $.ajax({
+        type: "PUT",
+        url: "/api/points/list",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (results) {
+            var list = results.list;
+            var paths = results.paths;
+            gPaths = paths;
+            gList = list;
+            var keys = Object.keys(paths);
+            gPathKeys = keys;
+            var html = '';
+            for (var i = 0; i < keys.length; i++) {
+                html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
+            }
+            CleanUp('EpcSelect', html);
+            HideLoader();
+        },
+        error: function (results) {
+            HideLoader();
+            alert(JSON.stringify(results));
+        }
+    });
 }
 
 function ShowAll() {

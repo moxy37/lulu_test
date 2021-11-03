@@ -84,6 +84,8 @@ function AllSubDepts() {
     });
 }
 
+
+
 function AllClasses() {
     ShowLoader();
     var obj = new Object();
@@ -152,7 +154,7 @@ function AllStyles() {
         cache: false,
         dataType: "json",
         success: function (results) {
-            var html = '<option value="XXX"></option>';
+            var html = '<option value=""></option>';
             for (var i = 0; i < results.length; i++) {
                 html += '<option value="' + results[i].style + '">' + results[i].styleName + ' - ' + results[i].total + '</option>';
             }
@@ -354,6 +356,40 @@ function ChangeEpcView() {
             }
         }
     }
+}
+
+function LoadJustThisEpc() {
+    ShowLoader();
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
+    obj.id = gCurrentPathId;
+    obj.table = 'EpcMoveView';
+    $("#TableSelect").val(obj.table);
+    $.ajax({
+        type: "PUT",
+        url: "/api/points/list",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (results) {
+            var list = results.list;
+            var paths = results.paths;
+            gPaths = paths;
+            gList = list;
+            var keys = Object.keys(paths);
+            gPathKeys = keys;
+            var html = '';
+            for (var i = 0; i < keys.length; i++) {
+                html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
+            }
+            CleanUp('EpcSelect', html);
+            HideLoader();
+        },
+        error: function (results) {
+            HideLoader();
+            alert(JSON.stringify(results));
+        }
+    });
 }
 
 function ShowAll() {
