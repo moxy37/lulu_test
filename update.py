@@ -76,6 +76,7 @@ while True:
                         deleted = deleted + 1
                     print("Added: " + str(added) + ", Errors: " + str(deleted))
             except Exception as e:
+                print("Error making API call")
                 print(str(e))
     except Exception as e:
         print(str(e))
