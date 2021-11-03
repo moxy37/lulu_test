@@ -80,5 +80,5 @@ while True:
                 print(str(e))
     except Exception as e:
         print(str(e))
-    sleep(60)
+    sleep(120)
 
