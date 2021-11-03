@@ -259,6 +259,7 @@ function LoadIt() {
 }
 
 function Forward() {
+    $("#TableSelect").val('CurrentLocation');
     var list = gPaths[gCurrentPathId];
     if (gCurrentPathIndex < list.length - 1) {
         gCurrentPathIndex++;
