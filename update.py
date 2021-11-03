@@ -12,6 +12,7 @@ siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
     try:
+        print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
         e4.execute("CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, idx INTEGER NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, PRIMARY KEY (id, productId, storeId))")
@@ -24,6 +25,7 @@ while True:
         e4.execute("DROP TABLE IF EXISTS AllStyle")
         e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
+        print("Finished Updating ValidEpc")
         d3 = dddd.cursor()
         d3.execute("SELECT * FROM LastPull")
         myresult = d3.fetchall()
@@ -34,7 +36,7 @@ while True:
             try:
                 added = 0
                 deleted = 0
-                print("New query")
+                print("New query for store: " + str(siteId))
                 url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=200000&returnCount=false'
                 headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
                 response = requests.request("GET", url, headers=headers)
@@ -86,11 +88,22 @@ while True:
                     except Exception as e:
                         print(str(e))
                         deleted = deleted + 1
-                    print("Added: " + str(added) + ", Errors: " + str(deleted))
+                    print("Added: " + str(added) + ", Errors: " + str(deleted) + ", for store: " + str(siteId))
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
+        print("Sleeping now")
+        sleep(60)
+        print("One minute")
+        sleep(60)
+        print("Two minutes")
+        sleep(60)
+        print("Three minutes")
+        sleep(60)
+        print("Four minutes")
+        sleep(60)
+        print("Five minutes")
     except Exception as e:
         print(str(e))
-    sleep(300)
+    
 
