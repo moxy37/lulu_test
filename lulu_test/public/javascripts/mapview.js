@@ -220,25 +220,25 @@ function LoadIt() {
     obj.productId = $("#SkuText").val();
     obj.limit = $("#Limit").val();
     obj.table = $("#TableSelect option:selected").val();
-    if ($("#IsExit").is(":checked")) {
-        obj.isExit = 1;
-        alert("is Checked");
-    }
-    if ($("#IsGhost").is(":checked")) {
-        obj.isGhost = 1;
-    }
-    if ($("#IsMissing").is(":checked")) {
-        obj.isMissing = 1;
-    }
-    if ($("#IsMove").is(":checked")) {
-        obj.isMove = 1;
-    }
-    if ($("#IsRegion").is(":checked")) {
-        obj.isRegion = 1;
-    }
-    if ($("#IsValid").is(":checked")) {
-        obj.isValid = 1;
-    }
+    // if ($("#IsExit").is(":checked")) {
+    //     obj.isExit = 1;
+    //     alert("is Checked");
+    // }
+    // if ($("#IsGhost").is(":checked")) {
+    //     obj.isGhost = 1;
+    // }
+    // if ($("#IsMissing").is(":checked")) {
+    //     obj.isMissing = 1;
+    // }
+    // if ($("#IsMove").is(":checked")) {
+    //     obj.isMove = 1;
+    // }
+    // if ($("#IsRegion").is(":checked")) {
+    //     obj.isRegion = 1;
+    // }
+    // if ($("#IsValid").is(":checked")) {
+    //     obj.isValid = 1;
+    // }
     if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
     if (obj.dept === 'XXX') { obj.dept = undefined; }
     if (obj.subDept === 'XXX') { obj.subDept = undefined; }
@@ -286,36 +286,36 @@ function Forward() {
         $("#Message").empty();
         var t = gCurrentPathIndex;
         var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + '</h4>';
-        isExit = false;
-        isGhost = false;
-        isMissing = false;
-        isMove = false;
-        isRegion = false;
-        isValid = false;
-        if (o.isExit === 1 || o.isExit === '1') {
-            isExit = true;
-        }
-        if (o.isGhost === 1 || o.isGhost === '1') {
-            isGhost = true;
-        }
-        if (o.isMissing === 1 || o.isMissing === '1') {
-            isMissing = true;
-        }
-        if (o.isValid === 1 || o.isValid === '1') {
-            isValid = true;
-        }
-        if (o.isMove === 1 || o.isMove === '1') {
-            isMove = true;
-        }
-        if (o.isRegion === 1 || o.isRegion === '1') {
-            isRegion = true;
-        }
-        $("#IsRegion").prop('checked', isRegion);
-        $("#IsExit").prop('checked', isExit);
-        $("#IsGhost").prop('checked', isGhost);
-        $("#IsMove").prop('checked', isMove);
-        $("#IsMissing").prop('checked', isMissing);
-        $("#IsValid").prop('checked', isValid);
+        // isExit = false;
+        // isGhost = false;
+        // isMissing = false;
+        // isMove = false;
+        // isRegion = false;
+        // isValid = false;
+        // if (o.isExit === 1 || o.isExit === '1') {
+        //     isExit = true;
+        // }
+        // if (o.isGhost === 1 || o.isGhost === '1') {
+        //     isGhost = true;
+        // }
+        // if (o.isMissing === 1 || o.isMissing === '1') {
+        //     isMissing = true;
+        // }
+        // if (o.isValid === 1 || o.isValid === '1') {
+        //     isValid = true;
+        // }
+        // if (o.isMove === 1 || o.isMove === '1') {
+        //     isMove = true;
+        // }
+        // if (o.isRegion === 1 || o.isRegion === '1') {
+        //     isRegion = true;
+        // }
+        // $("#IsRegion").prop('checked', isRegion);
+        // $("#IsExit").prop('checked', isExit);
+        // $("#IsGhost").prop('checked', isGhost);
+        // $("#IsMove").prop('checked', isMove);
+        // $("#IsMissing").prop('checked', isMissing);
+        // $("#IsValid").prop('checked', isValid);
         $("#Message").append(h2);
         $("#Message").show();
 
