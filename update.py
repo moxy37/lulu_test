@@ -12,6 +12,18 @@ siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
     try:
+        e4 = eeee.cursor()
+        e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
+        e4.execute("CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, idx INTEGER NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, PRIMARY KEY (id, productId, storeId))")
+        e4.execute("INSERT INTO ValidEpc_Bak (id, productId, storeId, idx) SELECT id, productId, storeId, MAX(idx) FROM EpcMovement GROUP BY id, productId, storeId ")
+        e4.execute("DROP TABLE IF EXISTS ValidEpc")
+        e4.execute("RENAME TABLE ValidEpc_Bak TO ValidEpc")
+        e4.execute("DROP TABLE IF EXISTS AllStyle_Bak")
+        e4.execute("CREATE TABLE AllStyle_Bak (storeId VARCHAR(40),deptCode VARCHAR(50), deptName VARCHAR(100),  subDeptCode varchar(50) NULL, subDeptName varchar(100) NULL, classCode varchar(50) NULL, className varchar(100) NULL, subClassCode varchar(50) NULL, subClassName varchar(100) NULL, styleCode varchar(50) NULL, styleName varchar(100) NULL, total INTEGER DEFAULT 0 )")
+        e4.execute("INSERT INTO AllStyle_Bak (storeId, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, total) SELECT  x.storeId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCode, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName, COUNT(*)  FROM ValidEpc x JOIN Products p ON x.productId=p.sku GROUP BY x.storeId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCode, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName")
+        e4.execute("DROP TABLE IF EXISTS AllStyle")
+        e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
+        eeee.commit()
         d3 = dddd.cursor()
         d3.execute("SELECT * FROM LastPull")
         myresult = d3.fetchall()
@@ -80,5 +92,5 @@ while True:
                 print(str(e))
     except Exception as e:
         print(str(e))
-    sleep(120)
+    sleep(300)
 
