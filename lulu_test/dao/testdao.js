@@ -175,6 +175,7 @@ function TestDAO() {
     }
 
     this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+        console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
             parmList = [];
@@ -208,7 +209,9 @@ function TestDAO() {
                 obj.list = [];
                 obj.paths = new Object();
                 var lastId = '';
+                console.log("Starting query");
                 async.forEach(results, function (r, callback) {
+                    console.log("Query done now putting together");
                     if (r.id !== lastId) {
                         lastId = r.id;
                         obj.paths[r.id] = [];
@@ -236,6 +239,10 @@ function TestDAO() {
                     obj.list.push(o);
                     callback();
                 }, function (err) {
+                    if (err) {
+                        console.log(err.message);
+                        return next(err);
+                    }
                     return next(null, obj);
                 });
             });
@@ -310,7 +317,9 @@ function TestDAO() {
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
             console.log(parmList);
+            console.log("STARTING POINTS QUERY");
             con.query(sql, parmList, function (err, results) {
+                console.log("GOT THEM");
                 if (err) {
                     console.log(err.message);
                     return next(err);
@@ -335,7 +344,6 @@ function TestDAO() {
                     o.name = r.styleName;
                     o.styleName = r.styleName;
                     o.regionName = r.regionName;
-                    // m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid
                     o.isExit = r.isExit;
                     o.isGhost = r.isGhost;
                     o.isMissing = r.isMissing;
@@ -348,6 +356,10 @@ function TestDAO() {
                     obj.list.push(o);
                     callback();
                 }, function (err) {
+                    if (err) {
+                        console.log(err.message);
+                        return next(err);
+                    }
                     return next(null, obj);
                 });
             });

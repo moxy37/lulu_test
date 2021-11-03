@@ -183,3 +183,7 @@ section div img{
     font-weight: bold;
     background-color:#e31837;
 }
+
+.IsHidded {
+    display: none;
+}
