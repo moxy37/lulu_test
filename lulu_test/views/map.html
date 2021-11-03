@@ -27,7 +27,7 @@
             </li>
             <li>
                 <label for="">Department:</label>
-                <select id="DeptSelect"  class="CheckLoader" onchange="AllSubDepts();"></select>
+                <select id="DeptSelect" class="CheckLoader" onchange="AllSubDepts();"></select>
             </li>
             <li>
                 <label for="">Sub-Department:</label>
@@ -70,21 +70,44 @@
                 <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
                 <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
             </li>
-            <li>
-                <label for="">Source:</label>
-                <select id="TableSelect" class="CheckLoader" >
-                    <option value="EpcMoveView">All Movements</option>
-                    <option value="CurrentLocation">Current Location</option>
-                    <option value="Moments">AP Events</option>
-                </select>
-            </li>
+
             <li class="UpcStuff">
                 <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
                 <!-- <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button> -->
                 <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
             </li>
             <li>
-                
+                <div id="Message"></div>
+            </li>
+            <li>
+                <label for="">Source:</label>
+                <select id="TableSelect" class="CheckLoader">
+                    <option value="EpcMoveView">All Movements</option>
+                    <option value="CurrentLocation">Current Location</option>
+                    <option value="Moments">AP Events</option>
+                </select>
+            </li>
+            <li>
+                <label for="">Exit Event:</label>
+                <label class="switch">
+                    <input type="checkbox" id="IsExit">
+                    <span class="slider round"></span>
+                </label>
+                <label for="">Missing Event:</label>
+                <label class="switch">
+                    <input type="checkbox" id="IsMissing">
+                    <span class="slider round"></span>
+                </label>
+                <label for="">Ghost Event:</label>
+                <label class="switch">
+                    <input type="checkbox" id="IsGhost">
+                    <span class="slider round"></span>
+                </label>
+                <label for="">Move Event:</label>
+                <label class="switch">
+                    <input type="checkbox" id="IsMove">
+                    <span class="slider round"></span>
+                </label>
             </li>
         </ul>
     </aside>
@@ -94,9 +117,9 @@
                 <li></li>
             </ul>
             <img src="assets/images/1597647a-7056-3fe9-94c1-ae5c9d16d69b.png" alt="" id="MapDiv">
-            <div id="Message"></div>
+
         </div>
-        
+
     </section>
     <section id="loading"></section>
     <script>
