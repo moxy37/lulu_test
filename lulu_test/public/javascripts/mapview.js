@@ -217,7 +217,7 @@ function LoadIt() {
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
-    obj.productId = $("#UpcSelect").val();
+    obj.productId = $("#SkuText").val();
     obj.limit = $("#Limit").val();
     obj.table = $("#TableSelect option:selected").val();
     if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
@@ -266,7 +266,7 @@ function Forward() {
         $(".pointContainer").append(html);
         $("#Message").empty();
         var t = gCurrentPathIndex;
-        var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + '</h4>';
+        var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' IsExit: ' + o.isExit + '. IsDeparture: ' + o.isDeparture + '</h4>';
         $("#Message").append(h2);
         $("#Message").show();
     } else {

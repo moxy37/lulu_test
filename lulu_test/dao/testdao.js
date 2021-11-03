@@ -338,14 +338,9 @@ function TestDAO() {
                 sql += "AND styleCode=? ";
                 parmList.push(styleId);
             }
-            if (productId !== undefined && productId.length > 0) {
-                sql += "AND productId IN (";
-                for (var i = 0; i < productId.length; i++) {
-                    if (i > 0) { sql += ", "; }
-                    sql += "?";
-                    parmList.push(productId[i]);
-                }
-                sql += ") ";
+            if (productId !== undefined && productId !== '') {
+                sql += "AND productId=? ";
+                parmList.push(productId);
             }
             if (storeId !== undefined && storeId !== '') {
                 sql += "AND storeId=? ";
