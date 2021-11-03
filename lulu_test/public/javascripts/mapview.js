@@ -222,6 +222,7 @@ function LoadIt() {
     obj.table = $("#TableSelect option:selected").val();
     if ($("#IsExit").is(":checked")) {
         obj.isExit = 1;
+        alert("is Checked");
     }
     if ($("#IsGhost").is(":checked")) {
         obj.isGhost = 1;

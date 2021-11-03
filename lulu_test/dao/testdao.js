@@ -359,25 +359,28 @@ function TestDAO() {
                 parmList.push(parseInt(day));
             }
             if (isExit !== undefined) {
-                sql += "AND isExit=1 ";
+                sql += "AND isExit=? ";
+                parmList.push(1);
             }
             if (isGhost !== undefined) {
-                sql += "AND isExit=1 ";
-            }
-            if (isExit !== undefined) {
-                sql += "AND isGhost=1 ";
+                sql += "AND isGhost=? ";
+                parmList.push(1);
             }
             if (isMissing !== undefined) {
-                sql += "AND isMissing=1 ";
+                sql += "AND isMissing=? ";
+                parmList.push(1);
             }
             if (isMove !== undefined) {
-                sql += "AND isMove=1 ";
+                sql += "AND isMove=? ";
+                parmList.push(1);
             }
             if (isRegion !== undefined) {
-                sql += "AND isRegion=1 ";
+                sql += "AND isRegion=? ";
+                parmList.push(1);
             }
             if (isValid !== undefined) {
-                sql += "AND isValid=1 ";
+                sql += "AND isValid=? ";
+                parmList.push(1);
             }
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
