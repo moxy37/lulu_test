@@ -1,5 +1,5 @@
 *{
-    display: flex;
+    /*display: flex; */
     margin:0;
     padding:0;
     text-decoration: none;
@@ -96,14 +96,7 @@ aside ul li input{
 }
 /* //////////////////////////// */
 
-section{
-    align-items: center;
-}
 
-section div{
-    position: relative;
-    width:100%;
-}
 
 
 
