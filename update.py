@@ -81,7 +81,7 @@ while True:
                         cnxn.commit()
                         added = added + 1
                     except Exception as e:
-                        sql = "UPDATE EpcMovement SET isExit=isExit+"+str(o[isExit])+", isRegion=isRegion+"+str(isRegion]+", isMove=isMove+"+str(isMove)+", isMissing=isMissing+"+str(isMissing)+", isReacquired=isReacquired+"+str(isReacquired)+", isValid=isValid+"+str(isValid)+" WHERE id='"+o['id']+"' AND ts='"+ts+"' AND x="+str(o['x'])+" AND y="+str(o['y'])
+                        sql = "UPDATE EpcMovement SET isExit=isExit+"+str(isExit)+", isRegion=isRegion+"+str(isRegion]+", isMove=isMove+"+str(isMove)+", isMissing=isMissing+"+str(isMissing)+", isReacquired=isReacquired+"+str(isReacquired)+", isValid=isValid+"+str(isValid)+" WHERE id='"+o['id']+"' AND ts='"+ts+"' AND x="+str(o['x'])+"  AND y="+str(o['y'])
                         try:
                             cursor = cnxn.cursor()
                             cursor.execute(sql)
