@@ -8,13 +8,13 @@ cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 now = datetime.now(timezone.utc)
-
+sleep(70)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
     try:
-        d3 = dddd.cursor()
         '''
+        d3 = dddd.cursor()
         d3.execute("SELECT storeId, ts FROM LastPull")
         myresult = d3.fetchall()
         print(str(myresult))
