@@ -14,10 +14,11 @@ var gPosY = null;
 var gPosX = null;
 var gX = 0;
 var gY = 0;
-
+var canvas = document.getElementById("canvas");
 var gD = 0;
 var gSD = 0;
-
+var gLastX = 0;
+var gLastY = 0;
 var imageHeight = 1111;
 var imageWidth = 1195;
 
@@ -265,11 +266,19 @@ function Forward() {
         gCurrentPathIndex++;
 
         var o = list[gCurrentPathIndex];
-        var x = gPosX + o.x * width / imageWidth;
-        var y = gPosY + height - o.y * height / imageHeight;
-        $(".pointContainer li").removeClass('newpoint');
-        var html = '<li class="point newpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
-        $(".pointContainer").append(html);
+        var ctx = canvas.getContext("2d");
+        var x = o.x;
+        var y = imageHeight - o.y;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        ctx.closePath();
+        ctx.fillStyle = "red";
+        ctx.fill();
+
+        ctx.restore();
+
         $("#Message").empty();
         var t = gCurrentPathIndex;
         var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + '</h4>';
@@ -310,6 +319,8 @@ function Forward() {
         if (index < gPathKeys.length - 1) {
             index++;
             gCurrentPathId = gPathKeys[index];
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
             $("#EpcSelect").val(gCurrentPathId);
             // var o = list[gCurrentPathIndex];
             // var x = gPosX + o.x * width / 1111;
@@ -321,7 +332,8 @@ function Forward() {
             // var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + '</h4>';
             // $("#Message").append(h2);
         } else {
-            $(".pointContainer").empty();
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
             gCurrentPathId = gPathKeys[0];
             gCurrentPathIndex = -1;
             $("#EpcSelect").val(gCurrentPathId);
