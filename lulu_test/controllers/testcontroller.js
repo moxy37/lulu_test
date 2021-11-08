@@ -26,6 +26,9 @@ router.put('/api/login', function (req, res) {
     var obj = req.body;
     if (obj.user === 'lulu' && obj.pass === 'TestLulu123!') {
         __loggedIn = true;
+        var o =new Object();
+        o.message='Redirect';
+        return res.send(o);
     }
 });
 
