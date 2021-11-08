@@ -228,13 +228,20 @@ function TestDAO() {
                     o.regionName = r.regionName;
                     o.styleName = r.styleName;
                     o.isExit = r.isExit;
+                    if (o.isExit > 1) { o.isExit = 1; }
                     o.isGhost = r.isGhost;
+                    if (o.isGhost > 1) { o.isGhost = 1; }
                     o.isMissing = r.isMissing;
+                    if (o.isMissing > 1) { o.isMissing = 1; }
                     o.isMove = r.isMove;
+                    if (o.isMove > 1) { o.isMove = 1; }
                     o.isReacquired = r.isReacquired;
+                    if (o.isReacquired > 1) { o.isReacquired = 1; }
                     o.isRegion = r.isRegion;
+                    if (o.isRegion > 1) { o.isRegion = 1; }
                     o.isSold = r.isSold;
                     o.isValid = r.isValid;
+                    if (o.isValid > 1) { o.isValid = 1; }
                     obj.paths[r.id].push(o);
                     obj.list.push(o);
                     callback();
@@ -349,13 +356,20 @@ function TestDAO() {
                     o.styleName = r.styleName;
                     o.regionName = r.regionName;
                     o.isExit = r.isExit;
+                    if (o.isExit > 1) { o.isExit = 1; }
                     o.isGhost = r.isGhost;
+                    if (o.isGhost > 1) { o.isGhost = 1; }
                     o.isMissing = r.isMissing;
+                    if (o.isMissing > 1) { o.isMissing = 1; }
                     o.isMove = r.isMove;
+                    if (o.isMove > 1) { o.isMove = 1; }
                     o.isReacquired = r.isReacquired;
+                    if (o.isReacquired > 1) { o.isReacquired = 1; }
                     o.isRegion = r.isRegion;
+                    if (o.isRegion > 1) { o.isRegion = 1; }
                     o.isSold = r.isSold;
                     o.isValid = r.isValid;
+                    if (o.isValid > 1) { o.isValid = 1; }
                     obj.paths[r.id].push(o);
                     obj.list.push(o);
                     callback();
