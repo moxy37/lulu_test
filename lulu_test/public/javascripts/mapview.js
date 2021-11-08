@@ -261,7 +261,7 @@ function Forward() {
         var x = o.x;
         var y = imageHeight - o.y;
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, 2 * Math.PI);
+        ctx.fillRect(x, y, 2, 2);
         ctx.stroke();
 
         ctx.closePath();
@@ -352,7 +352,7 @@ function ChangeEpcView() {
                 var y = imageHeight - o.y;
 
                 ctx.beginPath();
-                ctx.arc(x, y, 2, 0, 2 * Math.PI);
+                ctx.fillRect(x, y, 2, 2);
                 ctx.stroke();
                 ctx.closePath();
                 ctx.fillStyle = "red";
@@ -414,21 +414,14 @@ function LoadJustThisEpc() {
 function ShowAll() {
     ShowLoader();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    gX = 0;
-    gY = 0;
-    gD = 0;
-
-    gSD = 0;
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
         var x = o.x;
         var y = imageHeight - o.y;
-        gX = gX + o.x;
-        gY = gY + o.y;
         gLastX = x;
         gLastY = y;
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, 2 * Math.PI);
+        ctx.fillRect(x, y, 2, 2);
         ctx.stroke();
 
         ctx.closePath();
@@ -439,7 +432,7 @@ function ShowAll() {
     }
 
     var h2 = '<h4>Show all</h4>';
-        
+
     $("#Message").empty();
     $("#Message").append(h2);
 
