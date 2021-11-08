@@ -11,6 +11,7 @@ now = datetime.now(timezone.utc)
 lastNow = now
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
+now = None
 while True:
     try:
         d3 = dddd.cursor()
@@ -19,8 +20,8 @@ while True:
         print(str(myresult))
         for rrr in myresult:
             siteId = rrr[0]
-            
-            now = rrr[1]
+            if now == None:
+                now = rrr[1]
             if lastNow == now:
                 now = rrr[2]
                 print('Taking next entry')
