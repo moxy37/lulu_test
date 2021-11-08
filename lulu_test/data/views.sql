@@ -25,4 +25,4 @@ DROP VIEW IF EXISTS MomentsView;
 CREATE VIEW MomentsView AS SELECT m.id, m.productId, m.storeId, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid, p.styleName, m.regionName FROM EpcMovement m JOIN EpcMoments p ON m.id=p.id AND m.yyyy=p.yyyy AND m.mm=p.mm AND m.dd=p.dd;
 
 DROP VIEW IF EXISTS LastPull;
-CREATE VIEW LastPull AS SELECT storeId, MAX(ts) AS ts FROM EpcMovement GROUP BY storeId;
+CREATE VIEW LastPull AS SELECT storeId, MAX(ts) AS ts, DATE_ADD(MAX(ts), INTERVAL 5 MINUTE) AS ts_new FROM EpcMovement GROUP BY storeId;

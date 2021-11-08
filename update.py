@@ -22,7 +22,7 @@ while True:
             now = rrr[1]
             if lastNow == now:
                 now = rrr[2]
-                print('Taking next hour')
+                print('Taking next entry')
             lastNow = now
             try:
                 added = 0
@@ -79,9 +79,9 @@ while True:
                         cnxn.commit()
                         added = added + 1
                     except Exception as e:
-                        print(str(e))
+                        #print(str(e))
                         deleted = deleted + 1
-                    print("Added: " + str(added) + ", Errors: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
+                    print("Added: " + str(added) + ", Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
