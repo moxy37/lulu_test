@@ -438,7 +438,8 @@ function ShowAll() {
         ctx.restore();
     }
 
-
+    var h2 = '<h4>Show all</h4>';
+        
     $("#Message").empty();
     $("#Message").append(h2);
 
