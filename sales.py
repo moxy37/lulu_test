@@ -28,11 +28,11 @@ with open('sales.csv') as csvDataFile:
                 storeId = 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c'
             try:
                 cursor = cnxn.cursor()
-                if o[4] == 'Return':
+                if o[5] == 'RETURN':
                     cursor.execute("DELETE FROM Sales WHERE id='" + str(o[1]) + "' AND storeId='" + str(storeId) + "' ")
                     deleted = deleted + 1
                 else:
-                    cursor.execute("INSERT INTO Sales (id, productId, soldTimestamp, transactionType, storeId) VALUES (%s, %s, %s, %s, %s)", (o[1], o[2], o[3], o[4], storeId))
+                    cursor.execute("INSERT INTO Sales (id, productId, soldTimestamp, transactionType, storeId) VALUES (%s, %s, %s, %s, %s)", (o[2], o[3], o[4], o[5], storeId))
                     added = added + 1
                 cnxn.commit()
                 added = added + 1
@@ -40,8 +40,3 @@ with open('sales.csv') as csvDataFile:
                 print(str(e))
                 errpr = error + 1
             print("Added: " + str(added) + ", Deleted: " + str(deleted) + ", Errors: " + str(error))
-            
-
-c3 = dddd.cursor()
-c3.execute("UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id SET t1.soldTimestamp=t2.soldTimestamp, isSold=1")
-dddd.commit()
