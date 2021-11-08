@@ -7,7 +7,7 @@ cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-#now = datetime.now(timezone.utc)
+now = datetime.now(timezone.utc)
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
@@ -27,6 +27,7 @@ while True:
                 url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=200000&returnCount=false'
                 headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
                 response = requests.request("GET", url, headers=headers)
+                print("Got data")
                 jsonResponse = response.json()
                 for o in jsonResponse['content']:
                     #print(str(o))
