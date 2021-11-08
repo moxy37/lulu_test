@@ -4,98 +4,90 @@ from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 now = datetime.now(timezone.utc)
 lastNow = now
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
-now = None
+now = '2021-11-01 5:30:00'
+d3 = dddd.cursor()
+d3.execute("SELECT MAX(ts) FROM EpcMovement")
+myres = d3.fetchall()
+for rrr in myres:
+    now = rrr[0]
 while True:
     try:
-        d3 = dddd.cursor()
-        d3.execute("SELECT storeId, ts, ts_new FROM LastPull")
-        myresult = d3.fetchall()
-        print(str(myresult))
-        for rrr in myresult:
-            siteId = rrr[0]
-            if now == None:
-                now = rrr[1]
-            if lastNow == now:
-                now = rrr[2]
-                print('Taking next entry')
-            lastNow = now
-            try:
-                added = 0
-                deleted = 0
-                updated = 0
-                print("New query for store: " + str(siteId))
-                url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=50000&returnCount=false'
-                #url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Aasc&size=10000&returnCount=false'
-                headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
-                response = requests.request("GET", url, headers=headers)
-                print("Got data")
-                jsonResponse = response.json()
-                for o in jsonResponse['content']:
-                    #print(str(o))
+        try:
+            added = 0
+            deleted = 0
+            updated = 0
+            print("New query for store: " + str(siteId))
+            url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=50000&returnCount=false'
+            #url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Aasc&size=10000&returnCount=false'
+            headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
+            response = requests.request("GET", url, headers=headers)
+            print("Got data")
+            jsonResponse = response.json()
+            for o in jsonResponse['content']:
+                #print(str(o))
+                cursor = cnxn.cursor()
+                isValid = 0
+                isMove = 0
+                isRegion = 0
+                isReacquired = 0
+                isMissing = 0
+                isGhost = 0
+                isExit = 0
+                isDeparture = 0
+                #'2021-10-22T20:16:07.468Z'
+                ts = o['timestamp'].replace('T', ' ')
+                ts = ts.replace('Z', '')
+                tsData = o['timestamp'].split('T')
+                tsData2 = tsData[0].split('-')
+                yyyy = tsData2[0]
+                mm = tsData2[1]
+                dd = tsData2[2]
+                if o['state'] == 'VALID':
+                    isValid = 1
+                if 'POSITION_CHANGE' in o['events']:
+                    isMove = 1
+                if 'EXIT' in o['events']:
+                    isExit = 1
+                if 'REGION_CHANGE' in o['events']:
+                    isRegion = 1
+                if 'GHOST' in o['events']:
+                    isGhost = 1
+                if 'MISSING' in o['events']:
+                    isMissing = 1
+                if 'REACQUIRED' in o['events']:
+                    isReacquired = 1
+                if 'DEPARTURE' in o['events']:
+                    isDeparture = 1
+                if 'VALID' in o['events']:
+                    isValid = 1
+                sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ")"
+                now = ts
+                try:
                     cursor = cnxn.cursor()
-                    isValid = 0
-                    isMove = 0
-                    isRegion = 0
-                    isReacquired = 0
-                    isMissing = 0
-                    isGhost = 0
-                    isExit = 0
-                    isDeparture = 0
-                    #'2021-10-22T20:16:07.468Z'
-                    ts = o['timestamp'].replace('T', ' ')
-                    ts = ts.replace('Z', '')
-                    tsData = o['timestamp'].split('T')
-                    tsData2 = tsData[0].split('-')
-                    yyyy = tsData2[0]
-                    mm = tsData2[1]
-                    dd = tsData2[2]
-                    if o['state'] == 'VALID':
-                        isValid = 1
-                    if 'POSITION_CHANGE' in o['events']:
-                        isMove = 1
-                    if 'EXIT' in o['events']:
-                        isExit = 1
-                    if 'REGION_CHANGE' in o['events']:
-                        isRegion = 1
-                    if 'GHOST' in o['events']:
-                        isGhost = 1
-                    if 'MISSING' in o['events']:
-                        isMissing = 1
-                    if 'REACQUIRED' in o['events']:
-                        isReacquired = 1
-                    if 'DEPARTURE' in o['events']:
-                        isDeparture = 1
-                    if 'VALID' in o['events']:
-                        isValid = 1
-                    sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ")"
-                    now = ts
+                    cursor.execute(sql)
+                    cnxn.commit()
+                    added = added + 1
+                except Exception as e:
+                    sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s WHERE id=%s AND ts=%s AND x=%s AND y=%s"
+                    vals = (isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, o['id'], ts, o['x'], o['y'])
+  
                     try:
                         cursor = cnxn.cursor()
-                        cursor.execute(sql)
+                        cursor.execute(sql, vals)
                         cnxn.commit()
-                        added = added + 1
+                        updated = updated + 1
                     except Exception as e:
-                        sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s WHERE id=%s AND ts=%s AND x=%s AND y=%s"
-                        vals = (isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, o['id'], ts, o['x'], o['y'])
-      
-                        try:
-                            cursor = cnxn.cursor()
-                            cursor.execute(sql, vals)
-                            cnxn.commit()
-                            updated = updated + 1
-                        except Exception as e:
-                            deleted = deleted + 1
-                    print("Added: " + str(added) + ", Updated: "+ str(updated)+ ",  Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
-            except Exception as e:
-                print("Error making API call")
-                print(str(e))
+                        deleted = deleted + 1
+                print("Added: " + str(added) + ", Updated: "+ str(updated)+ ",  Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
+        except Exception as e:
+            print("Error making API call")
+            print(str(e))
         print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
