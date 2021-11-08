@@ -27,9 +27,8 @@ header i{
 /* efe9e5 ////////////////////////////// */
 
 aside{
-    display: flex; 
     background:#efe9e5;
-    width:50vmin;
+    width:300px;
     height:85vh;
     padding:20px;
     position: fixed;
@@ -51,6 +50,17 @@ aside ul li select{
     border-radius: 10px;
     background:none;
     color:#5f6062;
+    width: 100%;
+}
+
+.NumberTest{
+    margin:3px 0 15px 0;
+    padding:10px 15px;
+    border:1px solid #5f6062;
+    border-radius: 10px;
+    background:none;
+    color:#5f6062;
+    width: 90%;
 }
 aside ul li select option:hover,
 aside ul li select option:focus,
@@ -72,6 +82,7 @@ aside ul li input{
     border-radius: 10px;
     background:none;
     color:#5f6062;
+    width: 100%;
 }
 
 .apply_button {
@@ -83,6 +94,7 @@ aside ul li input{
     color:#efe9e5;
     font-weight: bolder;
     align-items: center;
+    width: 100%;
 }
 
 .reset_button {
@@ -94,6 +106,7 @@ aside ul li input{
     color:#efe9e5;
     font-weight: bolder;
     align-items: center;
+    width: 100%;
 }
 /* //////////////////////////// */
 
