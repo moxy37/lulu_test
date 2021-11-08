@@ -128,7 +128,7 @@
                 <select id="IsRegionSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
                     <option value="0">False</option>
-                    <option value="1" >True</option>
+                    <option value="1">True</option>
                 </select>
             </li>
             <li>
@@ -136,7 +136,7 @@
                 <select id="IsValidSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
                     <option value="0">False</option>
-                    <option value="1" >True</option>
+                    <option value="1">True</option>
                 </select>
             </li>
             <li>
@@ -146,10 +146,10 @@
     </aside>
     <section id="MapSection">
         <div>
-            <canvas id="canvas" class="mapOneCanvas">
+            <canvas id="myCanvas" class="mapOneCanvas">
                 Your browser does not support the canvas element.
-              </canvas>
-              
+            </canvas>
+
         </div>
 
     </section>
@@ -161,6 +161,8 @@
 <script type="text/javascript" src="javascripts/mapview.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        canvas = document.getElementById("myCanvas");
+        ctx = canvas.getContext("2d");
         AllDepts();
     });
 </script>
