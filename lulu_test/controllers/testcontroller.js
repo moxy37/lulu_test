@@ -1,6 +1,7 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
@@ -16,7 +17,7 @@ router.get('/map', function (req, res) {
 
 router.get('/map2', function (req, res) {
     if (__loggedIn === true) {
-        res.render('map2');
+        res.render('map');
     } else {
         res.render('index');
     }
@@ -26,10 +27,17 @@ router.put('/api/login', function (req, res) {
     var obj = req.body;
     if (obj.user === 'lulu' && obj.pass === 'TestLulu123!') {
         __loggedIn = true;
-        var o =new Object();
-        o.message='Redirect';
+        var o = new Object();
+        o.message = 'Redirect';
         return res.send(o);
     }
+});
+
+router.get('/api/logout', function (req, res) {
+    __loggedIn = false;
+    var o = new Object();
+    o.message = 'Redirect';
+    return res.send(o);
 });
 
 router.put('/api/dept/list', function (req, res) {
