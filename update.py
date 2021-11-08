@@ -19,6 +19,7 @@ while True:
         print(str(myresult))
         for rrr in myresult:
             siteId = rrr[0]
+            
             now = rrr[1]
             if lastNow == now:
                 now = rrr[2]
