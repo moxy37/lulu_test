@@ -7,7 +7,7 @@ var gCurrentPathId = null;
 var gCurrentPathIndex = 0;
 var gPathKeys = [];
 var gLabels = ['DeptSelect', 'SubDeptSelect', 'ClassSelect', 'SubClassSelect', 'StyleSelect', 'UpcSelect', 'EpcSelect'];
-var canvas = document.getElementById("canvas");
+
 var gLastX = 0;
 var gLastY = 0;
 var imageHeight = 1111;
@@ -257,6 +257,8 @@ function Forward() {
         gCurrentPathIndex++;
 
         var o = list[gCurrentPathIndex];
+
+        var canvas = $("#canvas");
         var ctx = canvas.getContext("2d");
         var x = o.x;
         var y = imageHeight - o.y;
@@ -315,12 +317,14 @@ function Forward() {
         if (index < gPathKeys.length - 1) {
             index++;
             gCurrentPathId = gPathKeys[index];
+            var canvas = $("#canvas");
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             gLastX = 0;
             gLastY = 0;
             $("#EpcSelect").val(gCurrentPathId);
         } else {
+            var canvas = $("#canvas");
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             gLastX = 0;
@@ -339,6 +343,7 @@ function ClearIsFields() {
 
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
+    var canvas = $("#canvas");
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (ids.length === 1) {
@@ -416,6 +421,7 @@ function LoadJustThisEpc() {
 
 function ShowAll() {
     ShowLoader();
+    var canvas = $("#canvas");
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gX = 0;
@@ -472,6 +478,7 @@ function CleanUp(label, html) {
         HideLoader();
     } else {
         $(".EpcStuff").hide();
+        var canvas = $("#canvas");
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         $(".UpcStuff").show();
