@@ -260,19 +260,20 @@ function Forward() {
         var o = list[gCurrentPathIndex];
         var x = o.x;
         var y = imageHeight - o.y;
-        ctx.beginPath();
-        ctx.fillRect(x, y, 2, 2);
-        ctx.stroke();
+        drawPin(x, y);
+        // ctx.beginPath();
+        // ctx.fillRect(x, y, 2, 2);
+        // ctx.stroke();
 
-        ctx.closePath();
-        ctx.fillStyle = "red";
-        ctx.fill();
-        if (gLastX > 0) {
-            ctx.beginPath();
-            ctx.moveTo(gLastX, gLastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-        }
+        // ctx.closePath();
+        // ctx.fillStyle = "red";
+        // ctx.fill();
+        // if (gLastX > 0) {
+        //     ctx.beginPath();
+        //     ctx.moveTo(gLastX, gLastY);
+        //     ctx.lineTo(x, y);
+        //     ctx.stroke();
+        // }
         gLastX = x;
         gLastY = y;
 
@@ -346,19 +347,19 @@ function ChangeEpcView() {
                 var o = list[gCurrentPathIndex];
                 var x = o.x;
                 var y = imageHeight - o.y;
-
-                ctx.beginPath();
-                ctx.fillRect(x, y, 2, 2);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.fillStyle = "red";
-                ctx.fill();
-                if (gLastX > 0) {
-                    ctx.beginPath();
-                    ctx.moveTo(gLastX, gLastY);
-                    ctx.lineTo(x, y);
-                    ctx.stroke();
-                }
+                drawPin(x, y);
+                // ctx.beginPath();
+                // ctx.fillRect(x, y, 2, 2);
+                // ctx.stroke();
+                // ctx.closePath();
+                // ctx.fillStyle = "red";
+                // ctx.fill();
+                // if (gLastX > 0) {
+                //     ctx.beginPath();
+                //     ctx.moveTo(gLastX, gLastY);
+                //     ctx.lineTo(x, y);
+                //     ctx.stroke();
+                // }
                 gLastX = x;
                 gLastY = y;
 
@@ -412,15 +413,9 @@ function ShowAll() {
         var o = gList[i];
         var x = o.x;
         var y = imageHeight - o.y;
+        drawPin(x, y);
         gLastX = x;
         gLastY = y;
-        ctx.beginPath();
-        ctx.fillRect(x, y, 2, 2);
-        ctx.stroke();
-
-        ctx.closePath();
-        ctx.fillStyle = "red";
-        ctx.fill();
     }
 
     var h2 = '<h4>Show all</h4>';
@@ -480,4 +475,28 @@ function SwitchMap() {
     if ($("#StoreSelect option:selected").val() !== '1597647a-7056-3fe9-94c1-ae5c9d16d69b') {
         window.location.href = '/map2';
     }
+}
+
+
+function drawPin(x, y) {
+
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(2, -10, -20, -25, 0, -30);
+    ctx.bezierCurveTo(20, -25, -2, -10, 0, 0);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, -21, 3, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = "black";
+    ctx.fill();
+
+    ctx.restore();
 }
