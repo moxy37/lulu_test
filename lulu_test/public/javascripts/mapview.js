@@ -336,6 +336,7 @@ function ClearIsFields() {
     $(".IsSelect").removeClass('RedClass');
     $(".IsSelect").val('');
 }
+
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
     var ctx = canvas.getContext('2d');
@@ -468,7 +469,7 @@ function CleanUp(label, html) {
     if (label === 'EpcSelect') {
         $(".EpcStuff").show();
         $(".UpcStuff").hide();
-        // HideLoader();
+        HideLoader();
     } else {
         $(".EpcStuff").hide();
         var ctx = canvas.getContext('2d');
@@ -483,13 +484,13 @@ function CleanUp(label, html) {
 }
 
 function HideLoader() {
-    //$('#loading').hide();
+    $('#loading').hide();
     $("#MapSection").show();
     $(".CheckLoader").prop('disabled', false);
 }
 
 function ShowLoader() {
-    //$('#loading').show();
+    $('#loading').show();
     $("#MapSection").hide();
     $(".CheckLoader").prop('disabled', true);
 }
