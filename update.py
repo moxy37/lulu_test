@@ -106,6 +106,7 @@ while True:
         print("Finished Updating ValidEpc")
         print("Sleeping now")
         sleep(60)
+        '''
         print("One minute")
         sleep(60)
         print("Two minutes")
@@ -115,6 +116,7 @@ while True:
         print("Four minutes")
         sleep(60)
         print("Five minutes")
+        '''
     except Exception as e:
         print(str(e))
     
