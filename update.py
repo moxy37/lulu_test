@@ -27,6 +27,7 @@ while True:
             try:
                 added = 0
                 deleted = 0
+                updated = 0
                 print("New query for store: " + str(siteId))
                 url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=50000&returnCount=false'
                 #url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Aasc&size=10000&returnCount=false'
@@ -72,16 +73,22 @@ while True:
                     if 'VALID' in o['events']:
                         isValid = 1
                     sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ")"
-                   
+                   now = ts
                     try:
                         cursor = cnxn.cursor()
                         cursor.execute(sql)
                         cnxn.commit()
                         added = added + 1
                     except Exception as e:
-                        #print(str(e))
-                        deleted = deleted + 1
-                    print("Added: " + str(added) + ", Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
+                        sql = "UPDATE EpcMovement SET isExit=isExit+"+str(o[isExit])+", isRegion=isRegion+"+str(isRegion]+", isMove=isMove+"+str(isMove)+", isMissing=isMissing+"+str(isMissing)+", isReacquired=isReacquired+"+str(isReacquired)+", isValid=isValid+"+str(isValid)+" WHERE id='"+o['id']+"' AND ts='"+ts+"' AND x="+str(o['x'])+" AND y="+str(o['y'])
+                        try:
+                            cursor = cnxn.cursor()
+                            cursor.execute(sql)
+                            cnxn.commit()
+                            updated = updated + 1
+                        except Exception as e:
+                            deleted = deleted + 1
+                    print("Added: " + str(added) + ", Updated: "+ str(updated)+ ",  Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
