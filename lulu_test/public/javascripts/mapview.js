@@ -314,9 +314,6 @@ function Forward() {
         if (index < gPathKeys.length - 1) {
             index++;
             gCurrentPathId = gPathKeys[index];
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            gLastX = 0;
-            gLastY = 0;
             $("#EpcSelect").val(gCurrentPathId);
         } else {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
