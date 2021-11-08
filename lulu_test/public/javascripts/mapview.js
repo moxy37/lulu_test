@@ -341,6 +341,8 @@ function ClearIsFields() {
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    gLastX = 0;
+    gLastY = 0;
     if (ids.length === 1) {
         gCurrentPathId = ids[0];
         gCurrentPathIndex = -1;
@@ -354,18 +356,6 @@ function ChangeEpcView() {
                 var x = o.x;
                 var y = imageHeight - o.y;
                 drawPin(x, y);
-                // ctx.beginPath();
-                // ctx.fillRect(x, y, 2, 2);
-                // ctx.stroke();
-                // ctx.closePath();
-                // ctx.fillStyle = "red";
-                // ctx.fill();
-                // if (gLastX > 0) {
-                //     ctx.beginPath();
-                //     ctx.moveTo(gLastX, gLastY);
-                //     ctx.lineTo(x, y);
-                //     ctx.stroke();
-                // }
                 gLastX = x;
                 gLastY = y;
 
