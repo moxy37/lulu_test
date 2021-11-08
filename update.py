@@ -42,7 +42,7 @@ while True:
                 isExit = 0
                 isDeparture = 0
                 #'2021-10-22T20:16:07.468Z'
-                now = ts
+                now = o['timestamp']
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
                 tsData = o['timestamp'].split('T')
