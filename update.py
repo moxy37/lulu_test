@@ -18,7 +18,7 @@ for rrr in myres:
     now = rrr[0]
 while True:
     try:
-        now = datetime.strptime(now, '%Y-%m-%dT%H:%M:%SZ')
+        now = datetime.strptime(str(now), '%Y-%m-%dT%H:%M:%SZ')
         try:
             added = 0
             deleted = 0
