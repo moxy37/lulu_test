@@ -105,69 +105,12 @@ section div{
     width:100%;
 }
 
-section div img{
-    position: absolute;
-    height:100vh;
-    left:25%;
-    z-index: 2;
-}
+
 
 /* /////////////////////////// */
 
 
-.pointContainer{
-    position: relative;
-    height:100vh;
-    border:1px solid green;
-}
 
-.pointContainer  .newpoint {
-	position: absolute;
-    width:14px !important;
-    height:14px !important;
-    border-radius:50%;
-    background:blue !important;
-    z-index: 5;
-}
-
-.pointContainer .point{
-    position: absolute;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:blue;
-    z-index: 4;
-}
-
-.pointContainer .oldpoint {
-	position: absolute;
-    width: 4px !important;
-    height:4px !important;
-    border-radius:50%;
-    background:red !important;
-    z-index: 5;
-	
-}
-
-.pointContainer .radius{
-    position: absolute;
-    border:1px solid blue !important;
-    background:lightblue;
-    border-radius:50%;
-    z-index: 3;
-    height: 100px;
-    width: 100px;
-}
-
-.pointContainer .radius2{
-    position: absolute;
-    border:1px solid green !important;
-    background:lightgreen;
-    border-radius:50%;
-    z-index: 2;
-    height: 100px;
-    width: 100px;
-}
 
 #loading {
     background: url('loading.gif') no-repeat center center;
