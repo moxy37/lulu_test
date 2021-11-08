@@ -77,7 +77,7 @@ while True:
                     except Exception as e:
                         print(str(e))
                         deleted = deleted + 1
-                    print("Added: " + str(added) + ", Errors: " + str(deleted) + ", for store: " + str(siteId))
+                    print("Added: " + str(added) + ", Errors: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
