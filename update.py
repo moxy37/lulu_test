@@ -8,7 +8,7 @@ cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 now = datetime.now(timezone.utc)
-now.setDate(now.getDate() - 2)
+
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
@@ -21,6 +21,7 @@ while True:
         for rrr in myresult:
             siteId = rrr[0]
             #now = rrr[1]
+            now = '2021-11-07 01:00:00'
             try:
                 added = 0
                 deleted = 0
