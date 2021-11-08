@@ -275,7 +275,6 @@ function Forward() {
         }
         gLastX = x;
         gLastY = y;
-        ctx.restore();
 
         $("#Message").empty();
         var t = gCurrentPathIndex;
@@ -366,8 +365,6 @@ function ChangeEpcView() {
                 gLastX = x;
                 gLastY = y;
 
-
-                ctx.restore();
                 $("#Message").empty();
                 var t = gCurrentPathIndex;
                 var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' ' + o.x + ',' + o.y + '</h4>';
@@ -427,8 +424,6 @@ function ShowAll() {
         ctx.closePath();
         ctx.fillStyle = "red";
         ctx.fill();
-
-        ctx.restore();
     }
 
     var h2 = '<h4>Show all</h4>';
