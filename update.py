@@ -20,8 +20,8 @@ while True:
         print(str(myresult))
         for rrr in myresult:
             siteId = rrr[0]
-            #now = rrr[1]
-            now = '2021-11-07 01:00:00'
+            now = rrr[1]
+            #now = '2021-11-07 01:00:00'
             try:
                 added = 0
                 deleted = 0
