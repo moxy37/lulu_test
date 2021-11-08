@@ -5,10 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map</title>
-  
+    <title>Home</title>
+    <script type="text/javascript" src="javascripts/libs/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/webfonts/css/all.css">
 </head>
+
 <body>
     <h1>TEST</h1>
+    User: <input type="text" id="UserText" /><br />
+    Pass: <input type="password" id="PassText" /><br />
+    <input type="button" class="btn" value="Login" onclick="TestLogin();" />
+    <script type="text/javascript">
+        function TestLogin() {
+            var obj = new Object();
+            obj.user = $("#UserText").val();
+            obj.pass = $("#PassText").val();
+            $.ajax({
+                type: "PUT",
+                url: "/api/login",
+                data: obj,
+                cache: false,
+                dataType: "json",
+                success: function (results) {
+                    window.location.href = '/map';
+                },
+                error: function (results) {
+                    alert("Invalid");
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>

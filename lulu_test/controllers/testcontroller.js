@@ -1,9 +1,34 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
+
+global.__loggedIn = false;
+router.get('/map', function (req, res) {
+    if (__loggedIn === true) {
+        res.render('map');
+    } else {
+        res.render('index');
+    }
+});
+
+router.get('/map2', function (req, res) {
+    if (__loggedIn === true) {
+        res.render('map2');
+    } else {
+        res.render('index');
+    }
+});
+
+router.put('/api/login', function (req, res) {
+    var obj = req.body;
+    if (obj.user === 'lulu' && obj.pass === 'TestLulu123!') {
+        __loggedIn = true;
+    }
+});
 
 router.put('/api/dept/list', function (req, res) {
     var obj = req.body;
