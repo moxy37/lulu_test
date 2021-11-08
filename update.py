@@ -105,7 +105,7 @@ while True:
         eeee.commit()
         print("Finished Updating ValidEpc")
         print("Sleeping now")
-        sleep(60)
+        sleep(20)
         '''
         print("One minute")
         sleep(60)
