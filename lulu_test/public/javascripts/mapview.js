@@ -276,7 +276,14 @@ function Forward() {
         ctx.closePath();
         ctx.fillStyle = "red";
         ctx.fill();
-
+        if (gLastX > 0) {
+            ctx.beginPath();
+            ctx.moveTo(gLastX, gLastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+        gLastX = x;
+        gLastY = y;
         ctx.restore();
 
         $("#Message").empty();
@@ -312,28 +319,21 @@ function Forward() {
 
     } else {
 
-        $(".pointContainer li").removeClass('newpoint');
-        $(".pointContainer li").addClass('oldpoint');
         var index = gPathKeys.indexOf(gCurrentPathId);
         gCurrentPathIndex = -1;
         if (index < gPathKeys.length - 1) {
             index++;
             gCurrentPathId = gPathKeys[index];
-            var context = canvas.getContext('2d');
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gLastX = 0;
+            gLastY = 0;
             $("#EpcSelect").val(gCurrentPathId);
-            // var o = list[gCurrentPathIndex];
-            // var x = gPosX + o.x * width / 1111;
-            // var y = gPosY + height - o.y * height / 1195;
-            // var html = '<li class="point newpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
-            // $(".pointContainer").append(html);
-            // $("#Message").empty();
-            // var t = gCurrentPathIndex;
-            // var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + '</h4>';
-            // $("#Message").append(h2);
         } else {
-            var context = canvas.getContext('2d');
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gLastX = 0;
+            gLastY = 0;
             gCurrentPathId = gPathKeys[0];
             gCurrentPathIndex = -1;
             $("#EpcSelect").val(gCurrentPathId);
@@ -347,7 +347,8 @@ function ClearIsFields() {
 }
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
-    $(".pointContainer").empty();
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (ids.length === 1) {
         gCurrentPathId = ids[0];
         gCurrentPathIndex = -1;
@@ -358,10 +359,26 @@ function ChangeEpcView() {
             var list = gPaths[id];
             for (var j = 0; j < list.length; j++) {
                 var o = list[gCurrentPathIndex];
-                var x = gPosX + o.x * width / imageWidth;
-                var y = gPosY + height - o.y * height / imageHeight;
-                var html = '<li class="point oldpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
-                $(".pointContainer").append(html);
+                var x = o.x;
+                var y = imageHeight - o.y;
+
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.fillStyle = "red";
+                ctx.fill();
+                if (gLastX > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(gLastX, gLastY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+                gLastX = x;
+                gLastY = y;
+
+
+                ctx.restore();
                 $("#Message").empty();
                 var t = gCurrentPathIndex;
                 var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + '</h4>';
@@ -407,7 +424,8 @@ function LoadJustThisEpc() {
 
 function ShowAll() {
     ShowLoader();
-    $(".pointContainer").empty();
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     gX = 0;
     gY = 0;
     gD = 0;
@@ -415,39 +433,27 @@ function ShowAll() {
     gSD = 0;
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
-        var x = gPosX + o.x * width / imageWidth;
-        var y = gPosY + height - o.y * height / imageHeight;
-        var html = '<li class="point oldpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
+        var x = o.x;
+        var y = imageHeight - o.y;
         gX = gX + o.x;
         gY = gY + o.y;
-        $(".pointContainer").append(html);
-    }
-    gX = gX / (gList.length - 1);
-    gY = gY / (gList.length - 1);
-    for (var i = 0; i < gList.length; i++) {
-        var o = gList[i];
-        gD = gD + Math.sqrt((o.x - gX) * (o.x - gX) + (o.y - gY) * (o.y - gY));
-    }
-    gD = gD / gList.length;
-    for (var i = 0; i < gList.length; i++) {
-        var o = gList[i];
-        var d = Math.sqrt((o.x - gX) * (o.x - gX) + (o.y - gY) * (o.y - gY));
+        gLastX = x;
+        gLastY = y;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
+        ctx.stroke();
 
-        var gSD = gSD + (d - gD) * (d - gD);
+        ctx.closePath();
+        ctx.fillStyle = "red";
+        ctx.fill();
+
+        ctx.restore();
     }
-    gSD = Math.sqrt(gSD / (gList.length - 1));
-    var x = gPosX + gX * width / imageWidth;
-    var y = gPosY + height - gY * height / imageHeight;
-    var h4 = '<li class="point newpoint" style="top: ' + y + 'px; left: ' + x + 'px;"></li>';
-    $(".pointContainer").append(h4);
-    var h2 = '<h4>Centroid X: ' + gX + ', Y: ' + gY + '. SD: ' + gSD + '</h4>';
+
+
     $("#Message").empty();
     $("#Message").append(h2);
-    var xx = Math.floor(gPosX + (gX - gSD) * width / imageWidth - 8);
-    var yy = Math.floor(gPosY + height - (gY + gSD) * height / imageHeight - 8);
-    var temp = Math.floor(gSD * 2 + 1);
-    var hh = '<li class="radius" style="top: ' + yy + 'px; left: ' + xx + 'px; height: ' + temp + 'px !important; width: ' + temp + 'px !important;"></li>';
-    //$(".pointContainer").append(hh);
+
     HideLoader();
 }
 
@@ -474,7 +480,8 @@ function CleanUp(label, html) {
         // HideLoader();
     } else {
         $(".EpcStuff").hide();
-        $(".pointContainer").empty();
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         $(".UpcStuff").show();
         // if (label === 'SubClassSelect' || label === 'ClassSelect') {
         //     LoadUPC();
