@@ -187,3 +187,11 @@ section div img{
 .IsHidded {
     display: none;
 }
+
+.mapOneCanvas{
+    border: solid black 1px;
+    background: url("/assets/images/1597647a-7056-3fe9-94c1-ae5c9d16d69b.png");
+    background-repeat:no-repeat;
+    width: 1195px;
+    height: 1111px;
+}
