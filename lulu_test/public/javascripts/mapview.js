@@ -274,6 +274,13 @@ function Forward() {
         //     ctx.lineTo(x, y);
         //     ctx.stroke();
         // }
+        if (gLastX > 0) {
+            ctx.beginPath();
+            ctx.moveTo(gLastX, gLastY);
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
         gLastX = x;
         gLastY = y;
 
@@ -309,7 +316,9 @@ function Forward() {
         $("#Message").show();
 
     } else {
-
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        gLastX = 0;
+        gLastY = 0;
         var index = gPathKeys.indexOf(gCurrentPathId);
         gCurrentPathIndex = -1;
         if (index < gPathKeys.length - 1) {
@@ -317,9 +326,6 @@ function Forward() {
             gCurrentPathId = gPathKeys[index];
             $("#EpcSelect").val(gCurrentPathId);
         } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            gLastX = 0;
-            gLastY = 0;
             gCurrentPathId = gPathKeys[0];
             gCurrentPathIndex = -1;
             $("#EpcSelect").val(gCurrentPathId);
