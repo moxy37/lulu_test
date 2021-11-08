@@ -18,7 +18,7 @@ for rrr in myres:
     now = rrr[0]
 while True:
     try:
-        now = datetime.strptime(str(now), '%Y-%m-%dT%H:%M:%SZ')
+        now = datetime.strptime(str(now), '%Y-%m-%d %H:%M:%S')
         try:
             added = 0
             deleted = 0
@@ -42,9 +42,10 @@ while True:
                 isExit = 0
                 isDeparture = 0
                 #'2021-10-22T20:16:07.468Z'
-                now = o['timestamp']
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
+                tsD = ts.split('.')
+                now = str(tsD[0])
                 tsData = o['timestamp'].split('T')
                 tsData2 = tsData[0].split('-')
                 yyyy = tsData2[0]
