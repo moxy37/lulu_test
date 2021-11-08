@@ -15,7 +15,7 @@ while True:
     try:
 
         d3 = dddd.cursor()
-        d3.execute("SELECT * FROM LastPull")
+        d3.execute("SELECT storeId, ts FROM LastPull")
         myresult = d3.fetchall()
         print(str(myresult))
         for rrr in myresult:
