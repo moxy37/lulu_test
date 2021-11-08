@@ -19,7 +19,8 @@ while True:
         print(str(myresult))
         for rrr in myresult:
             siteId = rrr[0]
-            now = rrr[1]
+            now = = datetime.now(timezone.utc)
+            sleep(60)
             try:
                 added = 0
                 deleted = 0

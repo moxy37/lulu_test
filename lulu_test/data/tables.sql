@@ -62,6 +62,9 @@ CREATE TABLE Sales (
 	storeId VARCHAR(40) NOT NULL
 );
 
+DROP TABLE IF EXISTS EpcMovement_BAK;
+INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, soldTimestamp, x, y, z, confidence, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, yyyy, mm, dd) SELECT id, productId, storeId, storeName, regionId, regionName, ts, soldTimestamp, x, y, z, confidence, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, yyyy, mm, dd FROM EpcMovement_BAK;
+
 DROP TABLE IF EXISTS EpcMovement;
 CREATE TABLE EpcMovement (
 	idx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
