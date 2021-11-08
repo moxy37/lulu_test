@@ -11,13 +11,13 @@ lastNow = now
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 now = '2021-11-01 5:30:00'
-d3 = dddd.cursor()
-d3.execute("SELECT MAX(ts) FROM EpcMovement")
-myres = d3.fetchall()
-for rrr in myres:
-    now = rrr[0]
 while True:
     try:
+        d3 = dddd.cursor()
+        d3.execute("SELECT MAX(ts) FROM EpcMovement")
+        myres = d3.fetchall()
+        for rrr in myres:
+            now = rrr[0]
         try:
             added = 0
             deleted = 0
