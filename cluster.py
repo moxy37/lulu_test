@@ -11,12 +11,10 @@ kSize = int(sys.argv[1])
 
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
-c4 = cccc.cursor()
+c4 = aaaa.cursor()
 c4.execute("DELETE FROM Zones WHERE k=" +  str(kSize))
-cccc.commit()
+aaaa.commit()
 
 print("Getting from database")
 a4 = aaaa.cursor()
