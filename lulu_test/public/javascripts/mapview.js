@@ -481,22 +481,10 @@ function SwitchMap() {
 function drawPin(x, y) {
 
     ctx.save();
-    ctx.translate(x, y);
-
     ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(2, -10, -20, -25, 0, -30);
-    ctx.bezierCurveTo(20, -25, -2, -10, 0, 0);
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(0, -21, 3, 0, Math.PI * 2);
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
     ctx.closePath();
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "red";
     ctx.fill();
-
     ctx.restore();
 }
