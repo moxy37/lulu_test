@@ -482,7 +482,7 @@ function drawPin(x, y) {
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.arc(x, y, 1, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = "red";
     ctx.fill();
