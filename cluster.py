@@ -37,7 +37,7 @@ for o in myresultA:
         obj[o[6]][o[1]] = dict()
         obj[o[6]][o[1]]['xSet'] = []
         obj[o[6]][o[1]]['ySet'] = []
-        obj[o[1]]['productId'] = o[1]
+        obj[o[6]][o[1]]['productId'] = o[1]
     obj[o[6]][o[1]]['xSet'].append(o[4])
     obj[o[6]][o[1]]['ySet'].append(o[5])
     loadProgress = loadProgress + 1
