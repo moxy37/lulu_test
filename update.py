@@ -8,7 +8,7 @@ cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 now = datetime.now(timezone.utc)
-sleep(70)
+
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
@@ -21,12 +21,13 @@ while True:
         '''
         for rrr in siteIds:
             siteId = rrr
-            #now = '2021-11-07 01:00:00'
+            #now = '2021-11-07T01:00:00Z'
             try:
                 added = 0
                 deleted = 0
                 print("New query for store: " + str(siteId))
                 url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Age(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Adesc&size=2000&returnCount=false'
+                url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Adesc&size=2000&returnCount=false'
                 headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
                 response = requests.request("GET", url, headers=headers)
                 print("Got data")
@@ -82,7 +83,6 @@ while True:
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
-        now = datetime.now(timezone.utc)
         print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")

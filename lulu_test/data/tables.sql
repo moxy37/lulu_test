@@ -45,7 +45,6 @@ CREATE TABLE Products (
 	styleName varchar(100) NULL,
 	price float NOT NULL DEFAULT 0
 );
-CREATE INDEX p_1 ON Products(sku, deptCode, deptName);
 
 CREATE TABLE Stores (
 	id VARCHAR(40) PRIMARY KEY,
@@ -61,9 +60,6 @@ CREATE TABLE Sales (
 	transactionType VARCHAR(20),
 	storeId VARCHAR(40) NOT NULL
 );
-
-DROP TABLE IF EXISTS EpcMovement_BAK;
-INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, soldTimestamp, x, y, z, confidence, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, yyyy, mm, dd) SELECT id, productId, storeId, storeName, regionId, regionName, ts, soldTimestamp, x, y, z, confidence, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, yyyy, mm, dd FROM EpcMovement_BAK;
 
 DROP TABLE IF EXISTS EpcMovement;
 CREATE TABLE EpcMovement (
@@ -116,8 +112,8 @@ CREATE TABLE ValidEpc (
 	storeId VARCHAR(40) NOT NULL,
 	PRIMARY KEY (id, productId, storeId)
 );
-CREATE INDEX valid_1 ON ValidEpc(id, productId);
-CREATE INDEX valid_2 ON ValidEpc(id, productId, storeId);
+--CREATE INDEX valid_1 ON ValidEpc(id, productId);
+--CREATE INDEX valid_2 ON ValidEpc(id, productId, storeId);
 
 DROP TABLE IF EXISTS EpcMoments;
 CREATE TABLE EpcMoments (
