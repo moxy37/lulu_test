@@ -492,13 +492,13 @@ function CleanUp(label, html) {
 }
 
 function HideLoader() {
-    $('#loading').hide();
+    //$('#loading').hide();
     $("#MapSection").show();
     $(".CheckLoader").prop('disabled', false);
 }
 
 function ShowLoader() {
-    $('#loading').show();
+    //$('#loading').show();
     $("#MapSection").hide();
     $(".CheckLoader").prop('disabled', true);
 }
