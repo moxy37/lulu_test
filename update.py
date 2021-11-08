@@ -13,12 +13,12 @@ siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
 while True:
     try:
-        now = datetime.now(timezone.utc)
-        sleep(60)
         d3 = dddd.cursor()
+        '''
         d3.execute("SELECT storeId, ts FROM LastPull")
         myresult = d3.fetchall()
         print(str(myresult))
+        '''
         for rrr in siteIds:
             siteId = rrr
             #now = '2021-11-07 01:00:00'
@@ -82,6 +82,7 @@ while True:
             except Exception as e:
                 print("Error making API call")
                 print(str(e))
+        now = datetime.now(timezone.utc)
         print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
