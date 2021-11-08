@@ -1,5 +1,5 @@
 *{
-    display: flex; 
+
     margin:0;
     padding:0;
     text-decoration: none;
@@ -27,6 +27,7 @@ header i{
 /* efe9e5 ////////////////////////////// */
 
 aside{
+    display: flex; 
     background:#efe9e5;
     width:50vmin;
     height:85vh;
