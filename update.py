@@ -10,7 +10,7 @@ now = datetime.now(timezone.utc)
 lastNow = now
 siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
-now = '2021-11-01 5:30:00'
+now = '2021-11-05 5:30:00'
 d3 = dddd.cursor()
 d3.execute("SELECT MAX(ts) FROM EpcMovement")
 myres = d3.fetchall()
@@ -96,7 +96,7 @@ while True:
         eeee.commit()
         e4.execute("CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, ts DATETIME NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, PRIMARY KEY (id, productId, storeId, ts))")
         eeee.commit()
-        e4.execute("INSERT INTO ValidEpc_Bak (id, productId, storeId, idx) SELECT e.id, e.productId, e.storeId, MAX(e.idx) FROM EpcMovement e JOIN Products p ON e.productId=p.sku GROUP BY e.id, e.productId, e.storeId ")
+        e4.execute("INSERT INTO ValidEpc_Bak (id, productId, storeId, ts) SELECT e.id, e.productId, e.storeId, MAX(e.ts) FROM EpcMovement e JOIN Products p ON e.productId=p.sku GROUP BY e.id, e.productId, e.storeId ")
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS ValidEpc")
         eeee.commit()
