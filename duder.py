@@ -6,6 +6,18 @@ import mysql.connector
 
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+a2 = aaaa.cursor()
+a2.execute("SELECT id, storeName FROM Stores")
+myStores = a2.fetchall()
+stores = {}
+for s in myStores:
+    stores[s[0]] = s[1]
+a3 = aaaa.cursor()
+a3.execute("SELECT id, regionName FROM Regions")
+myRegions = a3.fetchall()
+regions = {}
+for r in myRegions:
+    regions[r[0]] = r[1]
 a4 = aaaa.cursor()
 a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=2 AND isHome=1")
 myZones = a4.fetchall()
@@ -25,7 +37,7 @@ for s in mySales:
     sales[s[3]][s[0]] = s[2]
 print("Getting all")
 c4 = aaaa.cursor()
-c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts")
+c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement_Test WHERE isUpdated=0 ORDER BY id, ts")
 myRes = c4.fetchall()
 print("Got them")
 total = len(myRes)
@@ -41,6 +53,9 @@ for o in myRes:
     y = o[2]
     dHome = 0
     storeId = o[4]
+    regionId = o[5]
+    storeName = stores[storeId]
+    regionName = regions[regionId]
     ts = o[3]
     soldTimestamp = None
     isSold = 0
@@ -58,8 +73,8 @@ for o in myRes:
         
         try:
             
-            sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
-            vals = (dHome, soldTimestamp, isSold, o[0], o[4], o[5], o[3])
+            sql = "UPDATE EpcMovement_Test SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s, storeName=%s, regionName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+            vals = (dHome, soldTimestamp, isSold, storeName, regionName, o[0], o[4], o[5], o[3])
             b4 = bbbb.cursor()
             b4.execute(sql, vals)
             bbbb.commit()
@@ -71,8 +86,8 @@ for o in myRes:
         try:
 
             dLast = math.sqrt((lastX - x)*(lastX - x) + (lastY - y)*(lastY - y))
-            sql = "UPDATE EpcMovement SET dHome=%s, lastX=%s, lastY=%s, dLast=%s, isUpdated=1, soldTimestamp=%s, isSold=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
-            vals = (dHome, lastX, lastY, dLast, soldTimestamp, isSold, o[0], o[4], o[5], o[3])
+            sql = "UPDATE EpcMovement SET dHome=%s, lastX=%s, lastY=%s, dLast=%s, isUpdated=1, soldTimestamp=%s, isSold=%s, storeName=%s, regionName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+            vals = (dHome, lastX, lastY, dLast, soldTimestamp, isSold, storeName, regionName, o[0], o[4], o[5], o[3])
             b4 = bbbb.cursor()
             b4.execute(sql, vals)
             bbbb.commit()
