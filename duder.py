@@ -11,6 +11,7 @@ a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=2 AND isHome=1
 myZones = a4.fetchall()
 zones = {}
 for z in myZones:
+    zz = {}
     zz['x'] = z[1]
     zz['y'] = z[2]
     zones[z[0]]= zz
