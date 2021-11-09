@@ -19,7 +19,7 @@ regions = {}
 for r in myRegions:
     regions[r[0]] = r[1]
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=2 AND isHome=1")
+a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=3 AND isHome=1")
 myZones = a4.fetchall()
 zones = {}
 for z in myZones:
