@@ -15,7 +15,14 @@ for z in myZones:
     zz['x'] = z[1]
     zz['y'] = z[2]
     zones[z[0]]= zz
-
+a5 = aaaa.cursor()
+a5.execute("SELECT id, productId, DATE_ADD(soldTimestamp, iNTERVAL -4 HOUR), storeId FROM Sales")
+mySales = a5.fetchall()
+sales = {}
+for s in mySales:
+    if s[3] not in sales:
+        sales[s[3]] = {}
+    sales[s[3]][s[0]] = s[2]
 print("Getting all")
 c4 = aaaa.cursor()
 c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts")
@@ -33,6 +40,15 @@ for o in myRes:
     x = o[1]
     y = o[2]
     dHome = 0
+    storeId = o[4]
+    ts = o[3]
+    soldTimestamp = None
+    isSold = 0
+    if storeId in sales:
+        if o[0] in sales[storeId]:
+            soldTimestamp = sales[storeId][o[0]]
+            if ts > soldTimestamp:
+                isSold = 1
     if productId in zones:
         dHome = math.sqrt((zones[productId]['x'] - x)*(zones[productId]['x'] - x) + (zones[productId]['y'] - y)*(zones[productId]['y'] - y))
     if lastId != o[0]:
@@ -42,8 +58,8 @@ for o in myRes:
         
         try:
             
-            sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
-            vals = (dHome, o[0], o[4], o[5], o[3])
+            sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+            vals = (dHome, soldTimestamp, isSold, o[0], o[4], o[5], o[3])
             b4 = bbbb.cursor()
             b4.execute(sql, vals)
             bbbb.commit()
@@ -55,8 +71,8 @@ for o in myRes:
         try:
 
             dLast = math.sqrt((lastX - x)*(lastX - x) + (lastY - y)*(lastY - y))
-            sql = "UPDATE EpcMovement SET dHome=%s, lastX=%s, lastY=%s, dLast=%s, isUpdated=1 WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
-            vals = (dHome, lastX, lastY, dLast, o[0], o[4], o[5], o[3])
+            sql = "UPDATE EpcMovement SET dHome=%s, lastX=%s, lastY=%s, dLast=%s, isUpdated=1, soldTimestamp=%s, isSold=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+            vals = (dHome, lastX, lastY, dLast, soldTimestamp, isSold, o[0], o[4], o[5], o[3])
             b4 = bbbb.cursor()
             b4.execute(sql, vals)
             bbbb.commit()

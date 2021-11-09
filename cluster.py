@@ -18,7 +18,7 @@ aaaa.commit()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT idx, productId, id, ts, x, y, storeId FROM EpcMoveCombined ORDER BY storeId, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId FROM EpcMovement ORDER BY storeId, productId, id, ts")
 print("Finished execute")
 obj = dict()
 myresultA = a4.fetchall()
