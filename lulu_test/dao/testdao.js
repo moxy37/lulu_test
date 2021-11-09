@@ -5,7 +5,7 @@ module.exports = TestDAO;
 
 function TestDAO() {
     this.homeZone = function (productId, storeId, next) {
-        var sql = "SELECT * FROM Zones WHERE productId=? AND k=3 AND storeId=? AND isHome=1";
+        var sql = "SELECT * FROM Zones WHERE productId=? AND k=2 AND storeId=? AND isHome=1";
         con.query(sql, [productId, storeId], function (err, results) {
             if (err) {
                 console.log(err.message);
