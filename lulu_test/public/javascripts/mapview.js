@@ -32,6 +32,7 @@ function AllDepts() {
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
+    $("#SkuText").val('');
     $.ajax({
         type: "PUT",
         url: "/api/dept/list/",
@@ -54,6 +55,7 @@ function AllDepts() {
 }
 
 function AllSubDepts() {
+    $("#SkuText").val('');
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -81,6 +83,7 @@ function AllSubDepts() {
 
 
 function AllClasses() {
+    $("#SkuText").val('');
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -107,6 +110,7 @@ function AllClasses() {
 }
 
 function AllSubClasses() {
+    $("#SkuText").val('');
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -134,6 +138,7 @@ function AllSubClasses() {
 }
 
 function AllStyles() {
+    $("#SkuText").val('');
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
