@@ -12,11 +12,8 @@ CREATE VIEW AllClass AS SELECT storeId, deptCode, deptName, subDeptCode, subDept
 DROP VIEW IF EXISTS AllSubClass;
 CREATE VIEW AllSubClass AS SELECT storeId, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, SUM(total) AS total FROM AllStyle GROUP BY storeId, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName;
 
-DROP VIEW IF EXISTS EpcMovementView;
-CREATE VIEW EpcMovementView AS SELECT m.storeId, m.regionId, m.regionName, m.storeName, m.id, m.idx, m.productId, m.x, m.y, m.z, m.confidence, m.ts, m.yyyy, m.mm, m.dd, m.isDeleted, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid, p.styleName FROM EpcMovement m JOIN EpcReport p ON m.productId=p.productId;
-
 DROP VIEW IF EXISTS CurrentLocation;
-CREATE VIEW CurrentLocation AS SELECT m.storeId, m.id, m.productId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCOde, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName, m.x, m.y, m.z, m.confidence, m.ts, m.regionId, m.regionName, m.yyyy, m.mm, m.dd, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid FROM EpcMovement m JOIN Products p ON m.productId=p.sku JOIN ValidEpc cl ON cl.idx=m.idx;
+CREATE VIEW CurrentLocation AS SELECT m.storeId, m.id, m.productId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCOde, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName, m.x, m.y, m.z, m.confidence, m.ts, m.regionId, m.regionName, m.yyyy, m.mm, m.dd, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid FROM EpcMovement m JOIN Products p ON m.productId=p.sku JOIN ValidEpc cl ON cl.id=m.id AND m.ts=cl.ts;
 
 DROP VIEW IF EXISTS EpcMoveView;
 CREATE VIEW EpcMoveView AS SELECT m.storeId, m.id, m.productId, p.deptCode, p.deptName, p.subDeptCode, p.subDeptName, p.classCOde, p.className, p.subClassCode, p.subClassName, p.styleCode, p.styleName, m.x, m.y, m.z, m.confidence, m.ts, m.regionId, m.regionName, m.yyyy, m.mm, m.dd, m.isDeparture, m.isExit, m.isGhost, m.isMissing, m.isMove, m.isReacquired, m.isRegion, m.isSold, m.isValid FROM EpcMovement m JOIN Products p ON m.productId=p.sku ; 

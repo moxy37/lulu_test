@@ -1,19 +1,3 @@
-DROP TABLE IF EXISTS RegionBoundaries;	
-CREATE TABLE RegionBoundaries (
-	region varchar(40) NOT NULL,
-	x float NULL,
-	y float NULL
-); 
-
-DROP TABLE IF EXISTS Regions;
-CREATE TABLE Regions (
-	id varchar(40) PRIMARY KEY,
-	regionName varchar(50) NULL,
-	xHome float DEFAULT 0,
-	yHome float DEFAULT 0,
-	storeId VARCHAR(40)
-);
-
 CREATE TABLE TestProducts (
 	sku varchar(20) NULL,
 	deptCode varchar(50) NULL,
@@ -31,6 +15,25 @@ CREATE TABLE TestProducts (
 	total int NOT NULL DEFAULT 0
 );
 
+DROP TABLE IF EXISTS RegionBoundaries;	
+CREATE TABLE RegionBoundaries (
+	region varchar(40) NOT NULL,
+	x float NULL,
+	y float NULL
+); 
+
+DROP TABLE IF EXISTS Regions;
+CREATE TABLE Regions (
+	id varchar(40) PRIMARY KEY,
+	regionName varchar(50) NULL,
+	xHome float DEFAULT 0,
+	yHome float DEFAULT 0,
+	storeId VARCHAR(40)
+);
+
+
+
+DROP TABLE IF EXISTS Products;
 CREATE TABLE Products (
 	sku varchar(20) PRIMARY KEY,
 	deptCode varchar(50) NULL,
@@ -46,6 +49,7 @@ CREATE TABLE Products (
 	price float NOT NULL DEFAULT 0
 );
 
+DROP TABLE IF EXISTS Stores;
 CREATE TABLE Stores (
 	id VARCHAR(40) PRIMARY KEY,
 	storeName VARCHAR(100),
@@ -63,7 +67,6 @@ CREATE TABLE Sales (
 
 DROP TABLE IF EXISTS EpcMovement;
 CREATE TABLE EpcMovement (
-	idx INT NOT NULL AUTO_INCREMENT UNIQUE KEY,
 	id VARCHAR(30) NOT NULL,
 	productId VARCHAR(40) NOT NULL,
 	storeId VARCHAR(40) NOT NULL,
@@ -89,6 +92,10 @@ CREATE TABLE EpcMovement (
 	yyyy INTEGER,
 	mm INTEGER,
 	dd INTEGER,
+	lastX FLOAT DEFAULT 0,
+	lastY FLOAT DEFAULT 0,
+	dLast FLOAT DEFAULT 0,
+	dHome FLOAT DEFAULT 0,
 	PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
 );
 
@@ -110,7 +117,7 @@ CREATE TABLE Moments (
 DROP TABLE IF EXISTS ValidEpc;
 CREATE TABLE ValidEpc (
 	id VARCHAR(30) NOT NULL,
-	idx INTEGER NOT NULL,
+	ts DATETIME NOT NULL,
 	productId VARCHAR(40) NOT NULL,
 	storeId VARCHAR(40) NOT NULL,
 	PRIMARY KEY (id, productId, storeId)
@@ -133,10 +140,6 @@ CREATE TABLE EpcReport (
 	productId VARCHAR(40) NOT NULL,
 	styleName VARCHAR(100)
 );
-
-CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, idx INTEGER NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL);
-INSERT INTO ValidEpc_Bak (id, idx, productId, storeId) SELECT id, idx, productId, storeId FROM ValidEpc;
-
 
 CREATE TABLE Products_bak (
 	sku varchar(20),

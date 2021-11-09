@@ -86,16 +86,10 @@ SELECT COUNT(*) FROM EpcMoveCombined;
 --RUN THE COMMAND "python3 cluster.py 3"
 --RUN THE COMMAND "python3 cluster.py 4"
 
-ALTER TABLE EpcMoveCombined ADD isSold INTEGER DEFAULT 0;
 
-SELECT id, regionName FROM Regions WHERE storeId='d4f87b6f-5199-43ac-b231-fbe6e3a8039c';
+UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.productId=t2.productId AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.homeX=t2.xCenter, t1.homeY=t2.yCenter;
 
-SET autocommit=0;
-START TRANSACTION;
-
-UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.productId=t2.productId AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.xHome=t2.xCenter, t1.yHome=t2.yCenter;
-
-UPDATE EpcMoveCombined SET dHome = SQRT((x - xHome)*(x - xHome) + (y - yHome)*(y - yHome));
+UPDATE EpcMoveCombined SET dHome = SQRT((x - homeX)*(x - homeX) + (y - homeY)*(y - homeY));
 
 UPDATE EpcMoveCombined t1 INNER JOIN Sales t2 ON t1.id=t2.id AND t1.storeId=t2.storeId SET t1.soldTimestamp=t2.soldTimestamp;
 
@@ -103,8 +97,7 @@ UPDATE EpcMoveCombined t1 INNER JOIN Sales t2 ON t1.id=t2.id AND t1.storeId=t2.s
 UPDATE EpcMoveCombined SET isSold=0;
 UPDATE EpcMoveCombined SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3 HOUR); 
 
-COMMIT;
-SET autocommit=1;
+
 
 
 CREATE INDEX epc_test_4 ON EpcMovement (id, productId, storeId, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, idx);
