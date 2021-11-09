@@ -256,7 +256,8 @@ function LoadIt() {
 function LoadHomeZone() {
     ShowLoader();
     var obj = new Object();
-    obj.sku = $("#UpcSelect option:selected").val();
+    obj.productId = $("#UpcSelect option:selected").val();
+    obj.storeId = $("#StoreSelect option:selected").val();
     $.ajax({
         type: "PUT",
         url: "/api/sku/home",
