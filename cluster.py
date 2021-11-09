@@ -31,15 +31,15 @@ errors = 0
 loadProgress = 0
 totalLoad = len(myresultA)
 for o in myresultA:
-    if o[6] not in obj:
-        obj[o[6]] = dict()
-    if o[1] not in obj[o[6]]:
-        obj[o[6]][o[1]] = dict()
-        obj[o[6]][o[1]]['xSet'] = []
-        obj[o[6]][o[1]]['ySet'] = []
-        obj[o[6]][o[1]]['productId'] = o[1]
-    obj[o[6]][o[1]]['xSet'].append(o[4])
-    obj[o[6]][o[1]]['ySet'].append(o[5])
+    if o[5] not in obj:
+        obj[o[5]] = dict()
+    if o[0] not in obj[o[5]]:
+        obj[o[5]][o[0]] = dict()
+        obj[o[5]][o[0]]['xSet'] = []
+        obj[o[5]][o[0]]['ySet'] = []
+        obj[o[5]][o[0]]['productId'] = o[0]
+    obj[o[5]][o[0]]['xSet'].append(o[4])
+    obj[o[5]][o[0]]['ySet'].append(o[5])
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
         print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded")
