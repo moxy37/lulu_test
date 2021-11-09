@@ -20,7 +20,7 @@ print("Getting from database")
 a4 = aaaa.cursor()
 a4.execute("SELECT productId, id, ts, x, y, storeId FROM EpcMovement_Test ORDER BY storeId, productId, id, ts")
 print("Finished execute")
-obj = dict()
+obj = {}
 myresultA = a4.fetchall()
 print("Finished fetchall starting load")
 testNumber = 0
@@ -31,15 +31,17 @@ errors = 0
 loadProgress = 0
 totalLoad = len(myresultA)
 for o in myresultA:
-    if o[5] not in obj:
-        obj[o[5]] = dict()
-    if o[0] not in obj[o[5]]:
-        obj[o[5]][o[0]] = dict()
-        obj[o[5]][o[0]]['xSet'] = []
-        obj[o[5]][o[0]]['ySet'] = []
-        obj[o[5]][o[0]]['productId'] = o[0]
-    obj[o[5]][o[0]]['xSet'].append(o[4])
-    obj[o[5]][o[0]]['ySet'].append(o[5])
+    productId = o[0]
+    storeId = o[5]
+    if storeId not in obj:
+        obj[storeId] = {}
+    if productId not in obj[storeId]:
+        obj[storeId][productId] = {}
+        obj[storeId][productId]['xSet'] = []
+        obj[storeId][productId]['ySet'] = []
+       
+    obj[storeId][productId]['xSet'].append(o[3])
+    obj[storeId][productId]['ySet'].append(o[4])
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
         print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded")
