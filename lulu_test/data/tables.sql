@@ -96,6 +96,7 @@ CREATE TABLE EpcMovement (
 	lastY FLOAT DEFAULT 0,
 	dLast FLOAT DEFAULT 0,
 	dHome FLOAT DEFAULT 0,
+	isUpdated INTEGER DEFAULT 0,
 	PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
 );
 
