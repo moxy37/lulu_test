@@ -22,6 +22,17 @@ router.get('/map2', function (req, res) {
     }
 });
 
+router.put('/api/sku/home', function (req, res) {
+    var obj = req.body;
+    testDao.homeZone(obj.productId, obj.storeId, function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(result);
+    });
+});
+
 router.put('/api/login', function (req, res) {
     var obj = req.body;
     if (obj.user === 'lulu' && obj.pass === 'TestLulu123!') {

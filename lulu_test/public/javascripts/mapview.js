@@ -252,6 +252,34 @@ function LoadIt() {
     });
 }
 
+
+function LoadHomeZone() {
+    ShowLoader();
+    var obj = new Object();
+    obj.sku = $("#UpcSelect option:selected").val();
+    $.ajax({
+        type: "PUT",
+        url: "/api/sku/home",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (result) {
+            HideLoader();
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(result.xCenter, result.yCenter, result.radiusAvg, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fillStyle = "blue";
+            ctx.fill();
+            ctx.restore();
+        },
+        error: function (results) {
+            HideLoader();
+            alert(JSON.stringify(results));
+        }
+    });
+}
+
 function Forward() {
     $("#TableSelect").val('CurrentLocation');
     var list = gPaths[gCurrentPathId];

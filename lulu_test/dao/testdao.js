@@ -4,6 +4,38 @@ var async = require('async');
 module.exports = TestDAO;
 
 function TestDAO() {
+    this.homeZone = function (productId, storeId, next) {
+        var sql = "SELECT * FROM Zones WHERE productId=? AND k=2 AND storeId=? AND isHome=1";
+        con.query(sql, [productId, storeId], function (err, results) {
+            if (err) {
+                console.log(err.message);
+                return next(err);
+            }
+            r = results[0];
+            var obj = new Object();
+            obj.productId = r.productId;
+            obj.storeId = r.storeId;
+            obj.zoneNumber = r.zoneNumber;
+            obj.radius = r.radius;
+            obj.xCenter = r.xCenter;
+            obj.yCenter = r.yCenter;
+            obj.xMin = r.xMin;
+            obj.yMin = r.yMin;
+            obj.xMax = r.xMax;
+            obj.yMax = r.yMax;
+            obj.inZoneCount = r.inZoneCount;
+            obj.isHome = 1;
+            obj.k = 2;
+            obj.radiusAvg = r.radiusAvg;
+            obj.radiusSD = r.radiusSD;
+            obj.percentInZone = r.percentInZone;
+            obj.totalCount = r.totalCount;
+
+
+            return next(null, obj);
+
+        });
+    }
     this.sku = function (storeId, deptId, subDeptId, classId, subClassId, styleId, next) {
         var sql = "SELECT productId, styleName FROM CurrentLocation WHERE styleName IS NOT NULL ";
         var parmList = [];
