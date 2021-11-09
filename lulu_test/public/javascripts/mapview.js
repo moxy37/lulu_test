@@ -268,7 +268,7 @@ function LoadHomeZone() {
             HideLoader();
             ctx.save();
             ctx.beginPath();
-            ctx.arc(result.xCenter, result.yCenter, result.radiusAvg, 0, Math.PI * 2);
+            ctx.arc(result.xCenter, imageHeight - result.yCenter, result.radiusAvg, 0, Math.PI * 2);
             ctx.closePath();
             ctx.fillStyle = "blue";
             ctx.fill();
