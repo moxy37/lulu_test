@@ -55,7 +55,7 @@ for o in myRes:
     storeId = o[4]
     regionId = o[5]
     storeName = stores[storeId]
-    regionName = regions[regionId]
+    regionName = ''
     ts = o[3]
     soldTimestamp = None
     isSold = 0
