@@ -82,13 +82,15 @@ UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y
 
 
 
-SELECT COUNT(*) FROM EpcMoveCombined;
+SELECT COUNT(*) FROM EpcMoveCombined WHERE isSold=1;
 --RUN THE COMMAND "python3 cluster.py 2"
 --RUN THE COMMAND "python3 cluster.py 3"
 --RUN THE COMMAND "python3 cluster.py 4"
 
+ALTER TABLE EpcMoveCombined ADD styleCode VARCHAR(50);
+UPDATE EpcMoveCombined t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode;
 
-UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.productId=t2.productId AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.homeX=t2.xCenter, t1.homeY=t2.yCenter;
+UPDATE EpcMoveCombined t1 INNER JOIN Zones t2 ON t1.styleCode=t2.styleCode AND t2.k=2 AND t1.storeId=t2.storeId AND t2.isHome=1 SET t1.homeX=t2.xCenter, t1.homeY=t2.yCenter;
 
 UPDATE EpcMoveCombined SET dHome = SQRT((x - homeX)*(x - homeX) + (y - homeY)*(y - homeY));
 

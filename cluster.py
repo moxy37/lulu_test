@@ -44,11 +44,13 @@ for o in myresultA:
     
     if productId not in obj[storeId][styleCode]['productIds']:
         obj[storeId][styleCode]['productIds'].append(productId)
+        print("Adding product Id")
     obj[storeId][styleCode]['xSet'].append(o[3])
     obj[storeId][styleCode]['ySet'].append(o[4])
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
         print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded")
+    
 
 for sId in obj:
     totalTests = len(obj[sId].keys())
