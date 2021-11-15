@@ -15,6 +15,7 @@ bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 c4 = aaaa.cursor()
 c4.execute("DELETE FROM Zones WHERE k=" +  str(kSize))
 aaaa.commit()
+b4 = bbbb.cursor()
 
 print("Getting from database")
 a4 = aaaa.cursor()
@@ -107,12 +108,13 @@ for sId in obj:
                         isHome = 1
                     k = kSize
                     inZoneCount = dCount[j]
-                    print(str( obj[storeId][styleCode]['productIds']))
                     for pId in obj[storeId][styleCode]['productIds']:
-                        
-                        b4 = bbbb.cursor()
-                        b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleCode, pId))
-                        bbbb.commit()
+                        try:
+                            b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleCode, pId))
+                            bbbb.commit()
+                        except Exception as e:
+                            print(str(e))
+                            errros = errors + 1
                 added = added + 1
             else:
                 failedTests = failedTests + 1
