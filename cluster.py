@@ -42,8 +42,8 @@ for o in myresultA:
         obj[storeId][styleCode]['ySet'] = []
         obj[storeId][styleCode]['productIds'] = []
     
-    if productId not in obj[storeId][styleCode]:
-        obj[storeId][styleCode].append(productId)
+    if productId not in obj[storeId][styleCode]['productIds']:
+        obj[storeId][styleCode]['productIds'].append(productId)
     obj[storeId][styleCode]['xSet'].append(o[3])
     obj[storeId][styleCode]['ySet'].append(o[4])
     loadProgress = loadProgress + 1
