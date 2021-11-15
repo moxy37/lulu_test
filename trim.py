@@ -1,4 +1,8 @@
 import mysql.connector
+import os
+
+sizeLimit = int(sys.argv[1])
+
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
 total = 36
@@ -32,7 +36,7 @@ c.execute("CREATE TABLE EpcMax_Bak (id VARCHAR(30), productId VARCHAR(40), store
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
-c.execute("INSERT INTO EpcMax_Bak (id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey) SELECT id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey FROM EpcMax WHERE total>20")
+c.execute("INSERT INTO EpcMax_Bak (id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey) SELECT id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey FROM EpcMax WHERE total>"+str(sizeLimit))
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
