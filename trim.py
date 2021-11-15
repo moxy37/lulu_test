@@ -1,5 +1,5 @@
 import mysql.connector
-import os
+import sys
 
 sizeLimit = int(sys.argv[1])
 
