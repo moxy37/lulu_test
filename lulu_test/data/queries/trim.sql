@@ -1,31 +1,7 @@
 
 --THIS IS ALL NEEDED FOR PRUNNING
 DROP TABLE IF EXISTS EpcMax;
-CREATE TABLE EpcMax (
-    id VARCHAR(30),
-	productId VARCHAR(40),
-    storeId VARCHAR(40),
-    yyyy INTEGER,
-    mm INTEGER,
-    dd INTEGER,
-    h INTEGER,
-    isMove INTEGER,
-    isRegion INTEGER,
-    isExit INTEGER,
-    isMissing INTEGER,
-    isReacquired INTEGER,
-    isValid INTEGER,
-    isGhost INTEGER,
-    minX FLOAT,
-    minY FLOAT,
-    maxX FLOAT,
-    maxY FLOAT,
-    avgX FLOAT,
-    avgY FLOAT,
-    ts DATETIME,
-    total INTEGER,
-    tempKey VARCHAR(255)
-);
+CREATE TABLE EpcMax (id VARCHAR(30), productId VARCHAR(40), storeId VARCHAR(40), yyyy INTEGER, mm INTEGER, dd INTEGER, h INTEGER, isMove INTEGER, isRegion INTEGER, isExit INTEGER, isMissing INTEGER, isReacquired INTEGER, isValid INTEGER, isGhost INTEGER, minX FLOAT, minY FLOAT, maxX FLOAT, maxY FLOAT, avgX FLOAT, avgY FLOAT, ts DATETIME, total INTEGER, tempKey VARCHAR(255) );
 
 INSERT INTO EpcMax (id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total) SELECT id, productId, storeId, yyyy, mm, dd, HOUR(ts), MAX(isMove), MAX(isRegion), MAX(isExit), MAX(isMissing), MAX(isReacquired), MAX(isValid), MAX(isGhost), MIN(x), MIN(y), MAX(x), MAX(y), AVG(x), AVG(y), MAX(ts), COUNT(*) FROM EpcMovement GROUP BY id, storeId, productId, yyyy, mm, dd, HOUR(ts);
 
@@ -34,31 +10,7 @@ UPDATE EpcMax SET tempKey = CONCAT(id,'_',storeId,'_',CAST(yyyy AS CHAR),'_',CAS
 UPDATE EpcMovement SET tempKey= CONCAT(id,'_',storeId,'_',CAST(yyyy AS CHAR),'_',CAST(mm AS CHAR),'_',CAST(dd AS CHAR),'_',CAST(HOUR(ts) AS CHAR)) WHERE tempKey IS NULL;
 
 DROP TABLE IF EXISTS EpcMax_Bak;
-CREATE TABLE EpcMax_Bak (
-    id VARCHAR(30),
-	productId VARCHAR(40),
-    storeId VARCHAR(40),
-    yyyy INTEGER,
-    mm INTEGER,
-    dd INTEGER,
-    h INTEGER,
-    isMove INTEGER,
-    isRegion INTEGER,
-    isExit INTEGER,
-    isMissing INTEGER,
-    isReacquired INTEGER,
-    isValid INTEGER,
-    isGhost INTEGER,
-    minX FLOAT,
-    minY FLOAT,
-    maxX FLOAT,
-    maxY FLOAT,
-    avgX FLOAT,
-    avgY FLOAT,
-    ts DATETIME,
-    total INTEGER,
-    tempKey VARCHAR(255)
-);
+CREATE TABLE EpcMax_Bak (id VARCHAR(30), productId VARCHAR(40), storeId VARCHAR(40), yyyy INTEGER, mm INTEGER, dd INTEGER, h INTEGER, isMove INTEGER, isRegion INTEGER, isExit INTEGER, isMissing INTEGER, isReacquired INTEGER, isValid INTEGER, isGhost INTEGER, minX FLOAT, minY FLOAT, maxX FLOAT, maxY FLOAT, avgX FLOAT, avgY FLOAT, ts DATETIME, total INTEGER, tempKey VARCHAR(255) );
 
 INSERT INTO EpcMax_Bak (id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey) SELECT id, productId, storeId, yyyy, mm, dd, h, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, tempKey FROM EpcMax WHERE total>20;
 
