@@ -18,7 +18,7 @@ aaaa.commit()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL ORDER BY storeId, styleCode, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 ORDER BY storeId, styleCode, productId, id, ts")
 print("Finished execute")
 obj = {}
 myresultA = a4.fetchall()
