@@ -44,7 +44,6 @@ for o in myresultA:
     
     if productId not in obj[storeId][styleCode]['productIds']:
         obj[storeId][styleCode]['productIds'].append(productId)
-        print("Adding product Id")
     obj[storeId][styleCode]['xSet'].append(o[3])
     obj[storeId][styleCode]['ySet'].append(o[4])
     loadProgress = loadProgress + 1
@@ -107,8 +106,10 @@ for sId in obj:
                     if(homeIndex == j):
                         isHome = 1
                     k = kSize
+                    inZoneCount = dCount[j]
+                    print(str( obj[storeId][styleCode]['productIds']))
                     for pId in obj[storeId][styleCode]['productIds']:
-                        inZoneCount = dCount[j]
+                        
                         b4 = bbbb.cursor()
                         b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleCode, pId))
                         bbbb.commit()
