@@ -18,7 +18,7 @@ aaaa.commit()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, id, ts, x, y, storeId FROM EpcMovement_Test ORDER BY storeId, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL ORDER BY storeId, styleCode, productId, id, ts")
 print("Finished execute")
 obj = {}
 myresultA = a4.fetchall()
@@ -31,17 +31,21 @@ errors = 0
 loadProgress = 0
 totalLoad = len(myresultA)
 for o in myresultA:
+    styleCode = o[6]
     productId = o[0]
     storeId = o[5]
     if storeId not in obj:
         obj[storeId] = {}
-    if productId not in obj[storeId]:
-        obj[storeId][productId] = {}
-        obj[storeId][productId]['xSet'] = []
-        obj[storeId][productId]['ySet'] = []
-       
-    obj[storeId][productId]['xSet'].append(o[3])
-    obj[storeId][productId]['ySet'].append(o[4])
+    if styleCode not in obj[storeId]:
+        obj[storeId][styleCode] = {}
+        obj[storeId][styleCode]['xSet'] = []
+        obj[storeId][styleCode]['ySet'] = []
+        obj[storeId][styleCode]['productIds'] = []
+    
+    if productId not in obj[storeId][styleCode]:
+        obj[storeId][styleCode].append(productId)
+    obj[storeId][styleCode]['xSet'].append(o[3])
+    obj[storeId][styleCode]['ySet'].append(o[4])
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
         print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded")
@@ -53,7 +57,7 @@ for sId in obj:
         xSet = obj[sId][key]['xSet']
         ySet = obj[sId][key]['ySet']
         testNumber = testNumber + 1
-        productId = key
+        styleCode = key
         try:
             Data = {'x':xSet, 'y': ySet}
             if len(xSet) > kSize:
@@ -101,10 +105,11 @@ for sId in obj:
                     if(homeIndex == j):
                         isHome = 1
                     k = kSize
-                    inZoneCount = dCount[j]
-                    b4 = bbbb.cursor()
-                    b4.execute("INSERT INTO Zones (storeId, productId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount))
-                    bbbb.commit()
+                    for pId in obj[storeId][styleCode]['productIds']:
+                        inZoneCount = dCount[j]
+                        b4 = bbbb.cursor()
+                        b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, productId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleCode, pId))
+                        bbbb.commit()
                 added = added + 1
             else:
                 failedTests = failedTests + 1

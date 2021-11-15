@@ -38,6 +38,7 @@ CREATE INDEX temp_me_DDDDD ON EpcMovement (id, productId, storeId, isDeleted, is
 DROP TABLE IF EXISTS Zones;
 CREATE TABLE Zones (
     productId VARCHAR(40) NOT NULL,
+    styleCode VARCHAR(50),
     storeId VARCHAR(40),
     zoneNumber INTEGER NOT NULL,
     radius FLOAT DEFAULT 0,
