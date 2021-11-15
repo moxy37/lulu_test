@@ -29,40 +29,7 @@ ALTER TABLE EpcMovement DROP PRIMARY KEY;
 UPDATE EpcMovement t1 INNER JOIN EpcMax_Bak t2 ON t1.tempKey=t2.tempKey AND t1.ts=t2.ts AND t1.isDeleted=1 SET t1.isDeleted=0, t1.isExit=t2.isExit, t1.isGhost=t2.isGhost, t1.isMissing=t2.isMissing, t1.isMove=t2.isMove, t1.isReacquired=t2.isReacquired, t1.isRegion=t2.isRegion, t1.isValid=t2.isValid, t1.x=t2.avgX, t1.y=t2.avgY;
 
 DROP TABLE IF EXISTS EpcMovement_TEMP2;
-CREATE TABLE EpcMovement_TEMP2 (
-	id VARCHAR(30) NOT NULL,
-	productId VARCHAR(40) NOT NULL,
-	storeId VARCHAR(40) NOT NULL,
-	storeName VARCHAR(250),
-	regionId VARCHAR(40) NOT NULL,
-	regionName VARCHAR(250),
-	ts DATETIME NOT NULL,
-	soldTimestamp DATETIME,
-	x FLOAT DEFAULT 0 NOT NULL,
-	y FLOAT DEFAULT 0 NOT NULL,
-	z FLOAT DEFAULT 0,
-	confidence FLOAT DEFAULT 0,
-	isDeleted INTEGER DEFAULT 0,
-	isDeparture INTEGER NOT NULL DEFAULT 0,
-	isExit INTEGER NOT NULL DEFAULT 0,
-	isGhost INTEGER NOT NULL DEFAULT 0,
-	isMissing INTEGER NOT NULL DEFAULT 0,
-	isMove INTEGER NOT NULL DEFAULT 0,
-	isReacquired INTEGER NOT NULL DEFAULT 0,
-	isRegion INTEGER NOT NULL DEFAULT 0,
-	isSold INTEGER NOT NULL DEFAULT 0,
-	isValid INTEGER NOT NULL DEFAULT 0,
-	yyyy INTEGER,
-	mm INTEGER,
-	dd INTEGER,
-	lastX FLOAT DEFAULT 0,
-	lastY FLOAT DEFAULT 0,
-	dLast FLOAT DEFAULT 0,
-	dHome FLOAT DEFAULT 0,
-	isUpdated INTEGER DEFAULT 0,
-	tempKey VARCHAR(255),
-    PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
-);
+CREATE TABLE EpcMovement_TEMP2 (id VARCHAR(30) NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, storeName VARCHAR(250), regionId VARCHAR(40) NOT NULL, regionName VARCHAR(250), ts DATETIME NOT NULL, soldTimestamp DATETIME, x FLOAT DEFAULT 0 NOT NULL, y FLOAT DEFAULT 0 NOT NULL, z FLOAT DEFAULT 0, confidence FLOAT DEFAULT 0, isDeleted INTEGER DEFAULT 0, isDeparture INTEGER NOT NULL DEFAULT 0, isExit INTEGER NOT NULL DEFAULT 0, isGhost INTEGER NOT NULL DEFAULT 0, isMissing INTEGER NOT NULL DEFAULT 0, isMove INTEGER NOT NULL DEFAULT 0, isReacquired INTEGER NOT NULL DEFAULT 0, isRegion INTEGER NOT NULL DEFAULT 0, isSold INTEGER NOT NULL DEFAULT 0, isValid INTEGER NOT NULL DEFAULT 0, yyyy INTEGER, mm INTEGER, dd INTEGER, lastX FLOAT DEFAULT 0, lastY FLOAT DEFAULT 0, dLast FLOAT DEFAULT 0, dHome FLOAT DEFAULT 0, isUpdated INTEGER DEFAULT 0, tempKey VARCHAR(255), PRIMARY KEY (id, productId, storeId, regionId, ts, x, y));
 
 DELETE FROM EpcMovement WHERE isDeleted=1;
 
@@ -105,5 +72,11 @@ DROP TABLE IF EXISTS AllStyle;
 
 RENAME TABLE AllStyle_Bak TO AllStyle;
 
+--Now update sales
+UPDATE EpcMovement SET soldTimestamp=NULL;
 
+UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id AND t1.storeId=t2.storeId SET t1.soldTimestamp=t2.soldTimestamp;
 
+UPDATE EpcMovement SET isSold=0;
+
+UPDATE EpcMovement SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3 HOUR); 

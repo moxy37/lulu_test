@@ -5,7 +5,7 @@ sizeLimit = int(sys.argv[1])
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
-total = 36
+total = 40
 current = 1
 c = cnxn.cursor()
 c.execute("DROP TABLE IF EXISTS EpcMax")
@@ -145,6 +145,22 @@ cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
 c.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+c.execute("UPDATE EpcMovement SET soldTimestamp=NULL")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+c.execute("UPDATE EpcMovement t1 INNER JOIN Sales t2 ON t1.id=t2.id AND t1.storeId=t2.storeId SET t1.soldTimestamp=t2.soldTimestamp")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+c.execute("UPDATE EpcMovement SET isSold=0")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+c.execute("UPDATE EpcMovement SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3 HOUR)")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
