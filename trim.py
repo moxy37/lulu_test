@@ -1,7 +1,8 @@
 import mysql.connector
 import sys
 
-sizeLimit = int(sys.argv[1])
+#sizeLimit = int(sys.argv[1])
+sizeLimit = 24
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 

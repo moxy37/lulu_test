@@ -13,7 +13,9 @@ added = 0
 error = 0
 now = datetime.now(timezone.utc)
 
-
+d = dddd.cursor()
+d.execute("DELETE FROM Moments")
+dddd.commit()
 
 #url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=20000'
 url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?size=20000'
@@ -45,7 +47,7 @@ for o in jsonResponse['content']:
             errpr = error + 1
         print("Added: " + str(added) + ", Errors: " + str(error))
 
-d = dddd.cursor()
+
 d.execute("UPDATE Moments m INNER JOIN Sales s ON m.itemId=s.id AND m.storeId=s.storeId SET m.isFlag=1")
 dddd.commit() 
 d.execute("DELETE FROM Moments WHERE isFlag=1")
