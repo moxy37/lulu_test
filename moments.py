@@ -1,29 +1,44 @@
 import os
 import ijson
 import json
+from datetime import datetime,timezone
+import requests
+from dateutil.relativedelta import relativedelta
+from time import sleep
 import mysql.connector
-import datetime
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 added = 0
 error = 0
+now = datetime.now(timezone.utc)
+lastNow = now
 
-with open('mom.json') as f:
-    json_file = json.load(f)
-    for o in json_file['content']:
-        try:
-            itemId = o['itemId']
-            productId = o['product']['productId']
-            regionId = o['region']['id']
-            originRegionId = o['originRegion']['id']
-            ts = o['lastEvent'].replace('T', ' ')
-            ts = ts.replace('Z', '')
-            storeId = o['site']
-            cursor = cnxn.cursor()
-            cursor.execute("INSERT INTO Moments (id, storeId, itemId, productId, originRegionId, regionId, ts) VALUES (%s, %s, %s, %s, %s, %s, %s)", (o['id'], storeId, itemId, productId, originRegionId, regionId, ts))
-            cnxn.commit()
-            added = added + 1
-        except Exception as e:
-            print(str(e))
-            errpr = error + 1
-        print("Added: " + str(added) + ", Errors: " + str(error))
+while True: 
+    url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=2000'
+    headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
+    response = requests.request("GET", url, headers=headers)
+    print("Got data")
+    jsonResponse = response.json()
+    for o in jsonResponse['content']:
+        ts = o['lastMoment'].replace('T', ' ')
+        ts = ts.replace('Z', '')
+        tsD = ts.split('.')
+        now = str(tsD[0])
+        storeId = ''
+        momentId = o['id']
+        for ml in o['momentList']:
+            storeId = ml['site']
+            itemId = ml['itemId']
+            momentId = ml['id']
+            productId = ml['product']['productId']
+            originRegionId = ml['originRegion']['id']
+            regionId = ml['region']['id']
+            try:
+                cursor = cnxn.cursor()
+                cursor.execute("INSERT INTO Moments (id, storeId, itemId, productId, originRegionId, regionId, ts) VALUES (%s, %s, %s, %s, %s, %s, %s)", (momentId, storeId, itemId, productId, originRegionId, regionId, ts))
+                cnxn.commit()
+                added = added + 1
+            except Exception as e:
+                print(str(e))
+                errpr = error + 1
+            print("Added: " + str(added) + ", Errors: " + str(error))
