@@ -100,7 +100,9 @@ CREATE TABLE EpcMovement (
 	PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
 );
 
-INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','1597647a-7056-3fe9-94c1-ae5c9d16d69b','2021-10-30 01:01:00', '', 0, 0);
+INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','1597647a-7056-3fe9-94c1-ae5c9d16d69b','2021-10-20 01:01:00', '', 0, 0);
+
+INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','d4f87b6f-5199-43ac-b231-fbe6e3a8039c','2021-10-20 01:01:00', '', 0, 0);
 
 DROP TABLE IF EXISTS Moments;
 CREATE TABLE Moments (

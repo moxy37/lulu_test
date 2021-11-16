@@ -10,9 +10,13 @@ cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
+print("Cleaning existing sales")
 c = cccc.cursor()
 c.execute("TRUNCATE TABLE Sales")
 cccc.commit()
+c.execute("UPDATE EpcMovement SET soldTimestamp=NULL, isSold=0")
+cccc.commit()
+print("Clean done")
 added = 0
 deleted = 0
 error = 0
