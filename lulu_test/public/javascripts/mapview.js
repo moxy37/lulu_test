@@ -347,6 +347,10 @@ function Forward() {
         if (o.isValid === 1 || o.isValid === '1') {
             $("#IsValidSelect").addClass('RedClass');
         }
+        $("#IsSoldSelect").val(o.isSold);
+        if (o.isSold === 1 || o.isSold === '1') {
+            $("#IsSoldSelect").addClass('RedClass');
+        }
         $("#Message").append(h2);
         $("#Message").show();
 
