@@ -8,13 +8,15 @@ from time import sleep
 import mysql.connector
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 added = 0
 error = 0
 now = datetime.now(timezone.utc)
 lastNow = now
 
-while True: 
-    url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=2000'
+while True:
+    url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=20000'
+    url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?size=20000'
     headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
     response = requests.request("GET", url, headers=headers)
     print("Got data")
@@ -42,3 +44,4 @@ while True:
                 print(str(e))
                 errpr = error + 1
             print("Added: " + str(added) + ", Errors: " + str(error))
+    
