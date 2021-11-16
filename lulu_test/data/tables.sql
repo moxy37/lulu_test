@@ -132,11 +132,14 @@ DROP TABLE IF EXISTS EpcMoments;
 CREATE TABLE EpcMoments (
 	id VARCHAR(30) NOT NULL,
 	productId VARCHAR(40) NOT NULL,
+	storeId VARCHAR(40) NOT NULL,
 	styleName VARCHAR(100),
 	yyyy INTEGER,
 	mm INTEGER,
 	dd INTEGER
 );
+
+INSERT INTO EpcMoments (id, productId, storeId, styleName, yyyy, mm, dd) SELECT m.itemId, m.productId, m.storeId, p.styleName, YEAR(m.ts), MONTH(m.ts), DAY(m.ts) FROM Moments m JOIN Products p ON m.productId=p.sku WHERE m.isFlag=0;
 
 DROP TABLE IF EXISTS EpcReport;
 CREATE TABLE EpcReport (

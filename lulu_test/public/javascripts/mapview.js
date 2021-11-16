@@ -321,7 +321,7 @@ function Forward() {
 
         $("#Message").empty();
         var t = gCurrentPathIndex;
-        var h2 = '<h4>' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' ' + o.x + ',' + o.y + '</h4>';
+        var h2 = '<h4>EPC: ' + o.id + ', SKU: ' + o.productId + ', Name: ' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' ' + o.x + ',' + o.y + '</h4>';
         $(".IsSelect").removeClass('RedClass');
         $("#IsExitSelect").val(o.isExit);
         if (o.isExit === 1 || o.isExit === '1') {
