@@ -52,3 +52,7 @@ d.execute("UPDATE Moments m INNER JOIN Sales s ON m.itemId=s.id AND m.storeId=s.
 dddd.commit() 
 d.execute("DELETE FROM Moments WHERE isFlag=1")
 dddd.commit() 
+d.execute("DELETE FROM EpcMoments")
+dddd.commit() 
+d.execute("INSERT INTO EpcMoments (id, productId, storeId, styleName, yyyy, mm, dd) SELECT m.itemId, m.productId, m.storeId, p.styleName, YEAR(m.ts), MONTH(m.ts), DAY(m.ts) FROM Moments m JOIN Products p ON m.productId=p.sku WHERE m.isFlag=0")
+dddd.commit() 
