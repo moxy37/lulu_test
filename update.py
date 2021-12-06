@@ -24,7 +24,7 @@ while True:
             deleted = 0
             updated = 0
             print("New query for store: " + str(siteId))
-            url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=2000&returnCount=false'
+            url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=20000&returnCount=false'
             #url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Aasc&size=10000&returnCount=false'
             headers = {'Authorization': 'APIKEY 2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
             response = requests.request("GET", url, headers=headers)
