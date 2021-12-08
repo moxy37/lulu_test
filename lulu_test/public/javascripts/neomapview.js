@@ -537,12 +537,13 @@ function drawPin(x, y, localDate) {
     if (localDate !== undefined && localDate !== '') {
         if (lastDate !== null) {
             var diff = localDate.getTime() - lastDate.getTime();
-            label = Math.round(diff / 60000);
+            label = "+" + Math.round(diff / 60000) + " minutes";
         } else {
             label = localDate;
         }
         lastDate = localDate;
     }
+    ctx.font = "10px Arial";
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, Math.PI * 2);
