@@ -298,7 +298,7 @@ function Forward() {
         var x = o.x;
         var y = imageHeight - o.y;
         var localDate = new Date(o.timestamp);
-        drawPin(x, y, o.timestamp);
+        drawPin(x, y, localDate);
         // ctx.beginPath();
         // ctx.fillRect(x, y, 2, 2);
         // ctx.stroke();
@@ -398,7 +398,7 @@ function ChangeEpcView() {
                 var o = list[gCurrentPathIndex];
                 var x = o.x;
                 var y = imageHeight - o.y;
-                drawPin(x, y);
+                drawPin(x, y, '');
                 gLastX = x;
                 gLastY = y;
 
@@ -452,7 +452,7 @@ function ShowAll() {
         var o = gList[i];
         var x = o.x;
         var y = imageHeight - o.y;
-        drawPin(x, y);
+        drawPin(x, y, '');
         gLastX = x;
         gLastY = y;
     }
@@ -533,9 +533,8 @@ function LogMeOut() {
 
 
 function drawPin(x, y, localDate) {
-
     var label = '';
-    if (localDate !== undefined) {
+    if (localDate !== undefined && localDate !== '') {
         if (lastDate !== null) {
             var diff = localDate.getTime() - lastDate.getTime();
             label = Math.round(diff / 60000);
