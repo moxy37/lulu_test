@@ -13,6 +13,8 @@ var gLastY = 0;
 var imageHeight = 1111;
 var imageWidth = 1195;
 
+var lastDate = null;
+
 var canvas = null;
 var ctx = null;
 function searchDiv() {
@@ -295,7 +297,8 @@ function Forward() {
         var o = list[gCurrentPathIndex];
         var x = o.x;
         var y = imageHeight - o.y;
-        drawPin(x, y);
+        var localDate = new Date(o.timestamp);
+        drawPin(x, y, o.timestamp);
         // ctx.beginPath();
         // ctx.fillRect(x, y, 2, 2);
         // ctx.stroke();
@@ -359,6 +362,7 @@ function Forward() {
         gLastX = 0;
         gLastY = 0;
         var index = gPathKeys.indexOf(gCurrentPathId);
+        var lastDate = null;
         gCurrentPathIndex = -1;
         if (index < gPathKeys.length - 1) {
             index++;
@@ -528,14 +532,24 @@ function LogMeOut() {
 }
 
 
-function drawPin(x, y) {
+function drawPin(x, y, localDate) {
 
+    var label = '';
+    if (localDate !== undefined) {
+        if (lastDate !== null) {
+            var diff = localDate.getTime() - lastDate.getTime();
+            label = Math.round(diff / 60000);
+        } else {
+            label = localDate;
+        }
+        lastDate = localDate;
+    }
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = "red";
     ctx.fill();
-    ctx.fillText('DUDE', x, y);
+    ctx.fillText(label, x, y + 10);
     ctx.restore();
-}    
+}
