@@ -19,7 +19,7 @@ dddd.commit()
 
 #url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=20000'
 url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?size=20000'
-headers = {'Authorization': '2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
+headers = {'Authorization': 'APIKEY 2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
 response = requests.request("GET", url, headers=headers)
 print("Got data")
 jsonResponse = response.json()
