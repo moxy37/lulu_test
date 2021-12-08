@@ -22,7 +22,7 @@ router.get('/map2', function (req, res) {
     }
 });
 
-router.get('/neomap',function(req,res){
+router.get('/neomap', function (req, res) {
     if (__loggedIn === true) {
         res.render('neomap');
     } else {

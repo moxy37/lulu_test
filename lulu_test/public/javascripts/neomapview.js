@@ -536,5 +536,6 @@ function drawPin(x, y) {
     ctx.closePath();
     ctx.fillStyle = "red";
     ctx.fill();
+    ctx.fillText('DUDE', x, y);
     ctx.restore();
-}
+}    
