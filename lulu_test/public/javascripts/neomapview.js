@@ -387,6 +387,7 @@ function ChangeEpcView() {
     gLastX = 0;
     gLastY = 0;
     if (ids.length === 1) {
+        lastDate = null;
         gCurrentPathId = ids[0];
         gCurrentPathIndex = -1;
         Forward();
@@ -535,7 +536,7 @@ function LogMeOut() {
 function drawPin(x, y, localDate) {
     var label = '';
     if (localDate !== undefined && localDate !== '') {
-        if (lastDate !== null) {
+        if (lastDate !== undefined && lastDate !== null) {
             var diff = localDate.getTime() - lastDate.getTime();
             label = "+" + Math.round(diff / 60000) + " minutes";
         } else {
@@ -543,7 +544,7 @@ function drawPin(x, y, localDate) {
         }
         lastDate = localDate;
     }
-    ctx.font = "10px Arial";
+    ctx.font = "12px Arial";
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, Math.PI * 2);
