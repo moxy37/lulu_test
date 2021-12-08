@@ -294,6 +294,11 @@ function Forward() {
     var list = gPaths[gCurrentPathId];
     if (gCurrentPathIndex < list.length - 1) {
         gCurrentPathIndex++;
+        if (gCurrentPathIndex > 1) {
+            lastDate = new Date(list[gCurrentPathIndex - 1].timestamp);
+        } else {
+            lastDate = null;
+        }
         var o = list[gCurrentPathIndex];
         var x = o.x;
         var y = imageHeight - o.y;
@@ -542,7 +547,6 @@ function drawPin(x, y, localDate) {
         } else {
             label = localDate;
         }
-        lastDate = localDate;
     }
     ctx.font = "12px Arial";
     ctx.save();
