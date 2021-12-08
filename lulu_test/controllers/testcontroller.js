@@ -1,6 +1,7 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
@@ -17,6 +18,14 @@ router.get('/map', function (req, res) {
 router.get('/map2', function (req, res) {
     if (__loggedIn === true) {
         res.render('map');
+    } else {
+        res.render('index');
+    }
+});
+
+router.get('/neomap',function(req,res){
+    if (__loggedIn === true) {
+        res.render('neomap');
     } else {
         res.render('index');
     }
