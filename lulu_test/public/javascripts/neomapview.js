@@ -294,11 +294,6 @@ function Forward() {
     var list = gPaths[gCurrentPathId];
     if (gCurrentPathIndex < list.length - 1) {
         gCurrentPathIndex++;
-        if (gCurrentPathIndex > 1) {
-            lastDate = new Date(list[gCurrentPathIndex - 1].timestamp);
-        } else {
-            lastDate = null;
-        }
         var o = list[gCurrentPathIndex];
         var x = o.x;
         var y = imageHeight - o.y;
@@ -391,6 +386,7 @@ function ChangeEpcView() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gLastX = 0;
     gLastY = 0;
+    lastDate = null;
     if (ids.length === 1) {
         lastDate = null;
         gCurrentPathId = ids[0];
@@ -547,6 +543,7 @@ function drawPin(x, y, localDate) {
         } else {
             label = localDate;
         }
+        lastDate = localDate;
     }
     ctx.font = "12px Arial";
     ctx.save();
