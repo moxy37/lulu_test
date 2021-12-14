@@ -5,7 +5,7 @@ module.exports = TestDAO;
 
 function TestDAO() {
     this.regions = function (storeId, next) {
-        var sql = "SELECT * FROM Regions WHERE storeId=? ";
+        var sql = "SELECT * FROM Regions WHERE storeId=? ORDER BY regionName ";
         con.query(sql, storeId, function (err, results) {
             if (err) {
                 console.log(err.message);
