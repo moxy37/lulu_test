@@ -6,18 +6,14 @@ import mysql.connector
 
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+
+print("Starting loading basics")
 a2 = aaaa.cursor()
 a2.execute("SELECT id, storeName FROM Stores")
 myStores = a2.fetchall()
 stores = {}
 for s in myStores:
     stores[s[0]] = s[1]
-a3 = aaaa.cursor()
-a3.execute("SELECT id, regionName FROM Regions")
-myRegions = a3.fetchall()
-regions = {}
-for r in myRegions:
-    regions[r[0]] = r[1]
 a4 = aaaa.cursor()
 a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=2 AND isHome=1")
 myZones = a4.fetchall()
@@ -35,7 +31,31 @@ for s in mySales:
     if s[3] not in sales:
         sales[s[3]] = {}
     sales[s[3]][s[0]] = s[2]
-print("Getting all")
+print("Creating last update table")
+a6 = aaaa.cursor()
+a6.execute("DROP TABLE IF EXISTS LastUpdateTS")
+aaaa.commit()
+a7 = aaaa.cursor()
+a7.execute("CREATE TABLE LastUpdateTS (id VARCHAR(40), ts DATETIME, x FLOAT DEFAULT 0, y FLOAT DEFAULT 0, regionId VARCHAR(40))")
+aaaa.commit()
+a8 = aaaa.cursor()
+a8.execute("INSERT INTO LastUpdateTS (id, ts) SELECT id, MAX(ts) AS ts FROM EpcMovement WHERE isUpdated=1 GROUP BY id")
+aaaa.commit()
+a9 = aaaa.cursor()
+a9.execute("UPDATE LastUpdateTS t1 INNER JOIN EpcMovement t2 ON t1.id=t2.id AND t1.ts=t2.ts SET t1.regionId=t2.regionId, t1.x=t2.x, t1.y=t2.y")
+aaaa.commit()
+a10 = aaaa.cursor()
+a10.execute("SELECT id, x, y, ts, regionId FROM LastUpdateTS")
+myLastUpdate = a10.fetchall()
+lastUpdate = {}
+for l in myLastUpdate:
+    ll = {}
+    ll['x'] = l[1]
+    ll['y'] = l[2]
+    ll['ts'] = l[3]
+    ll['regionId'] = l[4]
+    lastUpdate[l[0]] = ll
+print("Getting all movement datat to update")
 c4 = aaaa.cursor()
 c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts")
 myRes = c4.fetchall()
@@ -55,7 +75,6 @@ for o in myRes:
     storeId = o[4]
     regionId = o[5]
     storeName = stores[storeId]
-    regionName = regions[regionId]
     ts = o[3]
     soldTimestamp = None
     isSold = 0
@@ -68,19 +87,35 @@ for o in myRes:
         dHome = math.sqrt((zones[productId]['x'] - x)*(zones[productId]['x'] - x) + (zones[productId]['y'] - y)*(zones[productId]['y'] - y))
     if lastId != o[0]:
         lastId = o[0]
-        lastX = o[1]
-        lastY = o[2]
+        if lastId in lastUpdate:
+            lastX = lastUpdate[lastId]['x']
+            lastY = lastUpdate[lastId]['y']
+            try:
+                dLast = math.sqrt((lastX - x)*(lastX - x) + (lastY - y)*(lastY - y))
+                sql = "UPDATE EpcMovement SET dHome=%s, lastX=%s, lastY=%s, dLast=%s, isUpdated=1, soldTimestamp=%s, isSold=%s, storeName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+                vals = (dHome, lastX, lastY, dLast, soldTimestamp, isSold, storeName, o[0], o[4], o[5], o[3])
+                b4 = bbbb.cursor()
+                b4.execute(sql, vals)
+                bbbb.commit()
+                lastX = o[1]
+                lastY = o[2]
+                updated = updated + 1
+            except Exception as e:
+                errors = errors + 1
+        else:
+            lastX = o[1]
+            lastY = o[2]
         
-        try:
-            
-            sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s, storeName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
-            vals = (dHome, soldTimestamp, isSold, storeName, o[0], o[4], o[5], o[3])
-            b4 = bbbb.cursor()
-            b4.execute(sql, vals)
-            bbbb.commit()
-            skipped = skipped + 1
-        except Exception as e:
-            errors = errors + 1
+            try:
+                
+                sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s, storeName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+                vals = (dHome, soldTimestamp, isSold, storeName, o[0], o[4], o[5], o[3])
+                b4 = bbbb.cursor()
+                b4.execute(sql, vals)
+                bbbb.commit()
+                skipped = skipped + 1
+            except Exception as e:
+                errors = errors + 1
     else:
         
         try:

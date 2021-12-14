@@ -23,3 +23,10 @@ CREATE VIEW MomentsView AS SELECT m.id, m.productId, m.storeId, m.x, m.y, m.z, m
 
 DROP VIEW IF EXISTS LastPull;
 CREATE VIEW LastPull AS SELECT storeId, MAX(ts) AS ts, DATE_ADD(MAX(ts), INTERVAL 15 MINUTE) AS ts_new FROM EpcMovement GROUP BY storeId;
+
+
+CREATE VIEW LastUpdateTS AS SELECT id, MAX(ts) AS ts FROM EpcMovement WHERE isUpdated=1 GROUP BY id;
+
+CREATE TABLE LastUpdateTS (id VARCHAR(40), ts DATETIME, x FLOAT DEFAULT 0, y FLOAT DEFAULT 0, regionId VARCHAR(40));
+INSERT INTO LastUpdateTS (id, ts) SELECT id, MAX(ts) AS ts FROM EpcMovement WHERE isUpdated=1 GROUP BY id;
+UPDATE LastUpdateTS t1 INNER JOIN EpcMovement t2 ON t1.id=t2.id AND t1.ts=t2.ts SET t1.regionId=t2.regionId, t1.x=t2.x, t1.y=t2.y;
