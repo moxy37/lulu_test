@@ -299,7 +299,7 @@ function LoadHomeZone() {
     }
     obj.style = $("#StyleSelect option:selected").val();
     obj.storeId = $("#StoreSelect option:selected").val();
-    obj.k = 2;
+    obj.k = 3;
     $.ajax({
         type: "PUT",
         url: "/api/sku/home",
@@ -361,7 +361,7 @@ function Forward() {
         var t = gCurrentPathIndex;
         var h2 = '<h4>EPC: ' + o.id + ', SKU: ' + o.productId + ', Name: ' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' ' + o.x + ',' + o.y + '</h4>';
         $(".IsSelect").removeClass('RedClass');
-        
+
         $("#IsDepartureSelect").val(o.isDeparture);
         if(o.isDeparture===1||o.isDeparture===0){
             $("#IsDepartureSelect").addClass('RedClass');
