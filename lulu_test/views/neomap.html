@@ -94,6 +94,18 @@
                 </select>
             </li>
             <li>
+                <label for="">Region:</label>
+                <select id="RegionSelect" class="Checkloader" multiple></select>
+            </li>
+            <li>
+                <label for="">Departure Events:</label>
+                <select id="IsDepartureSelect" class="CheckLoader IsSelect">
+                    <option value=""></option>
+                    <option value="0">False</option>
+                    <option value="1">True</option>
+                </select>
+            </li>
+            <li>
                 <label for="">Exit Events:</label>
                 <select id="IsExitSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
@@ -174,6 +186,7 @@
         canvas = document.getElementById("myCanvas");
         ctx = canvas.getContext("2d");
         AllDepts();
+        AllRegions();
     });
 </script>
 

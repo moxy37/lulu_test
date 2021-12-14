@@ -217,6 +217,8 @@ function LoadIt(withProduct = true) {
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
+    obj.regions = $("#RegionSelect").val();
+    if (obj.regions === undefined) { obj.regions = []; }
     if (withProduct) {
         obj.productId = $("#SkuText").val();
     }
@@ -227,6 +229,7 @@ function LoadIt(withProduct = true) {
     obj.isMissing = $("#IsMissingSelect option:selected").val();
     obj.isMove = $("#IsMoveSelect option:selected").val();
     obj.isRegion = $("#IsRegionSelect option:selected").val();
+    obj.isDeparture = $("#IsDepartureSelect option:selected").val();
     obj.isValid = $("#IsValidSelect option:selected").val();
     if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
     if (obj.dept === 'XXX') { obj.dept = undefined; }
@@ -261,6 +264,31 @@ function LoadIt(withProduct = true) {
     });
 }
 
+function AllRegions() {
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
+    //RegionSelect
+    $.ajax({
+        type: "PUT",
+        url: "/api/region/list",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (results) {
+            var html = '';
+            for (var i = 0; i < results.length; i++) {
+                html += '<option value="' + results[i].id + '">' + results[i].regionName + '</option>';
+            }
+            $("#RegionSelect").empty();
+            $("#RegionSelect").append(html);
+
+        },
+        error: function (results) {
+            alert(JSON.stringify(results));
+        }
+    });
+}
+
 
 function LoadHomeZone() {
     ShowLoader();
@@ -271,6 +299,7 @@ function LoadHomeZone() {
     }
     obj.style = $("#StyleSelect option:selected").val();
     obj.storeId = $("#StoreSelect option:selected").val();
+    obj.k = 2;
     $.ajax({
         type: "PUT",
         url: "/api/sku/home",
@@ -332,6 +361,11 @@ function Forward() {
         var t = gCurrentPathIndex;
         var h2 = '<h4>EPC: ' + o.id + ', SKU: ' + o.productId + ', Name: ' + o.name + ' - ' + o.timestamp + ' Step ' + t + ' of ' + list.length + ' in ' + o.regionName + ' ' + o.x + ',' + o.y + '</h4>';
         $(".IsSelect").removeClass('RedClass');
+        
+        $("#IsDepartureSelect").val(o.isDeparture);
+        if(o.isDeparture===1||o.isDeparture===0){
+            $("#IsDepartureSelect").addClass('RedClass');
+        }
         $("#IsExitSelect").val(o.isExit);
         if (o.isExit === 1 || o.isExit === '1') {
             $("#IsExitSelect").addClass('RedClass');

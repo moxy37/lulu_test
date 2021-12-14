@@ -4,12 +4,35 @@ var async = require('async');
 module.exports = TestDAO;
 
 function TestDAO() {
-    this.homeZone = function (productId, styleCode, storeId, next) {
-        var sql = "SELECT * FROM Zones WHERE productId=? AND k=2 AND storeId=? AND isHome=1";
-        var p = [productId, storeId];
+    this.regions = function (storeId, next) {
+        var sql = "SELECT * FROM Regions WHERE storeId=? ";
+        con.query(sql, storeId, function (err, results) {
+            if (err) {
+                console.log(err.message);
+                return next(err);
+            }
+            var list = [];
+            async.forEach(results, function (r, callback) {
+                var o = new Object();
+                o.id = r.id;
+                o.regionName = r.regionName;
+                o.storeId = r.storeId;
+                o.xHome = r.xHome;
+                o.yHome = r.yHome;
+                list.push(o);
+                callback();
+            }, function (err) {
+                return next(null, list);
+            });
+        });
+    }
+    this.homeZone = function (productId, styleCode, storeId, k, next) {
+        if (k == undefined) { k = 2; }
+        var sql = "SELECT * FROM Zones WHERE productId=? AND k=? AND storeId=? AND isHome=1";
+        var p = [productId, k, storeId];
         if (productId === undefined || productId === '') {
-            sql = "SELECT * FROM Zones WHERE styleCode=? AND k=2 AND storeId=? AND isHome=1";
-            p = [styleCode, storeId];
+            sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
+            p = [styleCode, k, storeId];
         }
 
         con.query(sql, p, function (err, results) {
@@ -40,7 +63,7 @@ function TestDAO() {
 
         });
     }
-    
+
     this.sku = function (storeId, deptId, subDeptId, classId, subClassId, styleId, next) {
         var sql = "SELECT productId, styleName FROM CurrentLocation WHERE styleName IS NOT NULL ";
         var parmList = [];
@@ -211,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, id, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -294,6 +317,17 @@ function TestDAO() {
             var sql = "SELECT * FROM " + table + " WHERE styleName IS NOT NULL ";
             var whereAdded = false;
             var parmList = [];
+            if (regions !== undefined && regions.length > 0) {
+                sql += "AND regionId IN (";
+                for (var i = 0; i < regions.length; i++) {
+                    if (i > 0) {
+                        sql += ", ";
+                    }
+                    sql += "?";
+                    parmList.push(regions[i]);
+                }
+                sql += ") ";
+            }
             if (deptId !== undefined && deptId !== '') {
                 sql += "AND deptCode=? ";
                 parmList.push(deptId);
@@ -333,6 +367,10 @@ function TestDAO() {
             if (day !== undefined && day !== '') {
                 sql += "AND dd=? ";
                 parmList.push(parseInt(day));
+            }
+            if (isDeparture !== undefined && isDeparture !== '') {
+                sql += "AND isDeparture=? ";
+                parmList.push(isDeparture);
             }
             if (isExit !== undefined && isExit !== '') {
                 sql += "AND isExit=? ";
