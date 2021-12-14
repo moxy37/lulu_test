@@ -4,6 +4,9 @@ import sys
 import statistics
 import mysql.connector
 
+kSize = int(sys.argv[1])
+isDeleted = int(sys.argv[2])
+
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 
@@ -15,7 +18,9 @@ stores = {}
 for s in myStores:
     stores[s[0]] = s[1]
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k=2 AND isHome=1")
+sql = "SELECT productId, xCenter, yCenter FROM Zones WHERE k=%s AND isHome=1"
+vals = (kSize)
+a4.execute(sql, vals)
 myZones = a4.fetchall()
 zones = {}
 for z in myZones:
@@ -57,7 +62,10 @@ for l in myLastUpdate:
     lastUpdate[l[0]] = ll
 print("Getting all movement datat to update")
 c4 = aaaa.cursor()
-c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts")
+sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND isDeleted=0 ORDER BY id, ts"
+if isDeleted == 1:
+    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts"
+c4.execute(sql)
 myRes = c4.fetchall()
 print("Got them")
 total = len(myRes)
