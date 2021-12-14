@@ -16,11 +16,14 @@ app.set('view engine', 'html');
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use(express.static(path.join(__dirname, 'public')));
+const opts = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+    requestCert: true,
+    rejectUnauthorized: false,
+    ca: [fs.readFileSync('cert.pem')]
+}
 
-https.createServer(
-    { key: fs.readFileSync("server.key"), cert: fs.readFileSync("server.cert"), }, app).listen(3000, function () {
-        console.log("Example app listening on port 3000! Go to https://localhost:3000/");
-    });
 process.on('uncaughtException', function (err) { console.log(err); });
 //do something when app is closing
 process.on('exit', function () {
@@ -34,10 +37,26 @@ process.on('SIGINT', function () {
 
 app.use('/', require('./controllers/testcontroller'));
 
-app.get('/', function (req, res) {
-    __loggedIn = false;
-    res.render('index');
+app.get('/', (req, res) => {
+	res.send('<a href="authenticate">Log in using client certificate</a>')
 });
 
+app.get('/authenticate', (req, res) => {
+	const cert = req.connection.getPeerCertificate()
+
+	if (req.client.authorized) {
+		res.render('neomap');
+
+	} else if (cert.subject) {
+		res.status(403)
+		   .send(`Sorry ${cert.subject.CN}, certificates from ${cert.issuer.CN} are not welcome here.`)
+
+	} else {
+		res.status(401)
+		   .send(`Sorry, but you need to provide a client certificate to continue.`)
+	}
+});
+
+https.createServer(opts, app).listen(3000);
 
 module.exports = app;

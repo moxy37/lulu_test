@@ -40,10 +40,16 @@ RENAME TABLE AllStyle_Bak TO AllStyle;
 
 
 
+ALTER TABLE EpcMovement ADD homeX FLOAT DEFAULT 0;
+DESC Zones;
+ALTER TABLE EpcMovement ADD homeY FLOAT DEFAULT 0;
+CREATE INDEX dog ON EpcMovement(id, productId);
+CREATE INDEX dog2 ON EpcMovement(id, productId, homeX, homeY);
+CREATE INDEX dogZ ON Zones (k, isHome, productId);
+UPDATE EpcMovement t1 INNER JOIN Zones t2 ON t1.productId=t2.productId AND t2.k=2 AND t2.isHome=1 SET t1.homeX=t2.xCenter, t1.homeY=t2.yCenter;
 
 
-
-
+UPDATE EpcMovement SET dHome = SQRT((x - homeX)*(x - homeX) + (y - homeY)*(y - homeY)) WHERE homeX>0 AND homeY>0;
 
 
 

@@ -66,21 +66,22 @@ CREATE TABLE LastCord (
         storeId VARCHAR(40),
         id VARCHAR(30)
 );
+CREATE INDEX lastIdxIndex ON LastCord(idx, lastIdx, id);
 
 
-INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid) SELECT id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid FROM EpcMovement ORDER BY id, ts;
+INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, homeX, homeY, dHome) SELECT id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, homeX, homeY, dHome FROM EpcMovement ORDER BY id, ts;
 
 INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
 
 UPDATE LastCord SET lastIdx = idx + 1;
 
-UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id AND t1.storeId=t2.storeId SET t1.lastX=t2.x, t1.lastY=t2.y;
+UPDATE EpcMoveCombined t1 INNER JOIN LastCord t2 ON t1.idx = t2.lastIdx AND t1.id=t2.id SET t1.lastX=t2.x, t1.lastY=t2.y;
 
 
 
-UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY));
+UPDATE EpcMoveCombined SET dLast = SQRT((x - lastX)*(x - lastX) + (y - lastY)*(y - lastY)) WHERE lastX>0 AND lastY>0;
 
-
+UPDATE EpcMovement t1 INNER JOIN EpcMoveCombined t2 ON t1.id=t2.id AND t1.ts=t2.ts AND t1.x=t2.x AND t1.y=t2.y SET t1.dLast=t2.dLast, t1.lastX=t2.lastX, t1.lastY=t2.lastY;
 
 SELECT COUNT(*) FROM EpcMoveCombined WHERE isSold=1;
 --RUN THE COMMAND "python3 cluster.py 2"
