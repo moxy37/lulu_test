@@ -5,29 +5,34 @@ var con = require(__base + 'dbConnection');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
 
-global.__loggedIn = false;
 router.get('/map', function (req, res) {
-    if (__loggedIn === true) {
+    const cert = req.connection.getPeerCertificate()
+	if (req.client.authorized) {
         res.render('map');
-    } else {
-        res.render('index');
-    }
+
+	} else {
+		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+	}
 });
 
 router.get('/map2', function (req, res) {
-    if (__loggedIn === true) {
-        res.render('map');
-    } else {
-        res.render('index');
-    }
+    const cert = req.connection.getPeerCertificate()
+	if (req.client.authorized) {
+        res.render('map2');
+
+	} else {
+		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+	}
 });
 
 router.get('/neomap', function (req, res) {
-    if (__loggedIn === true) {
+    const cert = req.connection.getPeerCertificate()
+	if (req.client.authorized) {
         res.render('neomap');
-    } else {
-        res.render('index');
-    }
+
+	} else {
+		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+	}
 });
 
 router.put('/api/sku/home', function (req, res) {
@@ -39,23 +44,6 @@ router.put('/api/sku/home', function (req, res) {
         }
         return res.send(result);
     });
-});
-
-router.put('/api/login', function (req, res) {
-    var obj = req.body;
-    if (obj.user === 'lulu' && obj.pass === 'TestLulu123!') {
-        __loggedIn = true;
-        var o = new Object();
-        o.message = 'Redirect';
-        return res.send(o);
-    }
-});
-
-router.get('/api/logout', function (req, res) {
-    __loggedIn = false;
-    var o = new Object();
-    o.message = 'Redirect';
-    return res.send(o);
 });
 
 router.put('/api/dept/list', function (req, res) {

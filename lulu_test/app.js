@@ -46,14 +46,8 @@ app.get('/authenticate', (req, res) => {
 
 	if (req.client.authorized) {
 		res.render('neomap');
-
-	} else if (cert.subject) {
-		res.status(403)
-		   .send(`Sorry ${cert.subject.CN}, certificates from ${cert.issuer.CN} are not welcome here.`)
-
 	} else {
-		res.status(401)
-		   .send(`Sorry, but you need to provide a client certificate to continue.`)
+		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
 	}
 });
 
