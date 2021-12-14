@@ -133,17 +133,17 @@ router.put('/api/style/list', function (req, res) {
     }
 });
 
-router.get('/api/sync/metro', function (req, res) {
-    var cmd = require('node-cmd');
-    cmd.run('python3 /home/ubuntu/lulu_test/update.py');
-    return res.send("OK");
-});
+// router.get('/api/sync/metro', function (req, res) {
+//     var cmd = require('node-cmd');
+//     cmd.run('python3 /home/ubuntu/lulu_test/update.py');
+//     return res.send("OK");
+// });
 
-router.get('/api/sync/wested', function (req, res) {
-    var cmd = require('node-cmd');
-    cmd.run('python3 /home/ubuntu/lulu_test/update2.py');
-    return res.send("OK");
-});
+// router.get('/api/sync/wested', function (req, res) {
+//     var cmd = require('node-cmd');
+//     cmd.run('python3 /home/ubuntu/lulu_test/update2.py');
+//     return res.send("OK");
+// });
 
 router.put('/api/sku/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
