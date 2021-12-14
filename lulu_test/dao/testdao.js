@@ -4,9 +4,15 @@ var async = require('async');
 module.exports = TestDAO;
 
 function TestDAO() {
-    this.homeZone = function (productId, storeId, next) {
+    this.homeZone = function (productId, styleCode, storeId, next) {
         var sql = "SELECT * FROM Zones WHERE productId=? AND k=2 AND storeId=? AND isHome=1";
-        con.query(sql, [productId, storeId], function (err, results) {
+        var p = [productId, storeId];
+        if (productId === undefined || productId === '') {
+            sql = "SELECT * FROM Zones WHERE styleCode=? AND k=2 AND storeId=? AND isHome=1";
+            p = [styleCode, storeId];
+        }
+
+        con.query(sql, p, function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);
@@ -30,12 +36,11 @@ function TestDAO() {
             obj.radiusSD = r.radiusSD;
             obj.percentInZone = r.percentInZone;
             obj.totalCount = r.totalCount;
-
-
             return next(null, obj);
 
         });
     }
+    
     this.sku = function (storeId, deptId, subDeptId, classId, subClassId, styleId, next) {
         var sql = "SELECT productId, styleName FROM CurrentLocation WHERE styleName IS NOT NULL ";
         var parmList = [];

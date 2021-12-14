@@ -266,6 +266,10 @@ function LoadHomeZone() {
     ShowLoader();
     var obj = new Object();
     obj.productId = $("#UpcSelect option:selected").val();
+    if (obj.productId === undefined) {
+        obj.productId = '';
+    }
+    obj.style = $("#StyleSelect option:selected").val();
     obj.storeId = $("#StoreSelect option:selected").val();
     $.ajax({
         type: "PUT",

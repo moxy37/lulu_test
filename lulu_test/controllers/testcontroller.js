@@ -34,7 +34,7 @@ router.get('/neomap', function (req, res) {
 
 router.put('/api/sku/home', function (req, res) {
     var obj = req.body;
-    testDao.homeZone(obj.productId, obj.storeId, function (err, result) {
+    testDao.homeZone(obj.productId, obj.style, obj.storeId, function (err, result) {
         if (err) {
             console.log(err);
             return res.send(err);
