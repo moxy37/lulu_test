@@ -19,7 +19,7 @@ b4 = bbbb.cursor()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') ORDER BY storeId, styleCode, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') AND isDeleted=0 ORDER BY storeId, styleCode, productId, id, ts")
 print("Finished execute")
 obj = {}
 myresultA = a4.fetchall()
