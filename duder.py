@@ -37,7 +37,7 @@ for s in mySales:
     sales[s[3]][s[0]] = s[2]
 print("Getting all")
 c4 = aaaa.cursor()
-c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement_Test WHERE isUpdated=0 ORDER BY id, ts")
+c4.execute("SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts")
 myRes = c4.fetchall()
 print("Got them")
 total = len(myRes)
@@ -73,7 +73,7 @@ for o in myRes:
         
         try:
             
-            sql = "UPDATE EpcMovement_Test SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s, storeName=%s, regionName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
+            sql = "UPDATE EpcMovement SET isUpdated=1, dHome=%s, soldTimestamp=%s, isSold=%s, storeName=%s, regionName=%s WHERE id=%s AND storeId=%s AND regionId=%s AND ts=%s"
             vals = (dHome, soldTimestamp, isSold, storeName, regionName, o[0], o[4], o[5], o[3])
             b4 = bbbb.cursor()
             b4.execute(sql, vals)
