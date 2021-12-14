@@ -34,6 +34,7 @@ for s in mySales:
     if s[3] not in sales:
         sales[s[3]] = {}
     sales[s[3]][s[0]] = s[2]
+'''
 print("Creating last update table")
 a6 = aaaa.cursor()
 a6.execute("DROP TABLE IF EXISTS LastUpdateTS")
@@ -50,7 +51,9 @@ aaaa.commit()
 a10 = aaaa.cursor()
 a10.execute("SELECT id, x, y, ts, regionId FROM LastUpdateTS")
 myLastUpdate = a10.fetchall()
+'''
 lastUpdate = {}
+'''
 for l in myLastUpdate:
     ll = {}
     ll['x'] = l[1]
@@ -58,6 +61,7 @@ for l in myLastUpdate:
     ll['ts'] = l[3]
     ll['regionId'] = l[4]
     lastUpdate[l[0]] = ll
+'''
 print("Getting all movement datat to update")
 c4 = aaaa.cursor()
 sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND isDeleted=0 ORDER BY id, ts"
