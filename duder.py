@@ -18,9 +18,7 @@ stores = {}
 for s in myStores:
     stores[s[0]] = s[1]
 a4 = aaaa.cursor()
-sql = "SELECT productId, xCenter, yCenter FROM Zones WHERE k=%s AND isHome=1"
-vals = (kSize)
-a4.execute(sql, vals)
+a4.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k="+str(kSize)+" AND isHome=1")
 myZones = a4.fetchall()
 zones = {}
 for z in myZones:
