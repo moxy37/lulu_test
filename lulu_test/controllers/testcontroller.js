@@ -7,32 +7,32 @@ var testDao = new TestDAO();
 
 router.get('/map', function (req, res) {
     const cert = req.connection.getPeerCertificate()
-	if (req.client.authorized) {
+    if (req.client.authorized) {
         res.render('map');
 
-	} else {
-		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
-	}
+    } else {
+        res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+    }
 });
 
 router.get('/map2', function (req, res) {
     const cert = req.connection.getPeerCertificate()
-	if (req.client.authorized) {
+    if (req.client.authorized) {
         res.render('map2');
 
-	} else {
-		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
-	}
+    } else {
+        res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+    }
 });
 
 router.get('/neomap', function (req, res) {
     const cert = req.connection.getPeerCertificate()
-	if (req.client.authorized) {
+    if (req.client.authorized) {
         res.render('neomap');
 
-	} else {
-		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
-	}
+    } else {
+        res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+    }
 });
 
 router.put('/api/sku/home', function (req, res) {
@@ -47,14 +47,23 @@ router.put('/api/sku/home', function (req, res) {
 });
 
 router.put('/api/dept/list', function (req, res) {
-    var obj = req.body;
-    testDao.allDept(obj.storeId, function (err, list) {
-        if (err) {
-            console.log(err);
-            return res.send(err);
-        }
-        return res.send(list);
-    });
+    const cert = req.connection.getPeerCertificate()
+    if (req.client.authorized) {
+        var obj = req.body;
+        testDao.allDept(obj.storeId, function (err, list) {
+            if (err) {
+                console.log(err);
+                return res.send(err);
+            }
+            return res.send(list);
+        });
+
+    } else {
+        var o = new Object();
+        o.message = "FAIL";
+        return res.send(o);
+    }
+
 });
 
 router.put('/api/subdept/list', function (req, res) {
