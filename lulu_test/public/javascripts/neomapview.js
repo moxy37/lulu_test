@@ -205,7 +205,7 @@ function StartLoadingIt() {
     LoadIt();
 }
 
-function LoadIt() {
+function LoadIt(withProduct = true) {
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -217,7 +217,9 @@ function LoadIt() {
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
-    obj.productId = $("#SkuText").val();
+    if (withProduct) {
+        obj.productId = $("#SkuText").val();
+    }
     obj.limit = $("#Limit").val();
     obj.table = $("#TableSelect option:selected").val();
     obj.isExit = $("#IsExitSelect option:selected").val();

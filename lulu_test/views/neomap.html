@@ -14,7 +14,7 @@
 <body>
 
     <header>
-        <i class="fas fa-bars fa-2x" id="menu" onclick="searchDiv()">Metortown</i>
+        <i class="fas fa-bars fa-2x" id="menu" onclick="searchDiv()">&nbsp;&nbsp;&nbsp;Metortown</i>
     </header>
     <aside>
         <ul>
@@ -70,6 +70,7 @@
                 <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
                 <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
                 <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
+                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
                 <button onclick="LoadHomeZone();" class="CheckLoader apply_button">Show Home Zone</button>
             </li>
             <li class="UpcStuff">
@@ -78,7 +79,7 @@
             </li>
             <li class="UpcStuff">
                 <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
-                <!-- <button onclick="LoadUPC();" class="reset_button CheckLoader">Load SKU's</button> -->
+                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
                 <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
             </li>
             <li>
