@@ -512,22 +512,6 @@ function SwitchMap() {
     }
 }
 
-function LogMeOut() {
-    $.ajax({
-        type: "GET",
-        url: "/api/logout",
-        cache: false,
-        dataType: "json",
-        success: function (results) {
-            window.location.href = '/';
-        },
-        error: function (results) {
-            alert("Invalid");
-        }
-    });
-}
-
-
 function drawPin(x, y) {
 
     ctx.save();
