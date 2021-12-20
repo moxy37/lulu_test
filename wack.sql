@@ -1,0 +1,1 @@
+SELECT id, yyyy, mm, dd FROM WackedData WHERE total>500
