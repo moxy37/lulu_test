@@ -3,7 +3,7 @@ import requests
 from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
-import os
+import sys
 
 siteIndex = int(sys.argv[1])
 
