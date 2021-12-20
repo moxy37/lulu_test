@@ -3,14 +3,19 @@ import requests
 from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
+import os
+
+siteIndex = int(sys.argv[1])
+
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
 now = datetime.now(timezone.utc)
 lastNow = now
-siteId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b'
+
 siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6e3a8039c']
-now = '2021-11-05 5:30:00'
+siteId = siteIds[siteIndex]
+now = '2021-12-01 5:30:00'
 d3 = dddd.cursor()
 d3.execute("SELECT MAX(ts) FROM EpcMovement WHERE storeId='1597647a-7056-3fe9-94c1-ae5c9d16d69b'")
 myres = d3.fetchall()
