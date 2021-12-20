@@ -11,7 +11,7 @@
   "dependencies": {
     "async": "^0.2.10",
     "body-parser": "^1.19.0",
-    "consolidate": "^0.16.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs": "^0.0.1-security",
@@ -21,7 +21,6 @@
     "node-cron": "^3.0.0",
     "path": "^0.12.7",
     "read-chunk": "^4.0.2",
-    "snowflake-sdk": "^1.6.4",
-    "swig": "^1.4.2"
+    "snowflake-sdk": "^1.6.4"
   }
 }

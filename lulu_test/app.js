@@ -6,11 +6,12 @@ var formidable = require('formidable');
 
 var bodyParser = require('body-parser');
 
-var cons = require('consolidate');
+//var cons = require('consolidate');
 var app = express();
 const https = require('https');
 
-app.engine('html', cons.swig);
+app.engine('.html', require('ejs').__express);
+//app.engine('html', cons.swig);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.use(bodyParser.json({ limit: '50mb' }));
