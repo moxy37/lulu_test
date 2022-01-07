@@ -6,9 +6,9 @@ import mysql.connector
 
 kSize = int(sys.argv[1])
 isDeleted = int(sys.argv[2])
-
-aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+dbName = sys.argv[3]
+aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 
 print("Starting loading basics")
 a2 = aaaa.cursor()
@@ -67,6 +67,8 @@ c4 = aaaa.cursor()
 sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND isDeleted=0 ORDER BY id, ts"
 if isDeleted == 1:
     sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 ORDER BY id, ts"
+elif isDeleted == 2:
+    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement ORDER BY id, ts"
 c4.execute(sql)
 myRes = c4.fetchall()
 print("Got them")

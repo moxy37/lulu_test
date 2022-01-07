@@ -8,9 +8,10 @@ import statistics
 import mysql.connector
 
 kSize = int(sys.argv[1])
+dbName = sys.argv[2]
 
-aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 
 c4 = aaaa.cursor()
 c4.execute("DELETE FROM Zones WHERE k=" +  str(kSize))
