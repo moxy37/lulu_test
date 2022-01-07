@@ -1,5 +1,3 @@
-
---THIS IS ALL NEEDED FOR PRUNNING
 UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode;
 
 DELETE FROM EpcMovement WHERE styleCode IS NULL;
@@ -80,8 +78,6 @@ UPDATE EpcMovement t1 INNER JOIN TempMe t2 ON t1.id=t2.id AND t1.yyyy=t2.yyyy AN
 DROP TABLE IF EXISTS TempMe;
 
 UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode;
-
---Now run ValidEpc.sql
 
 DROP TABLE IF EXISTS ValidEpc_Bak;
 
