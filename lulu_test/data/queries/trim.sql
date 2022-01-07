@@ -2,8 +2,6 @@
 --THIS IS ALL NEEDED FOR PRUNNING
 UPDATE EpcMovement SET tempKey = CONCAT(id, '_', storeId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR), '_', CAST(HOUR(ts) AS CHAR), '_', CAST(FLOOR(MINUTE(ts)/15) AS CHAR));
 
-OPTIMIZE TABLE EpcMovement;
-
 DROP TABLE IF EXISTS EpcMax;
 
 CREATE TABLE EpcMax (id VARCHAR(30), productId VARCHAR(40), storeId VARCHAR(40), yyyy INTEGER, mm INTEGER, dd INTEGER, h INTEGER, m INTEGER, isMove INTEGER, isRegion INTEGER, isExit INTEGER, isMissing INTEGER, isReacquired INTEGER, isValid INTEGER, isGhost INTEGER, minX FLOAT, minY FLOAT, maxX FLOAT, maxY FLOAT, avgX FLOAT, avgY FLOAT, ts DATETIME, total INTEGER, intervalTotal INTEGER, tempKey VARCHAR(255));
