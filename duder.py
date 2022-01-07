@@ -64,11 +64,11 @@ for l in myLastUpdate:
 '''
 print("Getting all movement datat to update")
 c4 = aaaa.cursor()
-sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND isDeleted=0 AND dailyMoves < 40 ORDER BY id, ts"
+sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND isDeleted=0 AND dailyMoves < 50 ORDER BY id, ts"
 if isDeleted == 1:
-    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND dailyMoves < 40 ORDER BY id, ts"
+    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE isUpdated=0 AND dailyMoves < 50 ORDER BY id, ts"
 elif isDeleted == 2:
-    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE dailyMoves < 40 ORDER BY id, ts"
+    sql = "SELECT id, x, y, ts, storeId, regionId, productId FROM EpcMovement WHERE dailyMoves < 50 ORDER BY id, ts"
 c4.execute(sql)
 myRes = c4.fetchall()
 print("Got them")
