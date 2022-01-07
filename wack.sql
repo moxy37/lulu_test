@@ -17,3 +17,11 @@ ALTER TABLE EpcMovement ADD m INTEGER;
 UPDATE EpcMovement SET h=HOUR(ts), m=FLOOR(MINUTE(ts)/15.0);
 
 SELECT x.yyyy, x.mm, x.dd, COUNT(*), AVG(x.total), MIN(x.total), MAX(x.total) FROM (SELECT id, yyyy, mm, dd, SUM(total) AS total FROM WackedData GROUP BY id, yyyy, mm, dd ) AS x GROUP BY x.yyyy, x.mm, x.dd;
+
+
+DEC 6 2021 1pm 
+
+SELECT productId, COUNT(*) FROM EpcMovement WHERE productId LIKE '139476%' AND dd=6 GROUP BY productId ORDER BY productId;
+
+
+SELECT id, COUNT(*) FROM EpcMovement WHERE productId='139476076' AND dd=6 AND isExit=1 GROUP BY id;
