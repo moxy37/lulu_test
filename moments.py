@@ -6,9 +6,12 @@ import requests
 from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
+import sys
 
-cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+dbName = sys.argv[1]
+
+cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 added = 0
 error = 0
 now = datetime.now(timezone.utc)
@@ -18,7 +21,7 @@ d.execute("DELETE FROM Moments")
 dddd.commit()
 
 #url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?endDate=' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')))+ '&size=20000'
-url = 'http://44.192.77.149/AP/V1/GroupedPOSBypass?size=30000'
+url = 'http://3.235.171.79/AP/V1/GroupedPOSBypass?size=50000'
 headers = {'Authorization': 'APIKEY 2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
 response = requests.request("GET", url, headers=headers)
 print("Got data")
