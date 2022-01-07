@@ -46,17 +46,25 @@ UPDATE EpcMovement t1 INNER JOIN EpcMax_Bak t2 ON t1.tempKey=t2.tempKey AND t1.t
 
 DROP TABLE IF EXISTS EpcMovement_TEMP2;
 
-CREATE TABLE EpcMovement_TEMP2 (id VARCHAR(30) NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, storeName VARCHAR(250), regionId VARCHAR(40) NOT NULL, regionName VARCHAR(250), ts DATETIME NOT NULL, soldTimestamp DATETIME, x FLOAT DEFAULT 0 NOT NULL, y FLOAT DEFAULT 0 NOT NULL, z FLOAT DEFAULT 0, confidence FLOAT DEFAULT 0, isDeleted INTEGER DEFAULT 0, isDeparture INTEGER NOT NULL DEFAULT 0, isExit INTEGER NOT NULL DEFAULT 0, isGhost INTEGER NOT NULL DEFAULT 0, isMissing INTEGER NOT NULL DEFAULT 0, isMove INTEGER NOT NULL DEFAULT 0, isReacquired INTEGER NOT NULL DEFAULT 0, isRegion INTEGER NOT NULL DEFAULT 0, isSold INTEGER NOT NULL DEFAULT 0, isValid INTEGER NOT NULL DEFAULT 0, yyyy INTEGER, mm INTEGER, dd INTEGER, lastX FLOAT DEFAULT 0, lastY FLOAT DEFAULT 0, dLast FLOAT DEFAULT 0, dHome FLOAT DEFAULT 0, isUpdated INTEGER DEFAULT 0, tempKey VARCHAR(255), PRIMARY KEY (id, productId, storeId, regionId, ts, x, y));
+CREATE TABLE EpcMovement_TEMP2 (id VARCHAR(30) NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, storeName VARCHAR(250), regionId VARCHAR(40) NOT NULL, regionName VARCHAR(250), ts DATETIME NOT NULL, soldTimestamp DATETIME, x FLOAT DEFAULT 0 NOT NULL, y FLOAT DEFAULT 0 NOT NULL, z FLOAT DEFAULT 0, confidence FLOAT DEFAULT 0, isDeleted INTEGER DEFAULT 0, isDeparture INTEGER NOT NULL DEFAULT 0, isExit INTEGER NOT NULL DEFAULT 0, isGhost INTEGER NOT NULL DEFAULT 0, isMissing INTEGER NOT NULL DEFAULT 0, isMove INTEGER NOT NULL DEFAULT 0, isReacquired INTEGER NOT NULL DEFAULT 0, isRegion INTEGER NOT NULL DEFAULT 0, isSold INTEGER NOT NULL DEFAULT 0, isValid INTEGER NOT NULL DEFAULT 0, yyyy INTEGER, mm INTEGER, dd INTEGER, lastX FLOAT DEFAULT 0, lastY FLOAT DEFAULT 0, dLast FLOAT DEFAULT 0, dHome FLOAT DEFAULT 0, isUpdated INTEGER DEFAULT 0, tempKey VARCHAR(255), dailyMoves INTEGER DEFAULT 0, PRIMARY KEY (id, productId, storeId, regionId, ts, x, y));
 
 DELETE FROM EpcMovement WHERE isDeleted=1;
 
 INSERT INTO EpcMovement_TEMP2 (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) SELECT id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, MAX(confidence), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isRegion), MAX(isValid), MAX(yyyy), MAX(mm), MAX(dd) FROM EpcMovement GROUP BY id, productId, storeId, storeName, regionId, regionName, ts, x, y, z;
 
-DROP TABLE IF EXISTS EpcMovement;
-
 RENAME TABLE EpcMovement_TEMP2 TO EpcMovement;
 
 UPDATE EpcMovement SET tempKey = CONCAT(id, '_', storeId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR), '_', CAST(HOUR(ts) AS CHAR), '_', CAST(FLOOR(MINUTE(ts)/15) AS CHAR));
+
+DROP TABLE IF EXISTS TempMe;
+
+CREATE TABLE TempMe (id VARCHAR(30), yyyy INTEGER, mm INTEGER, dd INTEGER, dailyMoves INTEGER);
+
+INSERT INTO TempMe (id, yyyy, mm, dd, dailyMoves) SELECT id, yyyy, mm, dd, COUNT(*) FROM EpcMovement GROUP BY id, yyyy, mm, dd;
+
+UPDATE EpcMovement t1 INNER JOIN TempMe t2 ON t1.id=t2.id SET t1.dailyMoves=t2.dailyMoves;
+
+DROP TABLE IF EXISTS TempMe;
 
 DROP TABLE IF EXISTS EpcMax;
 
