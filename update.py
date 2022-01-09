@@ -18,7 +18,7 @@ siteIds = ['1597647a-7056-3fe9-94c1-ae5c9d16d69b', 'd4f87b6f-5199-43ac-b231-fbe6
 siteId = siteIds[siteIndex]
 now = '2021-12-01 5:30:00'
 d3 = dddd.cursor()
-d3.execute("SELECT MAX(ts) FROM EpcMovement WHERE storeId='1597647a-7056-3fe9-94c1-ae5c9d16d69b'")
+d3.execute("SELECT MAX(ts) FROM EpcMovement")
 myres = d3.fetchall()
 for rrr in myres:
     now = rrr[0]
