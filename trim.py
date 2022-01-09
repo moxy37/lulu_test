@@ -141,12 +141,6 @@ print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 c = cnxn.cursor()
-c.execute("")
-cnxn.commit()
-print("Command " + str(current) + " of " + str(total))
-current = current + 1
-
-c = cnxn.cursor()
 c.execute("ALTER TABLE EpcMovement_NewBack DISABLE KEYS")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
