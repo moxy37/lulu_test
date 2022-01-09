@@ -10,7 +10,7 @@ dbName = sys.argv[2]
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+#eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 now = datetime.now(timezone.utc)
 lastNow = now
 
@@ -119,37 +119,10 @@ while True:
         eeee.commit()
         e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
+        print("Finished Updating ValidEpc")
         '''
-        '''
-        e4.execute("UPDATE EpcMovement SET isExit=1 WHERE isExit>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isGhost=1 WHERE isGhost>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isMissing=1 WHERE isMissing>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isMove=1 WHERE isMove>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isReacquired=1 WHERE isReacquired>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isMove=1 WHERE isMove>1")
-        eeee.commit()
-        e4.execute("UPDATE EpcMovement SET isValid=1 WHERE isValid>1")
-        eeee.commit()
-        '''
-        #print("Finished Updating ValidEpc")
         print("Sleeping now")
         sleep(20)
-        '''
-        print("One minute")
-        sleep(60)
-        print("Two minutes")
-        sleep(60)
-        print("Three minutes")
-        sleep(60)
-        print("Four minutes")
-        sleep(60)
-        print("Five minutes")
-        '''
     except Exception as e:
         print(str(e))
     
