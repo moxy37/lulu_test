@@ -96,6 +96,7 @@ while True:
         except Exception as e:
             print("Error making API call")
             print(str(e))
+        '''
         print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
@@ -119,6 +120,7 @@ while True:
         e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
         '''
+        '''
         e4.execute("UPDATE EpcMovement SET isExit=1 WHERE isExit>1")
         eeee.commit()
         e4.execute("UPDATE EpcMovement SET isGhost=1 WHERE isGhost>1")
@@ -134,7 +136,7 @@ while True:
         e4.execute("UPDATE EpcMovement SET isValid=1 WHERE isValid>1")
         eeee.commit()
         '''
-        print("Finished Updating ValidEpc")
+        #print("Finished Updating ValidEpc")
         print("Sleeping now")
         sleep(20)
         '''
