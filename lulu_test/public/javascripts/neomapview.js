@@ -222,6 +222,7 @@ function LoadIt(withProduct = true) {
     if (obj.regions === undefined) { obj.regions = []; }
     if (withProduct) {
         obj.productId = $("#SkuText").val();
+        obj.epc = $("#EpcText").val();
     }
     obj.limit = $("#Limit").val();
     obj.table = $("#TableSelect option:selected").val();

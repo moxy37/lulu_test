@@ -234,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hour, productId, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hour, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -259,7 +259,10 @@ function TestDAO() {
                 sql += "AND dd=? ";
                 parmList.push(parseInt(day));
             }
-
+            if (epc !== undefined && epc !== '') {
+                sql += "AND id=? ";
+                parmList.push(epc);
+            }
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
             console.log(parmList);
@@ -334,6 +337,10 @@ function TestDAO() {
             if (deptId !== undefined && deptId !== '') {
                 sql += "AND deptCode=? ";
                 parmList.push(deptId);
+            }
+            if (epc !== undefined && epc !== '') {
+                sql += "AND id=? ";
+                parmList.push(epc);
             }
             if (subDeptId !== undefined && subDeptId !== '') {
                 sql += "AND subDeptCode=? ";
