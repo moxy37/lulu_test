@@ -217,6 +217,7 @@ function LoadIt(withProduct = true) {
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
+    obj.hour = $("#Hour").val();
     obj.regions = $("#RegionSelect").val();
     if (obj.regions === undefined) { obj.regions = []; }
     if (withProduct) {
@@ -363,7 +364,7 @@ function Forward() {
         $(".IsSelect").removeClass('RedClass');
 
         $("#IsDepartureSelect").val(o.isDeparture);
-        if(o.isDeparture===1||o.isDeparture===0){
+        if (o.isDeparture === 1 || o.isDeparture === 0) {
             $("#IsDepartureSelect").addClass('RedClass');
         }
         $("#IsExitSelect").val(o.isExit);

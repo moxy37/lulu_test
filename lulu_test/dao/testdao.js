@@ -234,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, productId, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hour, productId, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -243,7 +243,10 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-
+            if (hour !== undefined && hour !== '') {
+                sql += "AND HOUR(ts)=? ";
+                parmList.push(parseInt(hour));
+            }
             if (year !== undefined && year !== '') {
                 sql += "AND yyyy=? ";
                 parmList.push(parseInt(year));
@@ -355,6 +358,10 @@ function TestDAO() {
             if (storeId !== undefined && storeId !== '') {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
+            }
+            if (hour !== undefined && hour !== '') {
+                sql += "AND HOUR(ts)=? ";
+                parmList.push(parseInt(hour));
             }
             if (year !== undefined && year !== '') {
                 sql += "AND yyyy=? ";
