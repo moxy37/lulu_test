@@ -5,7 +5,7 @@ dbName = sys.argv[1]
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 
-total = 49
+total = 50
 current = 1
 
 #Step 1
@@ -16,26 +16,14 @@ print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 2
-c = cnxn.cursor()
-c.execute("DELETE FROM EpcMovement WHERE styleCode IS NULL")
-cnxn.commit()
-print("Command " + str(current) + " of " + str(total))
-current = current + 1
-
 #Step 3
 c = cnxn.cursor()
-c.execute("DELETE FROM EpcMovement WHERE ts IS NULL")
+c.execute("DELETE FROM EpcMovement WHERE ts IS NULL OR id IS NULL OR tempKey IS NULL OR styleCode IS NULL")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 4
-c = cnxn.cursor()
-c.execute("DELETE FROM EpcMovement WHERE id IS NULL")
-cnxn.commit()
-print("Command " + str(current) + " of " + str(total))
-current = current + 1
-
 #Step 5
 c = cnxn.cursor()
 c.execute("UPDATE EpcMovement SET yyyy=YEAR(ts), mm=MONTH(ts), dd=DAY(ts), soldTimestamp=NULL, isSold=0, isDeleted=0, isUpdated=0")
@@ -72,7 +60,11 @@ print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 10
-
+c = cnxn.cursor()
+c.execute("DELETE FROM EpcMovement WHERE tempKey IS NULL")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
 
 #Step 11
 c = cnxn.cursor()
