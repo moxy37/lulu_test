@@ -1,5 +1,5 @@
 CREATE TABLE TestProducts (
-	sku varchar(20) NULL,
+	sku varchar(20) NOT NULL,
 	deptCode varchar(50) NULL,
 	deptName varchar(100) NULL,
 	subDeptCode varchar(50) NULL,
@@ -12,7 +12,8 @@ CREATE TABLE TestProducts (
 	styleName varchar(100) NULL,
 	price float NOT NULL DEFAULT 0,
 	store varchar(10) NOT NULL DEFAULT '',
-	total int NOT NULL DEFAULT 0
+	total int NOT NULL DEFAULT 0,
+	PRIMARY KEY(sku, store)
 );
 
 DROP TABLE IF EXISTS RegionBoundaries;	
