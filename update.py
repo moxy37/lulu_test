@@ -52,7 +52,8 @@ while True:
                 x1 = o['timestamp'].split('T')
                 x2 = x1[1].split(':')
                 h = int(str(x2[0])
-                m = math.floor(float(str(x2[1]))/20.0)
+                tempM = float(str(x2[1]))/20.0
+                m = math.floor(tempM)
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
                 tsD = ts.split('.')
