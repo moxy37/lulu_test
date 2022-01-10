@@ -5,7 +5,7 @@ dbName = sys.argv[1]
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 
-total = 50
+total = 49
 current = 1
 
 #Step 1
@@ -72,11 +72,7 @@ print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 10
-c = cnxn.cursor()
-c.execute("UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(FLOOR(MINUTE(ts/20.0)) AS CHAR))")
-cnxn.commit()
-print("Command " + str(current) + " of " + str(total))
-current = current + 1
+
 
 #Step 11
 c = cnxn.cursor()
