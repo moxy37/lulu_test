@@ -51,8 +51,8 @@ while True:
                 #'2021-10-22T20:16:07.468Z'
                 x1 = o['timestamp'].split('T')
                 x2 = x1[1].split(':')
-                h = int(str(x2[0])
-                tempM = x2[1]/20
+                h = int(str(x2[0]))
+                tempM = float(str(x2[1]))/20
                 m = math.floor(tempM)
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
