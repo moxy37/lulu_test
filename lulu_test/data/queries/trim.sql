@@ -16,7 +16,7 @@ INSERT INTO TempMe (id, yyyy, mm, dd, dailyMoves) SELECT id, yyyy, mm, dd, COUNT
 
 UPDATE EpcMovement t1 INNER JOIN TempMe t2 ON t1.id=t2.id AND t1.yyyy=t2.yyyy AND t1.mm=t2.mm AND t1.dd=t2.dd SET t1.dailyMoves=t2.dailyMoves;
 
-UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(FLOOR(MINUTE(ts/20.0)) AS CHAR));
+UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR), '_', CAST(HOUR(ts) AS CHAR), '_', CAST(FLOOR(MINUTE(ts)/20.0) AS CHAR));
 
 DROP TABLE IF EXISTS TempMe;
 

@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from time import sleep
 import mysql.connector
 import sys
+import math
 
 siteIndex = int(sys.argv[1])
 dbName = sys.argv[2]
@@ -48,6 +49,10 @@ while True:
                 isExit = 0
                 isDeparture = 0
                 #'2021-10-22T20:16:07.468Z'
+                x1 = o['timestamp'].split('T')
+                x2 = x1[1].split(':')
+                h = int(str(x2[0])
+                m = floor(float(str(x2[1]))/20.0)
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
                 tsD = ts.split('.')
@@ -57,6 +62,7 @@ while True:
                 yyyy = tsData2[0]
                 mm = tsData2[1]
                 dd = tsData2[2]
+                tempKey = o['id'] + '_' + o['region']  + '_' + str(yyyy) + '_' + str(mm) + '_' + str(dd) + '_' + str(h) + '_' + str(m)
                 if o['state'] == 'VALID':
                     isValid = 1
                 if 'POSITION_CHANGE' in o['events']:
@@ -75,7 +81,7 @@ while True:
                     isDeparture = 1
                 if 'VALID' in o['events']:
                     isValid = 1
-                sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ")"
+                sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd, tempKey) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ", '" + str(tempKey) + "')"
                 try:
                     cursor = cnxn.cursor()
                     cursor.execute(sql)
