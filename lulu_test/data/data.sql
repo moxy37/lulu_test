@@ -297,3 +297,22 @@ INSERT INTO RegionBoundaries (region, x, y) VALUES ("d03f5d32-9ecf-31ac-a9a4-d88
 
 
 INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, MAX(price) FROM TestProducts GROUP BY sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName;
+
+CREATE TABLE TempMe (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0);
+CREATE TABLE TempMe2 (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0);
+CREATE TABLE TempMe3 (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0, isJoin VARCHAR(20));
+
+INSERT INTO TempMe (sku, total) SELECT sku, COUNT(*) FROM TestProducts GROUP BY sku;
+INSERT INTO TempMe2 (sku, total) SELECT sku, COUNT(*) FROM Products GROUP BY sku;
+INSERT INTO TempMe3 (sku, total, isJoin) SELECT t1.sku, t1.total, t2.sku FROM TempMe t1 LEFT JOIN TempMe2 t2 ON t1.sku=t2.sku;
+
+SELECT COUNT(*) FROM TempMe3;
+
+SELECT COUNT(*) FROM TempMe3 WHERE isJoin IS NULL;
+
+SELECT COUNT(*) FROM TempMe3 WHERE isJoin IS NOT NULL;
+
+
+
+INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT t2.sku, t1.deptCode, t1.deptName, t1.subDeptCode, t1.subDeptName, t1.classCode, t1.className, t1.subClassCode, t1.subClassName, t1.styleCode, t1.styleName, t1.price FROM TestProducts t1 JOIN TempMe3 t2 ON t1.sku=t2.sku;
+
