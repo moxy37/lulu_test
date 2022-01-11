@@ -536,17 +536,18 @@ function ShowAll() {
     console.log(JSON.stringify(gPoints));
     for (var i = 0; i < keyList.length; i++) {
         var k = keyList[i];
+        var move = 5;
         var x0 = gPoints[k]['x'] - 4;
         var y0 = gPoints[k]['y'] - 4;
-        var x1 = x0 + 8;
-        var y1 = y0 + 8;
+        var x1 = x0 + 2 * move;
+        var y1 = y0 + 2 * move;
         var currentX = x0;
         var currentY = y0;
         var movePath = 0;
         for (var j = 0; j < gPoints[k]['count'] - 1; j++) {
             if (movePath === 0) {
                 //Means going right from last current point
-                currentX = currentX + 4;
+                currentX = currentX + move;
                 currentY = currentY;
                 if (currentX >= x1) {
                     movePath = 1;
@@ -554,25 +555,25 @@ function ShowAll() {
             } else if (movePath === 1) {
                 //Means going up right arm
                 currentX = currentX;
-                currentY = currentY + 4;
+                currentY = currentY + move;
                 if (currentY >= y1) {
                     movePath = 2;
                 }
             } else if (movePath === 2) {
                 //Means going left on top
-                currentX = currentX - 4;
+                currentX = currentX - move;
                 currentY = currentY;
                 if (currentX <= x0) {
                     movePath = 3;
                 }
             } else if (movePath === 3) {
                 currentX = currentX;
-                currentY = currentY - 4;
+                currentY = currentY - move;
                 if (currentY <= y0) {
-                    x0 = x0 - 4;
-                    y0 = y0 - 4;
-                    x1 = x1 + 4;
-                    y1 = y1 + 4;
+                    x0 = x0 - move;
+                    y0 = y0 - move;
+                    x1 = x1 + move;
+                    y1 = y1 + move;
                     currentX = x0;
                     currentY = y0;
                     movePath = 0;
