@@ -538,8 +538,8 @@ function ShowAll() {
         var k = keyList[i];
         var x0 = gPoints[k]['x'] - 4;
         var y0 = gPoints[k]['y'] - 4;
-        var x1 = x0 + sideLength * 4;
-        var y1 = y0 + sideLength * 4;
+        var x1 = x0 + 8;
+        var y1 = y0 + 8;
         var currentX = x0;
         var currentY = y0;
         var movePath = 0;
