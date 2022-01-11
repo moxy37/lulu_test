@@ -232,6 +232,7 @@ function LoadIt(withProduct = true) {
     obj.isMissing = $("#IsMissingSelect option:selected").val();
     obj.isMove = $("#IsMoveSelect option:selected").val();
     obj.isRegion = $("#IsRegionSelect option:selected").val();
+    obj.isSold = $("#IsSoldSelect option:selected").val();
     obj.isDeparture = $("#IsDepartureSelect option:selected").val();
     obj.isValid = $("#IsValidSelect option:selected").val();
     if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }

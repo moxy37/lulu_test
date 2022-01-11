@@ -234,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hourStart, hourStop, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hourStart, hourStop, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isSold, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -405,6 +405,10 @@ function TestDAO() {
             if (isMissing !== undefined && isMissing !== '') {
                 sql += "AND isMissing=? ";
                 parmList.push(isMissing);
+            }
+            if (isSold !== undefined && isSold !== '') {
+                sql += "AND isSold=? ";
+                parmList.push(isSold);
             }
             if (isMove !== undefined && isMove !== '') {
                 sql += "AND isMove=? ";
