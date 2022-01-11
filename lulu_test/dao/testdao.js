@@ -35,7 +35,8 @@ function TestDAO() {
             sql = "SELECT * FROM Zones WHERE productId=? AND k=? AND storeId=? AND isHome=1";
             p = [productId, k, storeId];
         }
-
+        console.log(sql);
+        console.log(JSON.stringify(p));
         con.query(sql, p, function (err, results) {
             if (err) {
                 console.log(err.message);
