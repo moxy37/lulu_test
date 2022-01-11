@@ -164,7 +164,7 @@ router.put('/api/style/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
-        testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
+        testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.styleGroup, function (err, list) {
             if (err) {
                 console.log(err);
                 return res.send(err);

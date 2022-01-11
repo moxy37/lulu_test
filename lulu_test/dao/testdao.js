@@ -29,7 +29,7 @@ function TestDAO() {
     }
     this.homeZone = function (productId, styleCode, styleGroup, storeId, k, next) {
         console.log("Trying to get home zones");
-        
+
         var sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
         var p = [];
         if (styleGroup !== undefined && styleGroup !== '') {
@@ -249,9 +249,15 @@ function TestDAO() {
         });
     }
 
-    this.style = function (storeId, deptId, subDeptId, classId, subClassId, next) {
-        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=? AND storeId=? ORDER BY styleName";
-        con.query(sql, [deptId, subDeptId, classId, subClassId, storeId], function (err, results) {
+    this.style = function (storeId, deptId, subDeptId, classId, subClassId, styleGroup, next) {
+        var sql = "SELECT * FROM AllStyle WHERE deptCode=? AND subDeptCode=? AND classCode=? AND subClassCode=? AND storeId=? ";
+        var p = [deptId, subDeptId, classId, subClassId, storeId];
+        if (styleGroup !== undefined && styleGroup !== '') {
+            sql += "AND SUBSTRING(styleName, 1, 16)=? ";
+            p.push(styleGroup);
+        }
+        sql += " ORDER BY styleName";
+        con.query(sql, p, function (err, results) {
             if (err) {
                 console.log(err.message);
                 return next(err);

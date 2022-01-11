@@ -163,6 +163,7 @@ function AllStyleGroups() {
             $("#StyleGroupSelect").empty();
             $("#StyleGroupSelect").append(html);
             HideLoader();
+            AllStyles();
         },
         error: function (results) {
             HideLoader();
@@ -179,6 +180,7 @@ function AllStyles() {
     obj.subDept = $("#SubDeptSelect option:selected").val();
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
+    obj.styleGroup = $("#StyleGroupSelect option:selected").val();
     $.ajax({
         type: "PUT",
         url: "/api/style/list/",
@@ -193,7 +195,6 @@ function AllStyles() {
             CleanUp('StyleSelect', html);
             $("#TableSelect").val('CurrentLocation');
             HideLoader();
-            AllStyleGroups();
         },
         error: function (results) {
             HideLoader();
