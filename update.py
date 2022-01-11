@@ -125,6 +125,8 @@ while True:
         eeee.commit()
         e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
+        e4.execute("UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 16) WHERE styleCode IS NULL")
+        eeee.commit()
         print("Finished Updating ValidEpc")
         print("Sleeping now")
         sleep(20)
