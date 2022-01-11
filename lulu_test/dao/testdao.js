@@ -28,7 +28,7 @@ function TestDAO() {
         });
     }
     this.homeZone = function (productId, styleCode, styleGroup, storeId, k, next) {
-        console.log("Finding Home Zone, productId: " + productId + ", styleCode: " + styleCode + ", storeId: " + storeId + ", k: " + k);
+        console.log("Finding Home Zone, productId: " + productId + ", styleCode: " + styleCode + ", storeId: " + storeId + ", k: " + k + ", styleGroup: " + styleGroup);
         if (k == undefined) { k = 2; }
         var sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
         var p = [];
