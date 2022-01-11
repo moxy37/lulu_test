@@ -680,16 +680,16 @@ function SwitchMap() {
 }
 
 function drawPin(x, y, localDate) {
-    var label = '';
-    if (localDate !== undefined && localDate !== '') {
-        try {
-            var diff = localDate.getTime() - lastDate.getTime();
-            label = "+" + Math.round(diff / 60000) + " minutes";
-        } catch (ex) {
-            label = localDate;
-        }
-        lastDate = localDate;
-    }
+    var label = localDate;
+    // if (localDate !== undefined && localDate !== '') {
+    //     try {
+    //         var diff = localDate.getTime() - lastDate.getTime();
+    //         label = "+" + Math.round(diff / 60000) + " minutes";
+    //     } catch (ex) {
+    //         label = localDate;
+    //     }
+    //     lastDate = localDate;
+    // }
     ctx.font = "12px Arial";
     ctx.save();
     ctx.beginPath();

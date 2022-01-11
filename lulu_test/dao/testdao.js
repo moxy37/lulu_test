@@ -330,6 +330,26 @@ function TestDAO() {
                 }
                 sql += ") ";
             }
+            if (hourStart !== undefined && hourStart !== '') {
+                sql += "AND HOUR(ts)>=? ";
+                parmList.push(parseInt(hourStart));
+            }
+            if (hourStop !== undefined && hourStop !== '') {
+                sql += "AND HOUR(ts)<=? ";
+                parmList.push(parseInt(hourStop));
+            }
+            if (year !== undefined && year !== '') {
+                sql += "AND yyyy=? ";
+                parmList.push(parseInt(year));
+            }
+            if (month !== undefined && month !== '') {
+                sql += "AND mm=? ";
+                parmList.push(parseInt(month));
+            }
+            if (day !== undefined && day !== '') {
+                sql += "AND dd=? ";
+                parmList.push(parseInt(day));
+            }
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
             console.log(parmList);
