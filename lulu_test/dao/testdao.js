@@ -42,6 +42,10 @@ function TestDAO() {
                 console.log(err.message);
                 return next(err);
             }
+            if(results.length===0){
+                console.log("Error nothing found");
+                return next("ERROR");
+            }
             r = results[0];
             var obj = new Object();
             obj.productId = r.productId;
