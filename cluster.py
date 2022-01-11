@@ -9,6 +9,7 @@ import mysql.connector
 
 kSize = int(sys.argv[1])
 dbName = sys.argv[2]
+dailyMoves = int(sys.argv[3])
 
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
@@ -20,7 +21,7 @@ b4 = bbbb.cursor()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') AND isDeleted=0 ORDER BY storeId, styleCode, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') AND isDeleted=0 AND dailyMoves <= " + str(dailyMoves) + " ORDER BY storeId, styleCode, productId, id, ts")
 print("Finished execute")
 obj = {}
 myresultA = a4.fetchall()
@@ -31,8 +32,17 @@ failedTests = 0
 added = 0
 errors = 0
 loadProgress = 0
+ignoredResults = 0
 totalLoad = len(myresultA)
+lastId = ''
+currentIdCount = 0
 for o in myresultA:
+    currentId = o[1]
+    if lastId != currentId:
+        #Means we need to restart the counter
+        currentIdCount = 0
+    lastId = currentId
+    currentIdCount = currentIdCount + 1
     styleCode = o[6]
     productId = o[0]
     storeId = o[5]
@@ -46,11 +56,14 @@ for o in myresultA:
     
     if productId not in obj[storeId][styleCode]['productIds']:
         obj[storeId][styleCode]['productIds'].append(productId)
-    obj[storeId][styleCode]['xSet'].append(o[3])
-    obj[storeId][styleCode]['ySet'].append(o[4])
+    if currentIdCount <= dailyMoves:
+        obj[storeId][styleCode]['xSet'].append(o[3])
+        obj[storeId][styleCode]['ySet'].append(o[4])
+    else:
+        ignoredResults = ignoredResults + 1
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
-        print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded")
+        print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded with " + str(ignoredResults) + " ignored")
     
 
 for sId in obj:
