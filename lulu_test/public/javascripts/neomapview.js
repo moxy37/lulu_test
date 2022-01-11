@@ -645,10 +645,10 @@ function SwitchMap() {
 function drawPin(x, y, localDate) {
     var label = '';
     if (localDate !== undefined && localDate !== '') {
-        if (lastDate !== undefined && lastDate !== null) {
+        try {
             var diff = localDate.getTime() - lastDate.getTime();
             label = "+" + Math.round(diff / 60000) + " minutes";
-        } else {
+        } catch (ex) {
             label = localDate;
         }
         lastDate = localDate;
