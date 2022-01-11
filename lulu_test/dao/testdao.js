@@ -27,12 +27,13 @@ function TestDAO() {
         });
     }
     this.homeZone = function (productId, styleCode, storeId, k, next) {
+        console.log("Finding Home Zone, productId: " + productId + ", styleCode: " + styleCode + ", storeId: " + storeId + ", k: " + k);
         if (k == undefined) { k = 2; }
-        var sql = "SELECT * FROM Zones WHERE productId=? AND k=? AND storeId=? AND isHome=1";
-        var p = [productId, k, storeId];
-        if (productId === undefined || productId === '') {
-            sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
-            p = [styleCode, k, storeId];
+        var sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
+        var p = [styleCode, k, storeId];
+        if (productId !== undefined && productId !== '') {
+            sql = "SELECT * FROM Zones WHERE productId=? AND k=? AND storeId=? AND isHome=1";
+            p = [productId, k, storeId];
         }
 
         con.query(sql, p, function (err, results) {
