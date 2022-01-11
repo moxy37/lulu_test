@@ -4,6 +4,7 @@ var async = require('async');
 module.exports = TestDAO;
 
 function TestDAO() {
+    
     this.regions = function (storeId, next) {
         var sql = "SELECT * FROM Regions WHERE storeId=? ORDER BY regionName ";
         con.query(sql, storeId, function (err, results) {

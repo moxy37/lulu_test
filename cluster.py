@@ -21,7 +21,7 @@ b4 = bbbb.cursor()
 
 print("Getting from database")
 a4 = aaaa.cursor()
-a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode, yyyy, mm, dd FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') AND isDeleted=0 ORDER BY storeId, styleCode, productId, id, ts")
+a4.execute("SELECT productId, id, ts, x, y, storeId, styleCode, yyyy, mm, dd, styleGroup FROM EpcMovement WHERE styleCode IS NOT NULL AND isExit=0 AND isDeparture=0 AND isSold=0 AND isGhost=0 AND isMissing=0 AND regionId IN ('68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194', '0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa') AND isDeleted=0 ORDER BY storeId, styleGroup, productId, id, ts")
 print("Finished execute")
 obj = {}
 myresultA = a4.fetchall()
@@ -52,22 +52,26 @@ for o in myresultA:
         lastTS = currentTS
         currentIdCount = 0
     
+    styleGroup = o[10]
     styleCode = o[6]
     productId = o[0]
     storeId = o[5]
     if storeId not in obj:
         obj[storeId] = {}
-    if styleCode not in obj[storeId]:
-        obj[storeId][styleCode] = {}
-        obj[storeId][styleCode]['xSet'] = []
-        obj[storeId][styleCode]['ySet'] = []
-        obj[storeId][styleCode]['productIds'] = []
+    if styleGroup not in obj[storeId]:
+        obj[storeId][styleGroup] = {}
+        obj[storeId][styleGroup]['xSet'] = []
+        obj[storeId][styleGroup]['ySet'] = []
+        obj[storeId][styleGroup]['productIds'] = []
+        obj[storeId][styleGroup]['styleCodes'] = []
     
-    if productId not in obj[storeId][styleCode]['productIds']:
-        obj[storeId][styleCode]['productIds'].append(productId)
+    if styleCode not in obj[storeId][styleGroup]['styleCodes']:
+        obj[storeId][styleGroup]['styleCodes'].append(styleCode)
+    if productId not in obj[storeId][styleGroup]['productIds']:
+        obj[storeId][styleGroup]['productIds'].append(productId)
     if currentIdCount <= dailyMoves:
-        obj[storeId][styleCode]['xSet'].append(o[3])
-        obj[storeId][styleCode]['ySet'].append(o[4])
+        obj[storeId][styleGroup]['xSet'].append(o[3])
+        obj[storeId][styleGroup]['ySet'].append(o[4])
     else:
         ignoredResults = ignoredResults + 1
     loadProgress = loadProgress + 1
@@ -82,7 +86,7 @@ for sId in obj:
         xSet = obj[sId][key]['xSet']
         ySet = obj[sId][key]['ySet']
         testNumber = testNumber + 1
-        styleCode = key
+        styleGroup = key
         try:
             Data = {'x':xSet, 'y': ySet}
             if len(xSet) > kSize:
@@ -131,9 +135,9 @@ for sId in obj:
                         isHome = 1
                     k = kSize
                     inZoneCount = dCount[j]
-                    for pId in obj[storeId][styleCode]['productIds']:
+                    for pId in obj[storeId][styleGroup]['productIds']:
                         try:
-                            b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleCode, pId))
+                            b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, pId))
                             bbbb.commit()
                         except Exception as e:
                             print(str(e))
