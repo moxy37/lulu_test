@@ -142,7 +142,6 @@ function AllSubClasses() {
 }
 
 function AllStyleGroups() {
-    $("#SkuText").val('');
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -161,8 +160,8 @@ function AllStyleGroups() {
             for (var i = 0; i < results.length; i++) {
                 html += '<option value="' + results[i].styleGroup + '">' + results[i].styleGroup + ' - ' + results[i].total + '</option>';
             }
-            CleanUp('StyleGroupSelect', html);
-            $("#TableSelect").val('CurrentLocation');
+            $("#StyleGroupSelect").empty();
+            $("#StyleGroupSelect").append(html);
             HideLoader();
         },
         error: function (results) {
