@@ -71,10 +71,7 @@
                 <label for="">EPC:</label>
                 <input type="text" class="CheckLoader NumberTest" value="" id="EpcText" />
             </li>
-            <li class="EpcStuff">
-                <label for="">EPC's:</label>
-                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
-            </li>
+
             <li class="EpcStuff">
                 <button onclick="LoadJustThisEpc();" class="CheckLoader apply_button">Load This Tag</button>
                 
@@ -172,6 +169,10 @@
             <li>
                 <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
                 <div id="Message"></div>
+            </li>
+            <li class="EpcStuff">
+                <label for="">EPC's:</label>
+                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
             </li>
             <li>
                 <button onclick="ClearIsFields();" class="reset_button CheckLoader">Clear Events</button>
