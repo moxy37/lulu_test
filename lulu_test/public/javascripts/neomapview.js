@@ -320,7 +320,7 @@ function LoadHomeZone() {
     }
     obj.style = $("#StyleSelect option:selected").val();
     obj.storeId = $("#StoreSelect option:selected").val();
-    obj.k = $("#KValue").val();
+    obj.k = 3;
     $.ajax({
         type: "PUT",
         url: "/api/sku/home",
