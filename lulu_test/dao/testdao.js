@@ -375,7 +375,7 @@ function TestDAO() {
                 parmList.push(parseInt(hourStart));
             }
             if (hourStop !== undefined && hourStop !== '') {
-                sql += "AND HOUR(ts)>=? ";
+                sql += "AND HOUR(ts)<=? ";
                 parmList.push(parseInt(hourStop));
             }
             if (year !== undefined && year !== '') {
