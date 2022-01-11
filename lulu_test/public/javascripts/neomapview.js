@@ -15,6 +15,8 @@ var imageWidth = 1195;
 
 var lastDate = null;
 
+var gPoints = new Object();
+
 var canvas = null;
 var ctx = null;
 function searchDiv() {
@@ -335,7 +337,7 @@ function LoadHomeZone() {
             ctx.fillStyle = "blue";
             ctx.fill();
             ctx.restore();
-            drawPin(result.xCenter,  imageHeight - result.yCenter,'HOME CENTER');
+            drawPin(result.xCenter, imageHeight - result.yCenter, 'HOME CENTER');
         },
         error: function (results) {
             HideLoader();
@@ -509,16 +511,77 @@ function LoadJustThisEpc() {
 
 function ShowAll() {
     ShowLoader();
+    gPoints = new Object();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var keyList = [];
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
         var x = o.x;
         var y = imageHeight - o.y;
+        var tempId = x + '_' + y;
+        if (gPoints[tempId] === undefined) {
+            gPoints[tempId] = new Object();
+            gPoints[tempId]['x'] = x;
+            gPoints[tempId]['y'] = y;
+            gPoints[tempId]['count'] = 0;
+            keyList.push(tempId);
+        } else {
+            gPoints[tempId]['count'] = gPoints[tempId]['count'] + 1;
+        }
+
         drawPin(x, y, '');
         gLastX = x;
         gLastY = y;
     }
+    console.log(JSON.stringify(gPoints));
+    for (var i = 0; i < keyList.length; i++) {
+        var k = keyList[i];
+        var x0 = gPoints[k]['x'] - 4;
+        var y0 = gPoints[k]['y'] - 4;
+        var x1 = x0 + sideLength * 4;
+        var y1 = y0 + sideLength * 4;
+        var currentX = x0;
+        var currentY = y0;
+        var movePath = 0;
+        for (var j = 0; j < gPoints[k]['count'] - 1; j++) {
+            if (movePath === 0) {
+                //Means going right from last current point
+                currentX = currentX + 4;
+                currentY = currentY;
+                if (currentX >= x1) {
+                    movePath = 1;
+                }
+            } else if (movePath === 1) {
+                //Means going up right arm
+                currentX = currentX;
+                currentY = currentY + 4;
+                if (currentY >= y1) {
+                    movePath = 2;
+                }
+            } else if (movePath === 2) {
+                //Means going left on top
+                currentX = currentX - 4;
+                currentY = currentY;
+                if (currentX <= x0) {
+                    movePath = 3;
+                }
+            } else if (movePath === 3) {
+                currentX = currentX;
+                currentY = currentY - 4;
+                if (currentY <= y0) {
+                    x0 = x0 - 4;
+                    y0 = y0 - 4;
+                    x1 = x1 + 4;
+                    y1 = y1 + 4;
+                    currentX = x0;
+                    currentY = y0;
+                    movePath = 0;
+                }
+            }
+            drawPin(currentX, currentY, '');
+        }
 
+    }
     var h2 = '<h4>Show all</h4>';
 
     $("#Message").empty();
