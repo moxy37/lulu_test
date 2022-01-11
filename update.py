@@ -103,7 +103,6 @@ while True:
         except Exception as e:
             print("Error making API call")
             print(str(e))
-        '''
         print("Updating ValidEpc")
         e4 = eeee.cursor()
         e4.execute("DROP TABLE IF EXISTS ValidEpc_Bak")
@@ -127,7 +126,6 @@ while True:
         e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
         print("Finished Updating ValidEpc")
-        '''
         print("Sleeping now")
         sleep(20)
     except Exception as e:
