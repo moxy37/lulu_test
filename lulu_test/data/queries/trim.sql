@@ -16,23 +16,23 @@ INSERT INTO TempMe (id, yyyy, mm, dd, dailyMoves) SELECT id, yyyy, mm, dd, COUNT
 
 UPDATE EpcMovement t1 INNER JOIN TempMe t2 ON t1.id=t2.id AND t1.yyyy=t2.yyyy AND t1.mm=t2.mm AND t1.dd=t2.dd SET t1.dailyMoves=t2.dailyMoves;
 
-UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR), '_', CAST(HOUR(ts) AS CHAR), '_', CAST(FLOOR(MINUTE(ts)/20.0) AS CHAR));
+UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(FLOOR(MINUTE(ts/20.0)) AS CHAR));
 
 DROP TABLE IF EXISTS TempMe;
 
 DROP TABLE IF EXISTS EpcMax;
 
-CREATE TABLE EpcMax (id VARCHAR(30), regionId VARCHAR(40), productId VARCHAR(40), storeId VARCHAR(40), yyyy INTEGER, mm INTEGER, dd INTEGER, h INTEGER, m INTEGER, isMove INTEGER, isRegion INTEGER, isExit INTEGER, isMissing INTEGER, isReacquired INTEGER, isValid INTEGER, isGhost INTEGER, minX FLOAT, minY FLOAT, maxX FLOAT, maxY FLOAT, avgX FLOAT, avgY FLOAT, ts DATETIME, total INTEGER, tempKey VARCHAR(255), dailyMoves INTEGER, INDEX(yyyy, mm, dd, h, m, ts), INDEX(yyyy, mm, dd, h, m));
+CREATE TABLE EpcMax (id VARCHAR(30), regionId VARCHAR(40), productId VARCHAR(40), storeId VARCHAR(40), yyyy INTEGER, mm INTEGER, dd INTEGER, h INTEGER, m INTEGER, isMove INTEGER, isRegion INTEGER, isExit INTEGER, isMissing INTEGER, isReacquired INTEGER, isValid INTEGER, isGhost INTEGER, minX FLOAT, minY FLOAT, maxX FLOAT, maxY FLOAT, avgX FLOAT, avgY FLOAT, ts DATETIME, total INTEGER, tempKey VARCHAR(255), dailyMoves INTEGER, INDEX(tempKey, ts), INDEX(tempKey));
 
-INSERT INTO EpcMax (id, regionId, productId, storeId, yyyy, mm, dd, h, m, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, dailyMoves) SELECT id, regionId, productId, storeId, yyyy, mm, dd, HOUR(ts), FLOOR(MINUTE(ts)/20.0), MAX(isMove), MAX(isRegion), MAX(isExit), MAX(isMissing), MAX(isReacquired), MAX(isValid), MAX(isGhost), MIN(x), MIN(y), MAX(x), MAX(y), AVG(x), AVG(y), MAX(ts), COUNT(*), MAX(dailyMoves) FROM EpcMovement GROUP BY id, storeId, productId, yyyy, mm, dd, HOUR(ts), FLOOR(MINUTE(ts)/20.0), regionId;
+INSERT INTO EpcMax (id, regionId, productId, storeId, yyyy, mm, dd, h, m, isMove, isRegion, isExit, isMissing, isReacquired, isValid, isGhost, minX, minY, maxX, maxY, avgX, avgY, ts, total, dailyMoves, tempKey) SELECT id, regionId, productId, storeId, yyyy, mm, dd, HOUR(ts), FLOOR(MINUTE(ts)/20.0), MAX(isMove), MAX(isRegion), MAX(isExit), MAX(isMissing), MAX(isReacquired), MAX(isValid), MAX(isGhost), MIN(x), MIN(y), MAX(x), MAX(y), AVG(x), AVG(y), MAX(ts), COUNT(*), MAX(dailyMoves), MAX(tempKey) FROM EpcMovement GROUP BY id, storeId, productId, yyyy, mm, dd, HOUR(ts), FLOOR(MINUTE(ts)/20.0), regionId;
 
 DELETE FROM EpcMax WHERE dailyMoves<50;
 
-UPDATE EpcMovement t1 INNER JOIN EpcMax t2 ON t1.yyyy=t2.yyyy AND t1.mm=t2.mm AND t1.dd=t2.dd AND HOUR(t1.ts)=t2.h AND FLOOR(MINUTE(t1.ts)/20.0)=t2.m SET t1.isDeleted=1;
+UPDATE EpcMovement t1 INNER JOIN EpcMax t2 ON t1.tempKey=t2.tempKey SET t1.isDeleted=1;
 
 ALTER TABLE EpcMovement DROP PRIMARY KEY;
 
-UPDATE EpcMovement t1 INNER JOIN EpcMax t2 ON t1.yyyy=t2.yyyy AND t1.mm=t2.mm AND t1.dd=t2.dd AND HOUR(t1.ts)=t2.h AND FLOOR(MINUTE(t1.ts)/20.0)=t2.m AND t1.ts=t2.ts AND t1.isDeleted=1 SET t1.isDeleted=0, t1.isExit=t2.isExit, t1.isGhost=t2.isGhost, t1.isMissing=t2.isMissing, t1.isMove=t2.isMove, t1.isReacquired=t2.isReacquired, t1.isRegion=t2.isRegion, t1.isValid=t2.isValid, t1.x=t2.avgX, t1.y=t2.avgY;
+UPDATE EpcMovement t1 INNER JOIN EpcMax t2 ON t1.tempKey=t2.tempKey AND t1.ts=t2.ts AND t1.isDeleted=1 SET t1.isDeleted=0, t1.isExit=t2.isExit, t1.isGhost=t2.isGhost, t1.isMissing=t2.isMissing, t1.isMove=t2.isMove, t1.isReacquired=t2.isReacquired, t1.isRegion=t2.isRegion, t1.isValid=t2.isValid, t1.x=t2.avgX, t1.y=t2.avgY;
 
 DROP TABLE IF EXISTS EpcMax;
 

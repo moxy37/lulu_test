@@ -335,6 +335,7 @@ function LoadHomeZone() {
             ctx.fillStyle = "blue";
             ctx.fill();
             ctx.restore();
+            drawPin(result.xCenter, result.yCenter,'HOME CENTER');
         },
         error: function (results) {
             HideLoader();

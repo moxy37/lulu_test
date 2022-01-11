@@ -16,14 +16,26 @@ print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 2
+c = cnxn.cursor()
+c.execute("DELETE FROM EpcMovement WHERE styleCode IS NULL")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+
 #Step 3
 c = cnxn.cursor()
-c.execute("DELETE FROM EpcMovement WHERE ts IS NULL OR id IS NULL OR tempKey IS NULL OR styleCode IS NULL")
+c.execute("DELETE FROM EpcMovement WHERE ts IS NULL")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
 
 #Step 4
+c = cnxn.cursor()
+c.execute("DELETE FROM EpcMovement WHERE id IS NULL")
+cnxn.commit()
+print("Command " + str(current) + " of " + str(total))
+current = current + 1
+
 #Step 5
 c = cnxn.cursor()
 c.execute("UPDATE EpcMovement SET yyyy=YEAR(ts), mm=MONTH(ts), dd=DAY(ts), soldTimestamp=NULL, isSold=0, isDeleted=0, isUpdated=0")
@@ -61,7 +73,7 @@ current = current + 1
 
 #Step 10
 c = cnxn.cursor()
-c.execute("DELETE FROM EpcMovement WHERE tempKey IS NULL")
+c.execute("UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(FLOOR(MINUTE(ts/20.0)) AS CHAR))")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1
