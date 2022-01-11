@@ -260,7 +260,8 @@ function LoadIt(withProduct = true) {
             }
             CleanUp('EpcSelect', html);
             HideLoader();
-            $("#EpcLables").val("EPC's (" + keys.length + " found)");
+            $("#EpcLables").empty();
+            $("#EpcLables").append("EPC's (" + keys.length + " found)");
         },
         error: function (results) {
             HideLoader();
