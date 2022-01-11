@@ -7,7 +7,7 @@ var gCurrentPathId = null;
 var gCurrentPathIndex = 0;
 var gPathKeys = [];
 var gLabels = ['DeptSelect', 'SubDeptSelect', 'ClassSelect', 'SubClassSelect', 'StyleSelect', 'UpcSelect', 'EpcSelect'];
-
+var gEpcList = [];
 var gLastX = 0;
 var gLastY = 0;
 var imageHeight = 1111;
@@ -205,7 +205,11 @@ function StartLoadingIt() {
     LoadIt();
 }
 
-function LoadIt(withProduct = true) {
+function LoadCurrentEpcs() {
+
+}
+
+function LoadIt(withProduct = true, loadCurrentEpc = false) {
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -224,6 +228,10 @@ function LoadIt(withProduct = true) {
     if (withProduct) {
         obj.productId = $("#SkuText").val();
         obj.epc = $("#EpcText").val();
+    }
+    if (loadCurrentEpc) {
+        obj.epcs = gEpcList;
+        gEpcList = [];
     }
     obj.limit = $("#Limit").val();
     obj.table = $("#TableSelect option:selected").val();
@@ -255,13 +263,17 @@ function LoadIt(withProduct = true) {
             var keys = Object.keys(paths);
             gPathKeys = keys;
             var html = '';
+            gEpcList = [];
             for (var i = 0; i < keys.length; i++) {
+                if (gEpcList.indexOf(paths[keys[i]][0].id) === -1) {
+                    gEpcList.push(paths[keys[i]][0].id);
+                }
                 html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
             }
             CleanUp('EpcSelect', html);
             HideLoader();
             $("#EpcLables").empty();
-            $("#EpcLables").append("EPC's (" + keys.length + " found)");
+            $("#EpcLables").append("EPC's (" + gEpcList.length + " found)");
         },
         error: function (results) {
             HideLoader();

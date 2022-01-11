@@ -234,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hourStart, hourStop, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isSold, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hourStart, hourStop, productId, epc, epcs, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isSold, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -266,6 +266,15 @@ function TestDAO() {
             if (epc !== undefined && epc !== '') {
                 sql += "AND id=? ";
                 parmList.push(epc);
+            }
+            if (epcs !== undefined && epcs.length > 0) {
+                sql += "AND id IN (";
+                for (var k = 0; k < epcs.length; k++) {
+                    if (k > 0) { sql += ", "; }
+                    sql += "?";
+                    parmList.push(epcs[k]);
+                }
+                sql += ") ";
             }
             sql += "ORDER BY styleName, ts ";
             console.log(sql);
@@ -345,6 +354,15 @@ function TestDAO() {
             if (epc !== undefined && epc !== '') {
                 sql += "AND id=? ";
                 parmList.push(epc);
+            }
+            if (epcs !== undefined && epcs.length > 0) {
+                sql += "AND id IN (";
+                for (var k = 0; k < epcs.length; k++) {
+                    if (k > 0) { sql += ", "; }
+                    sql += "?";
+                    parmList.push(epcs[k]);
+                }
+                sql += ") ";
             }
             if (subDeptId !== undefined && subDeptId !== '') {
                 sql += "AND subDeptCode=? ";
