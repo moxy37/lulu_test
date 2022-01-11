@@ -234,7 +234,7 @@ function TestDAO() {
         });
     }
 
-    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hour, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
+    this.points = function (storeId, deptId, subDeptId, classId, subClassId, styleId, year, month, day, hourStart, hourStop, productId, epc, regions, id, isDeparture, isExit, isGhost, isMissing, isMove, isRegion, isValid, table, limit, next) {
         console.log("Starting log grab points");
         if (table === 'Moments') {
             sql = "SELECT * FROM MomentsView WHERE styleName IS NOT NULL ";
@@ -243,9 +243,13 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-            if (hour !== undefined && hour !== '') {
-                sql += "AND HOUR(ts)=? ";
-                parmList.push(parseInt(hour));
+            if (hourStart !== undefined && hour !== '') {
+                sql += "AND HOUR(ts)>=? ";
+                parmList.push(parseInt(hourStart));
+            }
+            if (hourStop !== undefined && hourStop !== '') {
+                sql += "AND HOUR(ts)>=? ";
+                parmList.push(parseInt(hourStop));
             }
             if (year !== undefined && year !== '') {
                 sql += "AND yyyy=? ";
@@ -366,9 +370,13 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-            if (hour !== undefined && hour !== '') {
-                sql += "AND HOUR(ts)=? ";
-                parmList.push(parseInt(hour));
+            if (hourStart !== undefined && hour !== '') {
+                sql += "AND HOUR(ts)>=? ";
+                parmList.push(parseInt(hourStart));
+            }
+            if (hourStop !== undefined && hourStop !== '') {
+                sql += "AND HOUR(ts)>=? ";
+                parmList.push(parseInt(hourStop));
             }
             if (year !== undefined && year !== '') {
                 sql += "AND yyyy=? ";

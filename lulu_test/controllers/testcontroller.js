@@ -194,7 +194,7 @@ router.put('/api/points/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
-        testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.hour, obj.productId, obj.epc, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isValid, obj.table, obj.limit, function (err, list) {
+        testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isValid, obj.table, obj.limit, function (err, list) {
             if (err) {
                 console.log(err);
                 return res.send(err);

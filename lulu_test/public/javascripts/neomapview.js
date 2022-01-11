@@ -217,7 +217,8 @@ function LoadIt(withProduct = true) {
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
-    obj.hour = $("#Hour").val();
+    obj.hourStart = $("#HourStart").val();
+    obj.hourStop = $("#HourStop").val();
     obj.regions = $("#RegionSelect").val();
     if (obj.regions === undefined) { obj.regions = []; }
     if (withProduct) {
