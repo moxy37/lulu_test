@@ -98,6 +98,10 @@
                     <option value="Moments">AP Events</option>
                 </select>
             </li>
+            <li class="EpcStuff">
+                <label for="" id="EpcLables">EPC's:</label>
+                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
+            </li>
             <li>
                 <label for="">Region:</label>
                 <select id="RegionSelect" class="Checkloader" multiple></select>
@@ -170,10 +174,7 @@
                 <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
                 <div id="Message"></div>
             </li>
-            <li class="EpcStuff">
-                <label for="" id="EpcLables">EPC's:</label>
-                <select id="EpcSelect" class="CheckLoader" multiple onchange="ChangeEpcView();"></select>
-            </li>
+
             <li>
                 <button onclick="ClearIsFields();" class="reset_button CheckLoader">Clear Events</button>
             </li>
