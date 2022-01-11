@@ -77,7 +77,7 @@
             </li>
             <li class="EpcStuff">
                 <button onclick="LoadJustThisEpc();" class="CheckLoader apply_button">Load This Tag</button>
-                <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
+                
                 <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
                 <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
                 <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
@@ -92,9 +92,7 @@
                 <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
                 <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
             </li>
-            <li>
-                <div id="Message"></div>
-            </li>
+            
             <li>
                 <label for="">Source:</label>
                 <select id="TableSelect" class="CheckLoader">
@@ -170,6 +168,10 @@
                     <option value="0">False</option>
                     <option value="1">True</option>
                 </select>
+            </li>
+            <li>
+                <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
+                <div id="Message"></div>
             </li>
             <li>
                 <button onclick="ClearIsFields();" class="reset_button CheckLoader">Clear Events</button>
