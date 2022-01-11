@@ -144,6 +144,8 @@ router.put('/api/stylegroup/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
+
+        console.log(JSON.stringify(obj));
         testDao.styleGroup(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
             if (err) {
                 console.log(err);
