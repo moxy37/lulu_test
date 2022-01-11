@@ -243,7 +243,7 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-            if (hourStart !== undefined && hour !== '') {
+            if (hourStart !== undefined && hourStart !== '') {
                 sql += "AND HOUR(ts)>=? ";
                 parmList.push(parseInt(hourStart));
             }
@@ -370,7 +370,7 @@ function TestDAO() {
                 sql += "AND storeId=? ";
                 parmList.push(storeId);
             }
-            if (hourStart !== undefined && hour !== '') {
+            if (hourStart !== undefined && hourStart !== '') {
                 sql += "AND HOUR(ts)>=? ";
                 parmList.push(parseInt(hourStart));
             }
