@@ -33,7 +33,7 @@ function TestDAO() {
         var sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
         var p = [];
         if (styleGroup !== undefined && styleGroup !== '') {
-            sql = "SELECT * FROM Zones WHERE styleGroup=? AND storeId=? AND isHome=1";
+            sql = "SELECT * FROM Zones WHERE styleGroup=? AND k=? AND storeId=? AND isHome=1";
             p = [styleGroup, k, storeId];
         } else
             var p = [styleCode, k, storeId];
