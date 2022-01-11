@@ -137,7 +137,7 @@ for sId in obj:
                     inZoneCount = dCount[j]
                     for pId in obj[storeId][styleGroup]['productIds']:
                         try:
-                            b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, pId))
+                            b4.execute("INSERT INTO Zones (storeId, zoneNumber, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, k, radiusAvg, radiusSD, totalCount, styleCode, productId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (sId, j, radius, xCenter, yCenter, xMin, yMin, xMax, yMax, inZoneCount, isHome, kSize, radiusAvg, radiusSD, totalCount, styleGroup, pId))
                             bbbb.commit()
                         except Exception as e:
                             print(str(e))
