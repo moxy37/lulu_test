@@ -1,4 +1,4 @@
-UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 15);
+UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 16);
 
 DELETE FROM EpcMovement WHERE styleCode IS NULL;
 

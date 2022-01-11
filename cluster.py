@@ -150,5 +150,5 @@ for sId in obj:
         print("Completed " + str(testNumber) + " of " + str(totalTests) + ". Added: " + str(added) + ", Errors : " + str(errors) + ", Not Enough Points: " + str(failedTests))
 
 c5 = aaaa.cursor()
-c5.execute("UPDATE Zones t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 15)")
+c5.execute("UPDATE Zones t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 16)")
 aaaa.commit()
