@@ -230,6 +230,7 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
     if (loadCurrentEpc) {
         if (obj.table === 'CurrentLocation') {
             obj.table = 'EpcMoveView';
+            $("#TableSelect").val('EpcMoveView');
         }
         obj.epcs = gEpcList;
         gEpcList = [];
