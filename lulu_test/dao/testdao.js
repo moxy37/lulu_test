@@ -31,7 +31,7 @@ function TestDAO() {
         if (k == undefined) { k = 2; }
         var sql = "SELECT * FROM Zones WHERE styleCode=? AND k=? AND storeId=? AND isHome=1";
         var p = [styleCode, k, storeId];
-        if (productId !== undefined && productId !== '') {
+        if (productId !== undefined && productId !== '' && productId !== null) {
             sql = "SELECT * FROM Zones WHERE productId=? AND k=? AND storeId=? AND isHome=1";
             p = [productId, k, storeId];
         }
@@ -42,7 +42,7 @@ function TestDAO() {
                 console.log(err.message);
                 return next(err);
             }
-            if(results.length===0){
+            if (results.length === 0) {
                 console.log("Error nothing found");
                 return next("ERROR");
             }
