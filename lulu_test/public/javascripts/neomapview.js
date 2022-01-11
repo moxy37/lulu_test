@@ -329,7 +329,11 @@ function AllRegions() {
         success: function (results) {
             var html = '';
             for (var i = 0; i < results.length; i++) {
-                html += '<option value="' + results[i].id + '">' + results[i].regionName + '</option>';
+                var tempText = '';
+                if (results[i].regionName === 'MainCheckout' || results[i].regionName === 'NearStoreExit-1' || results[i].regionName === 'NearStoreExit-2' || results[i].regionName === 'NrMainCheckout' || results[i].regionName === 'SalesFloor') {
+                    tempText = ' selected="selected" ';
+                }
+                html += '<option value="' + results[i].id + '"' + tempText + '>' + results[i].regionName + '</option>';
             }
             $("#RegionSelect").empty();
             $("#RegionSelect").append(html);
