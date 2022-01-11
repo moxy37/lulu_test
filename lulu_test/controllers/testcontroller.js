@@ -54,7 +54,7 @@ router.put('/api/sku/home', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
-        testDao.homeZone(obj.productId, obj.style, obj.storeId, obj.k, function (err, result) {
+        testDao.homeZone(obj.productId, obj.style, obj.styleGroup, obj.storeId, obj.k, function (err, result) {
             if (err) {
                 console.log(err);
                 return res.send(err);

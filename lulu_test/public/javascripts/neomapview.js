@@ -210,7 +210,7 @@ function LoadUPC() {
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
     obj.style = $("#StyleSelect option:selected").val();
-    obj.styleGroup  = $("#StyleGroupSelect option:selected").val();
+    obj.styleGroup = $("#StyleGroupSelect option:selected").val();
     $.ajax({
         type: "PUT",
         url: "/api/sku/list/",
@@ -247,7 +247,7 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
     obj.style = $("#StyleSelect option:selected").val();
-    obj.styleGroup  = $("#StyleGroupSelect option:selected").val();
+    obj.styleGroup = $("#StyleGroupSelect option:selected").val();
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();
@@ -351,6 +351,7 @@ function LoadHomeZone() {
     }
     obj.style = $("#StyleSelect option:selected").val();
     obj.storeId = $("#StoreSelect option:selected").val();
+    obj.styleGroup = $("#StyleGroupSelect option:selected").val();
     obj.k = 3;
     $.ajax({
         type: "PUT",
