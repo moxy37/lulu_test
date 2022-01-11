@@ -141,6 +141,36 @@ function AllSubClasses() {
     });
 }
 
+function AllStyleGroups() {
+    $("#SkuText").val('');
+    ShowLoader();
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
+    obj.dept = $("#DeptSelect option:selected").val();
+    obj.subDept = $("#SubDeptSelect option:selected").val();
+    obj.class = $("#ClassSelect option:selected").val();
+    obj.subClass = $("#SubClassSelect option:selected").val();
+    $.ajax({
+        type: "PUT",
+        url: "/api/stylegroup/list/",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (results) {
+            var html = '<option value=""></option>';
+            for (var i = 0; i < results.length; i++) {
+                html += '<option value="' + results[i].styleGroup + '">' + results[i].styleGroup + ' - ' + results[i].total + '</option>';
+            }
+            CleanUp('StyleGroupSelect', html);
+            $("#TableSelect").val('CurrentLocation');
+            HideLoader();
+        },
+        error: function (results) {
+            HideLoader();
+        }
+    });
+}
+
 function AllStyles() {
     $("#SkuText").val('');
     ShowLoader();
@@ -162,7 +192,7 @@ function AllStyles() {
                 html += '<option value="' + results[i].style + '">' + results[i].styleName + ' - ' + results[i].total + '</option>';
             }
             CleanUp('StyleSelect', html);
-            $("#TableSelect").val('EpcMoveView');
+            $("#TableSelect").val('CurrentLocation');
             HideLoader();
         },
         error: function (results) {
@@ -180,7 +210,7 @@ function LoadUPC() {
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
     obj.style = $("#StyleSelect option:selected").val();
-
+    obj.styleGroup  = $("#StyleGroupSelect option:selected").val();
     $.ajax({
         type: "PUT",
         url: "/api/sku/list/",
@@ -217,6 +247,7 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
     obj.class = $("#ClassSelect option:selected").val();
     obj.subClass = $("#SubClassSelect option:selected").val();
     obj.style = $("#StyleSelect option:selected").val();
+    obj.styleGroup  = $("#StyleGroupSelect option:selected").val();
     obj.year = $("#Year").val();
     obj.month = $("#Month").val();
     obj.day = $("#Day").val();

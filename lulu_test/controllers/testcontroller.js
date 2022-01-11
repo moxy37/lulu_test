@@ -140,6 +140,24 @@ router.put('/api/subclass/list', function (req, res) {
     }
 });
 
+router.put('/api/stylegroup/list', function (req, res) {
+    const cert = req.connection.getPeerCertificate()
+    if (req.client.authorized) {
+        var obj = req.body;
+        testDao.styleGroup(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
+            if (err) {
+                console.log(err);
+                return res.send(err);
+            }
+            return res.send(list);
+        });
+    } else {
+        var o = new Object();
+        o.message = "FAIL";
+        return res.send(o);
+    }
+});
+
 router.put('/api/style/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
@@ -174,7 +192,7 @@ router.put('/api/sku/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
-        testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, function (err, list) {
+        testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, function (err, list) {
             if (err) {
                 console.log(err);
                 return res.send(err);
@@ -194,7 +212,7 @@ router.put('/api/points/list', function (req, res) {
     const cert = req.connection.getPeerCertificate()
     if (req.client.authorized) {
         var obj = req.body;
-        testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.epcs, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isSold, obj.isValid, obj.table, obj.limit, function (err, list) {
+        testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.epcs, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isSold, obj.isValid, obj.table, obj.limit, function (err, list) {
             if (err) {
                 console.log(err);
                 return res.send(err);
