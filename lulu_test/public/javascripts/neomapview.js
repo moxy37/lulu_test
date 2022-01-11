@@ -194,6 +194,7 @@ function AllStyles() {
             CleanUp('StyleSelect', html);
             $("#TableSelect").val('CurrentLocation');
             HideLoader();
+            AllStyleGroups();
         },
         error: function (results) {
             HideLoader();
