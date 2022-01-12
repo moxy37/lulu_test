@@ -290,6 +290,7 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
         obj.isMissing = '';
         obj.isGhost = '';
         obj.isRegion = '';
+        obj.regions = [];
     }
     obj.limit = $("#Limit").val();
 
