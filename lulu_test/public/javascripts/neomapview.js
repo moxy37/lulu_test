@@ -283,14 +283,13 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
         obj.epcs = gEpcList;
         gEpcList = [];
         obj.isMove = '';
-        obj.isSold = '';
+        obj.isSold = 'false';
         obj.isDeparture = '';
         obj.isExit = '';
         obj.isValid = '';
         obj.isMissing = '';
         obj.isGhost = '';
-        obj.isRegion = '';
-        obj.regions = [];
+        obj.isRegion = '';;
     }
     obj.limit = $("#Limit").val();
 
