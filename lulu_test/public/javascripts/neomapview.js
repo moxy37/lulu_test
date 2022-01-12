@@ -256,21 +256,6 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
     obj.hourStop = $("#HourStop").val();
     obj.regions = $("#RegionSelect").val();
     obj.table = $("#TableSelect option:selected").val();
-    if (obj.regions === undefined) { obj.regions = []; }
-    if (withProduct) {
-        obj.productId = $("#SkuText").val();
-        obj.epc = $("#EpcText").val();
-    }
-    if (loadCurrentEpc) {
-        if (obj.table === 'CurrentLocation') {
-            obj.table = 'EpcMoveView';
-            $("#TableSelect").val('EpcMoveView');
-        }
-        obj.epcs = gEpcList;
-        gEpcList = [];
-    }
-    obj.limit = $("#Limit").val();
-
     obj.isExit = $("#IsExitSelect option:selected").val();
     obj.isGhost = $("#IsGhostSelect option:selected").val();
     obj.isMissing = $("#IsMissingSelect option:selected").val();
@@ -285,6 +270,30 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
     if (obj.class === 'XXX') { obj.class = undefined; }
     if (obj.subClass === 'XXX') { obj.subClass = undefined; }
     if (obj.style === 'XXX') { obj.style = undefined; }
+    if (obj.regions === undefined) { obj.regions = []; }
+    if (withProduct) {
+        obj.productId = $("#SkuText").val();
+        obj.epc = $("#EpcText").val();
+    }
+    if (loadCurrentEpc) {
+        if (obj.table === 'CurrentLocation') {
+            obj.table = 'EpcMoveView';
+            $("#TableSelect").val('EpcMoveView');
+        }
+        obj.epcs = gEpcList;
+        gEpcList = [];
+        obj.isMove = '';
+        obj.isSold = '';
+        obj.isDeparture = '';
+        obj.isExit = '';
+        obj.isValid = '';
+        obj.isMissing = '';
+        obj.isGhost = '';
+        obj.isRegion = '';
+    }
+    obj.limit = $("#Limit").val();
+
+
     $.ajax({
         type: "PUT",
         url: "/api/points/list",
