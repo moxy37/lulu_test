@@ -677,7 +677,7 @@ function ShowAll() {
                     movePath = 0;
                 }
             }
-            drawPin(currentX, currentY, '');
+            drawPin(currentX, currentY, '', size);
         }
 
     }
