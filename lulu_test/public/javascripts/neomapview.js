@@ -604,6 +604,14 @@ function ShowAll() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var keyList = [];
     var totalCount = 0;
+    var size = 7;
+    if (gList.length > 10) {
+        size = 6;
+    } else if (gList.length > 100) {
+        size = 5;
+    } else {
+        size = 3;
+    }
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
         var x = o.x;
@@ -623,14 +631,7 @@ function ShowAll() {
         gLastX = x;
         gLastY = y;
     }
-    var size = 7;
-    if (totalCount > 10) {
-        size = 6;
-    } else if (totalCount > 100) {
-        size = 5;
-    } else {
-        size = 3;
-    }
+    
     console.log(JSON.stringify(gPoints));
     for (var i = 0; i < keyList.length; i++) {
         var k = keyList[i];
