@@ -243,6 +243,7 @@ function DoitLoadIt(sku) {
     var obj = new Object();
     obj.storeId = '1597647a-7056-3fe9-94c1-ae5c9d16d69b';
     obj.regions = ['0f2a5717-827c-30b1-921a-40eeb252baec', '45e1ab1b-dded-3d92-a1c4-be2461c26d9b', '55cfdb10-f484-382d-9579-e0b0c658e0aa', '68ffdfb5-0b11-3a2a-b420-6555940aea0c', '9de7d1da-e3f3-38ca-87df-ea26be486194'];
+    obj.regions = [];
     obj.table = 'CurrentLocation';
     obj.productId = sku;
     obj.isSold = 'false';
@@ -268,6 +269,7 @@ function DoitLoadIt(sku) {
                 }
                 html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
             }
+            CleanUp('EpcSelect', html);
             HideLoader();
             $("#EpcLables").empty();
             $("#EpcLables").append("EPC's (" + gEpcList.length + " found)");
