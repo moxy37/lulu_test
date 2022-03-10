@@ -627,7 +627,7 @@ function ShowAll() {
             gPoints[tempId]['count'] = gPoints[tempId]['count'] + 1;
         }
         totalCount++;
-        drawPin(x, y, '');
+        drawPin(x, y, '', size);
         gLastX = x;
         gLastY = y;
     }
