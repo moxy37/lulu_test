@@ -24,17 +24,17 @@ router.get('/map2', function (req, res) {
 });
 
 router.get('/neomap', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         res.render('neomap');
-    } else {
-        res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
-    }
+    // } else {
+    //     res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+    // }
 });
 
 router.put('/api/region/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.regions(obj.storeId, function (err, list) {
             if (err) {
@@ -43,16 +43,16 @@ router.put('/api/region/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/sku/home', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.homeZone(obj.productId, obj.style, obj.styleGroup, obj.storeId, obj.k, function (err, result) {
             if (err) {
@@ -61,16 +61,16 @@ router.put('/api/sku/home', function (req, res) {
             }
             return res.send(result);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/dept/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.allDept(obj.storeId, function (err, list) {
             if (err) {
@@ -79,16 +79,16 @@ router.put('/api/dept/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/subdept/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.subDept(obj.storeId, obj.dept, function (err, list) {
             if (err) {
@@ -97,16 +97,16 @@ router.put('/api/subdept/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/class/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.classes(obj.storeId, obj.dept, obj.subDept, function (err, list) {
             if (err) {
@@ -115,16 +115,16 @@ router.put('/api/class/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/subclass/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.subClasses(obj.storeId, obj.dept, obj.subDept, obj.class, function (err, list) {
             if (err) {
@@ -133,16 +133,16 @@ router.put('/api/subclass/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/stylegroup/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
 
         console.log(JSON.stringify(obj));
@@ -153,16 +153,16 @@ router.put('/api/stylegroup/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 router.put('/api/style/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.styleGroup, function (err, list) {
             if (err) {
@@ -171,11 +171,11 @@ router.put('/api/style/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 // router.get('/api/sync/metro', function (req, res) {
@@ -191,8 +191,8 @@ router.put('/api/style/list', function (req, res) {
 // });
 
 router.put('/api/sku/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, function (err, list) {
             if (err) {
@@ -201,18 +201,18 @@ router.put('/api/sku/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 
 
 });
 
 router.put('/api/points/list', function (req, res) {
-    const cert = req.connection.getPeerCertificate()
-    if (req.client.authorized) {
+    // const cert = req.connection.getPeerCertificate()
+    // if (req.client.authorized) {
         var obj = req.body;
         testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.epcs, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isSold, obj.isValid, obj.table, obj.limit, function (err, list) {
             if (err) {
@@ -221,11 +221,11 @@ router.put('/api/points/list', function (req, res) {
             }
             return res.send(list);
         });
-    } else {
-        var o = new Object();
-        o.message = "FAIL";
-        return res.send(o);
-    }
+    // } else {
+    //     var o = new Object();
+    //     o.message = "FAIL";
+    //     return res.send(o);
+    // }
 });
 
 module.exports = router;
