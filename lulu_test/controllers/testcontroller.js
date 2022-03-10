@@ -1,8 +1,21 @@
 var express = require('express');
 router = express.Router();
 var async = require('async');
+const { router } = require('../app');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
+
+var bucket = [];
+
+router.put('/api/bucket/add', function (req, res) {
+    bucket.push(req.body);
+    return res.send(bucket);
+});
+
+router.put('/api/bucket/clear', function (req, res) {
+    bucket = [];
+    return res.send(bucket);
+});
 
 router.get('/map', function (req, res) {
     const cert = req.connection.getPeerCertificate()
@@ -26,23 +39,25 @@ router.get('/map2', function (req, res) {
 router.get('/neomap', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        res.render('neomap');
+    res.render('neomap');
     // } else {
     //     res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
     // }
 });
 
+
+
 router.put('/api/region/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.regions(obj.storeId, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.regions(obj.storeId, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -53,14 +68,14 @@ router.put('/api/region/list', function (req, res) {
 router.put('/api/sku/home', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.homeZone(obj.productId, obj.style, obj.styleGroup, obj.storeId, obj.k, function (err, result) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(result);
-        });
+    var obj = req.body;
+    testDao.homeZone(obj.productId, obj.style, obj.styleGroup, obj.storeId, obj.k, function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(result);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -71,14 +86,14 @@ router.put('/api/sku/home', function (req, res) {
 router.put('/api/dept/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.allDept(obj.storeId, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.allDept(obj.storeId, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -89,14 +104,14 @@ router.put('/api/dept/list', function (req, res) {
 router.put('/api/subdept/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.subDept(obj.storeId, obj.dept, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.subDept(obj.storeId, obj.dept, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -107,14 +122,14 @@ router.put('/api/subdept/list', function (req, res) {
 router.put('/api/class/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.classes(obj.storeId, obj.dept, obj.subDept, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.classes(obj.storeId, obj.dept, obj.subDept, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -125,14 +140,14 @@ router.put('/api/class/list', function (req, res) {
 router.put('/api/subclass/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.subClasses(obj.storeId, obj.dept, obj.subDept, obj.class, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.subClasses(obj.storeId, obj.dept, obj.subDept, obj.class, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -143,16 +158,16 @@ router.put('/api/subclass/list', function (req, res) {
 router.put('/api/stylegroup/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
+    var obj = req.body;
 
-        console.log(JSON.stringify(obj));
-        testDao.styleGroup(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    console.log(JSON.stringify(obj));
+    testDao.styleGroup(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -163,14 +178,14 @@ router.put('/api/stylegroup/list', function (req, res) {
 router.put('/api/style/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.styleGroup, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.style(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.styleGroup, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -193,14 +208,14 @@ router.put('/api/style/list', function (req, res) {
 router.put('/api/sku/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.sku(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
@@ -213,14 +228,14 @@ router.put('/api/sku/list', function (req, res) {
 router.put('/api/points/list', function (req, res) {
     // const cert = req.connection.getPeerCertificate()
     // if (req.client.authorized) {
-        var obj = req.body;
-        testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.epcs, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isSold, obj.isValid, obj.table, obj.limit, function (err, list) {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            }
-            return res.send(list);
-        });
+    var obj = req.body;
+    testDao.points(obj.storeId, obj.dept, obj.subDept, obj.class, obj.subClass, obj.style, obj.styleGroup, obj.year, obj.month, obj.day, obj.hourStart, obj.hourStop, obj.productId, obj.epc, obj.epcs, obj.regions, obj.id, obj.isDeparture, obj.isExit, obj.isGhost, obj.isMissing, obj.isMove, obj.isRegion, obj.isSold, obj.isValid, obj.table, obj.limit, function (err, list) {
+        if (err) {
+            console.log(err);
+            return res.send(err);
+        }
+        return res.send(list);
+    });
     // } else {
     //     var o = new Object();
     //     o.message = "FAIL";
