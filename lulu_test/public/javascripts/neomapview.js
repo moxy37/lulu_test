@@ -743,7 +743,7 @@ function drawPin(x, y, localDate) {
     ctx.font = "12px Arial";
     ctx.save();
     ctx.beginPath();
-    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.arc(x, y, 7, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = "red";
     ctx.fill();
