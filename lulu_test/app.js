@@ -43,13 +43,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/authenticate', (req, res) => {
-	const cert = req.connection.getPeerCertificate()
+	// const cert = req.connection.getPeerCertificate()
 
-	if (req.client.authorized) {
+	// if (req.client.authorized) {
 		res.render('neomap');
-	} else {
-		res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
-	}
+	// } else {
+	// 	res.status(401).send(`Sorry, but you need to provide a client certificate to continue.`);
+	// }
 });
 
 https.createServer(opts, app).listen(3000);

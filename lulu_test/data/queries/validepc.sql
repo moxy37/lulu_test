@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS ValidEpc_Bak;
+eDROP TABLE IF EXISTS ValidEpc_Bak;
 
 CREATE TABLE ValidEpc_Bak (	id VARCHAR(30) NOT NULL, ts DATETIME NOT NULL, productId VARCHAR(40) NOT NULL, storeId VARCHAR(40) NOT NULL, PRIMARY KEY (id, productId, storeId, ts));
 
