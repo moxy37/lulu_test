@@ -1,7 +1,6 @@
 var express = require('express');
-router = express.Router();
+var router = express.Router();
 var async = require('async');
-const { router } = require('../app');
 var TestDAO = require(__base + "dao/testdao");
 var testDao = new TestDAO();
 
