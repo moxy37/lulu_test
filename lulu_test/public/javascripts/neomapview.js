@@ -631,7 +631,7 @@ function ShowAll() {
         gLastX = x;
         gLastY = y;
     }
-    
+
     console.log(JSON.stringify(gPoints));
     for (var i = 0; i < keyList.length; i++) {
         var k = keyList[i];
@@ -741,7 +741,8 @@ function SwitchMap() {
     }
 }
 
-function drawPin(x, y, localDate, size = 7) {
+function drawPin(x, y, localDate, size) {
+    if (size == undefined) { size = 7; }
     var label = localDate;
     // if (localDate !== undefined && localDate !== '') {
     //     try {
