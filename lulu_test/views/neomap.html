@@ -78,10 +78,10 @@
 
             <li class="EpcStuff">
                 <button onclick="LoadJustThisEpc();" class="CheckLoader apply_button">Load This Tag</button>
-                
+
                 <button onclick="ShowAll();" class="CheckLoader apply_button">Show All</button>
                 <button onclick="LoadIt();" class="reset_button CheckLoader">Load EPC's</button>
-                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
+                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button>
                 <button onclick="LoadHomeZone();" class="CheckLoader apply_button">Show Home Zone</button>
             </li>
             <li class="UpcStuff">
@@ -90,10 +90,10 @@
             </li>
             <li class="UpcStuff">
                 <button onclick="LoadIt();" class="apply_button CheckLoader">Load EPC's</button>
-                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button> 
+                <button onclick="LoadIt(false);" class="reset_button CheckLoader">Load Style Points</button>
                 <button onclick="CancelStuff();" class="apply_button CheckLoader">RESET</button>
             </li>
-            
+
             <li>
                 <label for="">Source:</label>
                 <select id="TableSelect" class="CheckLoader">
@@ -110,7 +110,7 @@
                 <label for="">Region:</label>
                 <select id="RegionSelect" class="Checkloader" multiple></select>
             </li>
-            <li  class="IsHidded">
+            <li class="IsHidded">
                 <label for="">Departure Events:</label>
                 <select id="IsDepartureSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
@@ -126,7 +126,7 @@
                     <option value="1">True</option>
                 </select>
             </li>
-            <li  class="IsHidded">
+            <li class="IsHidded">
                 <label for="">Ghost Events:</label>
                 <select id="IsGhostSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
@@ -166,7 +166,7 @@
                     <option value="1">True</option>
                 </select>
             </li>
-            <li  class="IsHidded">
+            <li class="IsHidded">
                 <label for="">Valid Events:</label>
                 <select id="IsValidSelect" class="CheckLoader IsSelect">
                     <option value=""></option>
@@ -176,7 +176,8 @@
             </li>
             <li>
                 <button onclick="Forward();" class="CheckLoader reset_button">Next</button>
-                <button onclick="LoadIt(false, true);" class="CheckLoader reset_button">Load All Epcs From Search</button>
+                <button onclick="LoadIt(false, true);" class="CheckLoader reset_button">Load All Epcs From
+                    Search</button>
                 <div id="Message"></div>
             </li>
 
@@ -201,9 +202,34 @@
     $(document).ready(function () {
         canvas = document.getElementById("myCanvas");
         ctx = canvas.getContext("2d");
-        AllDepts();
-        AllRegions();
+
+        function getUrlVars() {
+
+            var vars = [];
+            var hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            var loadMe = false;
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                if (hash[0] === 'sku') {
+                    sku = hash[1];
+                    $("#SkuText").val(sku);
+                    loadMe = true;
+                }
+            }
+            if (loadMe) {
+                LoadIt(true, true, true);
+            } else {
+                AllDepts();
+                AllRegions();
+            }
+
+        }
+        getUrlVars();
+
     });
+
+
 </script>
 
 </html>

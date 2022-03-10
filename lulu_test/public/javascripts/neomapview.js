@@ -239,7 +239,7 @@ function StartLoadingIt() {
 }
 
 
-function LoadIt(withProduct = true, loadCurrentEpc = false) {
+function LoadIt(withProduct = true, loadCurrentEpc = false, showAll = false) {
     ShowLoader();
     var obj = new Object();
     obj.storeId = $("#StoreSelect option:selected").val();
@@ -319,6 +319,7 @@ function LoadIt(withProduct = true, loadCurrentEpc = false) {
             HideLoader();
             $("#EpcLables").empty();
             $("#EpcLables").append("EPC's (" + gEpcList.length + " found)");
+            if (showAll) { ShowAll(); }
         },
         error: function (results) {
             HideLoader();
