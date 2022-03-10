@@ -202,7 +202,7 @@
     $(document).ready(function () {
         canvas = document.getElementById("myCanvas");
         ctx = canvas.getContext("2d");
-
+        AllRegions();
         function getUrlVars() {
 
             var vars = [];
@@ -222,7 +222,7 @@
                 LoadIt(true, true, true);
             } else {
                 AllDepts();
-                AllRegions();
+                
             }
 
         }
