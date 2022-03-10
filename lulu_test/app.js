@@ -39,7 +39,8 @@ process.on('SIGINT', function () {
 app.use('/', require('./controllers/testcontroller'));
 
 app.get('/', (req, res) => {
-	res.send('<a href="authenticate">Log in using client certificate</a>')
+	res.render('neomap');
+	//res.send('<a href="authenticate">Log in using client certificate</a>')
 });
 
 app.get('/authenticate', (req, res) => {
