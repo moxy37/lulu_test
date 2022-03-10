@@ -273,7 +273,7 @@ function DoitLoadIt(sku) {
             HideLoader();
             $("#EpcLables").empty();
             $("#EpcLables").append("EPC's (" + gEpcList.length + " found)");
-             ShowAll();
+            ShowAll();
         },
         error: function (results) {
             HideLoader();
@@ -603,6 +603,7 @@ function ShowAll() {
     gPoints = new Object();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var keyList = [];
+    var totalCount = 0;
     for (var i = 0; i < gList.length; i++) {
         var o = gList[i];
         var x = o.x;
@@ -617,10 +618,18 @@ function ShowAll() {
         } else {
             gPoints[tempId]['count'] = gPoints[tempId]['count'] + 1;
         }
-
+        totalCount++;
         drawPin(x, y, '');
         gLastX = x;
         gLastY = y;
+    }
+    var size = 7;
+    if (totalCount > 10) {
+        size = 6;
+    } else if (totalCount > 100) {
+        size = 5;
+    } else {
+        size = 3;
     }
     console.log(JSON.stringify(gPoints));
     for (var i = 0; i < keyList.length; i++) {
@@ -731,7 +740,7 @@ function SwitchMap() {
     }
 }
 
-function drawPin(x, y, localDate) {
+function drawPin(x, y, localDate, size = 7) {
     var label = localDate;
     // if (localDate !== undefined && localDate !== '') {
     //     try {
@@ -745,7 +754,7 @@ function drawPin(x, y, localDate) {
     ctx.font = "12px Arial";
     ctx.save();
     ctx.beginPath();
-    ctx.arc(x, y, 7, 0, Math.PI * 2);
+    ctx.arc(x, y, size, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = "red";
     ctx.fill();
