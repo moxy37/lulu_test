@@ -6,11 +6,17 @@ import mysql.connector
 import datetime
 
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
+#cnxn = mysql.connector.connect(host="localhost", user="root", passwd="root", database="lulu2")
+
 added = 0
 deleted = 0
 
+
+
+#reader = csv.reader(x.replace('\0', '') for x in mycsv)
 with open('itemdata.csv') as csvDataFile:
-    csvReader = csv.reader(csvDataFile)
+    #csvReader = csv.reader(x.replace('\0', '') for x in csvDataFile)
+    csvReader= csv.reader(csvDataFile)
     for o in csvReader:
         try:
             cursor = cnxn.cursor()
