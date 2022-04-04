@@ -6,12 +6,22 @@ import mysql.connector
 import sys
 import math
 
-siteIndex = int(sys.argv[1])
-dbName = sys.argv[2]
+#siteIndex = int(sys.argv[1])
+dbType = sys.argv[2]
 
-cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+siteIndex=0
+import pyodbc
+cnxn = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+dddd = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+eeee = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+if dbType == 'mysql':
+
+    cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+    dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+    eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+
+
+
 now = datetime.now(timezone.utc)
 lastNow = now
 
@@ -25,13 +35,21 @@ for rrr in myres:
     now = rrr[0]
 while True:
     try:
-        now = datetime.strptime(str(now), '%Y-%m-%d %H:%M:%S')
+        try:
+            now = datetime.strptime(str(now), '%Y-%m-%d %H:%M:%S.%f')
+        except Exception as e:
+            now = datetime.strptime(str(now), '%Y-%m-%d %H:%M:%S')
         try:
             added = 0
             deleted = 0
             updated = 0
+            url = ''
+            try:
+                url = 'http://3.235.171.79/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ'))) + ')&order=timestamp%3Aasc&size=10000&returnCount=false'
+            except Exception as e:
+                url = 'http://3.235.171.79/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ'))) + ')&order=timestamp%3Aasc&size=10000&returnCount=false'
             print("New query for store: " + str(siteId))
-            url = 'http://3.235.171.79/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))) + ')&order=timestamp%3Aasc&size=50000&returnCount=false'
+            url = 'http://3.235.171.79/v1/bar/' + siteId + '/data/event/item?q=timestamp%3Agt(' + requests.utils.quote(str(now.replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ'))) + ')&order=timestamp%3Aasc&size=10000&returnCount=false'
             #url = 'http://44.192.77.149/v1/bar/' + siteId + '/data/event/item?order=timestamp%3Aasc&size=10000&returnCount=false'
             headers = {'Authorization': 'APIKEY 2993A070-1E86-4967-8C93-D592602EDD30', 'Accept': 'application/json' , 'Content-Type': 'application/json'}
             response = requests.request("GET", url, headers=headers)
@@ -113,7 +131,7 @@ while True:
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS ValidEpc")
         eeee.commit()
-        e4.execute("RENAME TABLE ValidEpc_Bak TO ValidEpc")
+        e4.execute("EXEC sp_rename 'ValidEpc_Bak', 'ValidEpc'")
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS AllStyle_Bak")
         eeee.commit()
@@ -123,13 +141,13 @@ while True:
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS AllStyle")
         eeee.commit()
-        e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
+        e4.execute("EXEC sp_rename 'AllStyle_Bak', 'AllStyle'")
         eeee.commit()
-        e4.execute("UPDATE EpcMovement t1 INNER JOIN Products t2 ON t1.productId=t2.sku SET t1.styleCode=t2.styleCode, t1.styleGroup=SUBSTRING(t2.styleName, 1, 16) WHERE t1.styleCode IS NULL")
+        e4.execute("UPDATE EpcMovement SET EpcMovement.styleCode = Products.styleCode, EpcMovement.styleGroup=SUBSTRING(Products.styleName, 1, 16) FROM EpcMovement INNER JOIN Products ON EpcMovement.productId= Products.sku AND EpcMovement.styleCode=''")
         eeee.commit()
         print("Finished Updating ValidEpc")
         print("Sleeping now")
-        sleep(20)
+        #sleep(20)
     except Exception as e:
         print(str(e))
     
