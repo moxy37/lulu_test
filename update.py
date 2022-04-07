@@ -7,19 +7,14 @@ import sys
 import math
 
 #siteIndex = int(sys.argv[1])
-dbType = sys.argv[2]
+#dbType = sys.argv[2]
+
+dbName = 'lulu2'
 
 siteIndex=0
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-if dbType != 'mssql':
-    import pyodbc
-    cnxn = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-    dddd = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-    eeee = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-
-
 
 now = datetime.now(timezone.utc)
 lastNow = now
@@ -130,7 +125,7 @@ while True:
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS ValidEpc")
         eeee.commit()
-        e4.execute("EXEC sp_rename 'ValidEpc_Bak', 'ValidEpc'")
+        e4.execute("RENAME ValidEpc_Bak TO ValidEpc")
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS AllStyle_Bak")
         eeee.commit()
@@ -140,9 +135,9 @@ while True:
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS AllStyle")
         eeee.commit()
-        e4.execute("EXEC sp_rename 'AllStyle_Bak', 'AllStyle'")
+        e4.execute("RENAME TABLE AllStyle_Bak TO AllStyle")
         eeee.commit()
-        e4.execute("UPDATE EpcMovement SET EpcMovement.styleCode = Products.styleCode, EpcMovement.styleGroup=SUBSTRING(Products.styleName, 1, 16) FROM EpcMovement INNER JOIN Products ON EpcMovement.productId= Products.sku AND EpcMovement.styleCode=''")
+        e4.execute("UPDATE EpcMovement INNER JOIN Products ON EpcMovement.productId= Products.sku SET EpcMovement.styleCode = Products.styleCode, EpcMovement.styleGroup=SUBSTRING(Products.styleName, 1, 16) WHERE EpcMovement.styleCode IS NULL OR EpcMovement.styleCode=''")
         eeee.commit()
         print("Finished Updating ValidEpc")
         print("Sleeping now")
