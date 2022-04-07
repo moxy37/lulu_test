@@ -98,10 +98,17 @@ CREATE TABLE EpcMovement (
 	dLast FLOAT DEFAULT 0,
 	dHome FLOAT DEFAULT 0,
 	isUpdated INTEGER DEFAULT 0,
+	tempKey VARCHAR(255) DEFAULT '',
+	dailyMoves INTEGER DEFAULT 0,
+	styleCode VARCHAR(50) DEFAULT '',
+	styleGroup VARCHAR(20) DEFAULT '',
 	PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
 );
 
-INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','1597647a-7056-3fe9-94c1-ae5c9d16d69b','2021-12-1 01:01:00', '', 0, 0);
+INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','1597647a-7056-3fe9-94c1-ae5c9d16d69b', DATE_SUB(NOW(), INTERVAL 3 DAY), '', 0, 0);
+
+
+
 
 INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','d4f87b6f-5199-43ac-b231-fbe6e3a8039c','2022-1-1 01:01:00', '', 0, 0);
 
@@ -140,6 +147,8 @@ CREATE TABLE EpcMoments (
 	dd INTEGER
 );
 
+DELETE FROM EpcMovement WHERE ts < DATE_SUB(NOW(), INTERVAL 3 DAY);
+
 INSERT INTO EpcMoments (id, productId, storeId, styleName, yyyy, mm, dd) SELECT m.itemId, m.productId, m.storeId, p.styleName, YEAR(m.ts), MONTH(m.ts), DAY(m.ts) FROM Moments m JOIN Products p ON m.productId=p.sku WHERE m.isFlag=0;
 
 DROP TABLE IF EXISTS EpcReport;
@@ -148,10 +157,9 @@ CREATE TABLE EpcReport (
 	styleName VARCHAR(100)
 );
 
-CREATE TABLE Products_bak (
+CREATE TABLE TestProducts (
 	sku varchar(20),
-	deptCode varchar(50) NULL,
-	deptName varchar(100) NULL,
+	deptCode varchar(50) NULL,	deptName varchar(100) NULL,
 	subDeptCode varchar(50) NULL,
 	subDeptName varchar(100) NULL,
 	classCode varchar(50) NULL,
@@ -160,7 +168,9 @@ CREATE TABLE Products_bak (
 	subClassName varchar(100) NULL,
 	styleCode varchar(50) NULL,
 	styleName varchar(100) NULL,
-	price float NOT NULL DEFAULT 0
+	price float NOT NULL DEFAULT 0,
+	store VARCHAR(200),
+	total INTEGER
 );
 
 DROP TABLE IF EXISTS ValidSku;

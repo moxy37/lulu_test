@@ -296,8 +296,12 @@ INSERT INTO RegionBoundaries (region, x, y) VALUES ("d03f5d32-9ecf-31ac-a9a4-d88
 
 
 
-INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName, MAX(price) FROM TestProducts GROUP BY sku, deptCode, deptName, subDeptCode, subDeptName, classCode, className, subClassCode, subClassName, styleCode, styleName;
+INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT sku, MAX(deptCode), MAX(deptName), MAX(subDeptCode), MAX(subDeptName), MAX(classCode), MAX(className), MAX(subClassCode), MAX(subClassName), MAX(styleCode), MAX(styleName), MAX(price) FROM TestProducts GROUP BY sku;
 
+DELETE FROM Products;
+DROP TABLE IF EXISTS TempMe;
+DROP TABLE IF EXISTS TempMe2;
+DROP TABLE IF EXISTS TempMe3;
 CREATE TABLE TempMe (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0);
 CREATE TABLE TempMe2 (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0);
 CREATE TABLE TempMe3 (sku VARCHAR(20) PRIMARY KEY, total INTEGER DEFAULT 0, isJoin VARCHAR(20));
@@ -314,5 +318,11 @@ SELECT COUNT(*) FROM TempMe3 WHERE isJoin IS NOT NULL;
 
 
 
-INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT t2.sku, t1.deptCode, t1.deptName, t1.subDeptCode, t1.subDeptName, t1.classCode, t1.className, t1.subClassCode, t1.subClassName, t1.styleCode, t1.styleName, t1.price FROM TestProducts t1 JOIN TempMe3 t2 ON t1.sku=t2.sku;
+INSERT INTO Products (sku, deptCode, deptName, subDeptCode, subDeptName, classCode,className, subClassCode, subClassName, styleCode, styleName, price) SELECT sku, MAX(deptCode), MAX(deptName), MAX(subDeptCode), MAX(subDeptName), MAX(classCode), MAX(className), MAX(subClassCode), MAX(subClassName), MAX(styleCode), MAX(styleName), MAX(price) FROM TestProducts GROUP BY sku;
 
+
+ t2.sku, t1.deptCode, t1.deptName, t1.subDeptCode, t1.subDeptName, t1.classCode, t1.className, t1.subClassCode, t1.subClassName, t1.styleCode, t1.styleName, t1.price FROM TestProducts t1 JOIN TempMe3 t2 ON t1.sku=t2.sku;
+
+DROP TABLE IF EXISTS TempMe;
+DROP TABLE IF EXISTS TempMe2;
+DROP TABLE IF EXISTS TempMe3;
