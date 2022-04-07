@@ -255,7 +255,6 @@ function LoadTagHistory(){
     obj.day = $("#Day").val();
     obj.hourStart = $("#HourStart").val();
     obj.hourStop = $("#HourStop").val();
-    obj.regions = $("#RegionSelect").val();
     obj.table = 'EpcMoveView';
     if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
     if (obj.dept === 'XXX') { obj.dept = undefined; }
