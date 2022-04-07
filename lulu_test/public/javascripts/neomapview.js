@@ -19,6 +19,8 @@ var gPoints = new Object();
 
 var canvas = null;
 var ctx = null;
+
+
 function searchDiv() {
     if (searchMenu == 0) {
         searchMenu++;
@@ -238,6 +240,65 @@ function StartLoadingIt() {
     LoadIt();
 }
 
+function LoadTagHistory(){
+    ShowLoader();
+    var obj = new Object();
+    obj.storeId = $("#StoreSelect option:selected").val();
+    obj.dept = $("#DeptSelect option:selected").val();
+    obj.subDept = $("#SubDeptSelect option:selected").val();
+    obj.class = $("#ClassSelect option:selected").val();
+    obj.subClass = $("#SubClassSelect option:selected").val();
+    obj.style = $("#StyleSelect option:selected").val();
+    obj.styleGroup = $("#StyleGroupSelect option:selected").val();
+    obj.year = $("#Year").val();
+    obj.month = $("#Month").val();
+    obj.day = $("#Day").val();
+    obj.hourStart = $("#HourStart").val();
+    obj.hourStop = $("#HourStop").val();
+    obj.regions = $("#RegionSelect").val();
+    obj.table = 'EpcMoveView';
+    if (obj.limit === '0' || obj.limit === 0) { obj.limit = undefined; }
+    if (obj.dept === 'XXX') { obj.dept = undefined; }
+    if (obj.subDept === 'XXX') { obj.subDept = undefined; }
+    if (obj.class === 'XXX') { obj.class = undefined; }
+    if (obj.subClass === 'XXX') { obj.subClass = undefined; }
+    if (obj.style === 'XXX') { obj.style = undefined; }
+    if (obj.regions === undefined) { obj.regions = []; }
+
+    obj.epc = $("#EpcText").val();
+
+    $.ajax({
+        type: "PUT",
+        url: "/api/points/list",
+        data: obj,
+        cache: false,
+        dataType: "json",
+        success: function (results) {
+            var list = results.list;
+            var paths = results.paths;
+            gPaths = paths;
+            gList = list;
+            var keys = Object.keys(paths);
+            gPathKeys = keys;
+            var html = '';
+            gEpcList = [];
+            for (var i = 0; i < keys.length; i++) {
+                if (gEpcList.indexOf(paths[keys[i]][0].id) === -1) {
+                    gEpcList.push(paths[keys[i]][0].id);
+                }
+                html += '<option value="' + keys[i] + '">EPC:' + paths[keys[i]][0].id + ', ' + paths[keys[i]][0].productId + ' - ' + paths[keys[i]][0].name + ' (' + paths[keys[i]].length + ' reads)</option>';
+            }
+            CleanUp('EpcSelect', html);
+            HideLoader();
+            $("#EpcLables").empty();
+            $("#EpcLables").append("EPC's (" + gEpcList.length + " found)");
+            if (showAll) { ShowAll(); }
+        },
+        error: function (results) {
+            HideLoader();
+        }
+    });
+}
 
 function DoitLoadIt(sku) {
     var obj = new Object();
