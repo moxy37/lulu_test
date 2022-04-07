@@ -125,7 +125,7 @@ while True:
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS ValidEpc")
         eeee.commit()
-        e4.execute("RENAME ValidEpc_Bak TO ValidEpc")
+        e4.execute("RENAME TABLE ValidEpc_Bak TO ValidEpc")
         eeee.commit()
         e4.execute("DROP TABLE IF EXISTS AllStyle_Bak")
         eeee.commit()
