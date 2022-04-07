@@ -109,8 +109,8 @@ INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('',
 
 
 
-
-INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','d4f87b6f-5199-43ac-b231-fbe6e3a8039c','2022-1-1 01:01:00', '', 0, 0);
+TRUNCATE TABLE EpcMovement;
+INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','d4f87b6f-5199-43ac-b231-fbe6e3a8039c','2021-12-8 01:01:00', '', 0, 0);
 
 DROP TABLE IF EXISTS Moments;
 CREATE TABLE Moments (

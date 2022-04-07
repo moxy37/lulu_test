@@ -4,20 +4,12 @@ import ijson
 import json
 import mysql.connector
 import datetime
-import pyodbc
 
-cnxn = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-cccc = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-dddd = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-eeee = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu2")
+cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu2")
+dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu2")
+eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu2")
 
-
-'''
-cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-cccc = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database="lulu")
-'''
 print("Cleaning existing sales")
 c = cccc.cursor()
 c.execute("DELETE FROM Sales")
