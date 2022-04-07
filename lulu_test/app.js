@@ -53,8 +53,8 @@ app.get('/authenticate', (req, res) => {
 	// }
 });
 
-app.listen(3000, function () {
-    console.log('Spartacus Node listening on port 3001!');
+app.listen(80, function () {
+    console.log('Spartacus Node listening on port 80!');
 });
 //https.createServer(opts, app).listen(3000);
 

@@ -10,15 +10,14 @@ import math
 dbType = sys.argv[2]
 
 siteIndex=0
-import pyodbc
-cnxn = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-dddd = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-eeee = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
-if dbType == 'mysql':
-
-    cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-    dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
-    eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
+if dbType != 'mssql':
+    import pyodbc
+    cnxn = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+    dddd = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
+    eeee = pyodbc.connect(r'Driver=SQL Server;Server=DESKTOP-BKLRQLD\MSSQLSERVER01;Database=LuluTest;Trusted_Connection=yes;')
 
 
 
