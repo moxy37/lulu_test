@@ -595,6 +595,7 @@ function ClearIsFields() {
 
 function ChangeEpcView() {
     var ids = $("#EpcSelect").val();
+    $("#EpcText").val(ids[0]);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gLastX = 0;
     gLastY = 0;
