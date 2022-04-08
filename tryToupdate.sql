@@ -33,8 +33,21 @@ DELETE FROM TempMe WHERE ts<soldTimestamp;
 UPDATE EpcMovement INNER JOIN TempMe ON EpcMovement.yyyy=TempMe.yyyy AND EpcMovement.mm=TempMe.mm AND EpcMovement.dd=TempMe.dd AND EpcMovement.h=TempMe.h AND EpcMovement.m=TempMe.m SET isSold=1;
 
 DROP TABLE IF EXISTS TempMe;
+CREATE TABLE TempMe (
+	id VARCHAR(30),
+	yyyy INTEGER,
+	mm INTEGER, 
+	dd INTEGER,
+	h INTEGER,
+	total INTEGER,
+	allReads INTEGER
+);
+SELECT x.total, COUNT(*) AS tags FROM (
+
+INSERT INTO TempMe (id, yyyy, mm, dd, h, total, allReads) SELECT id, yyyy, mm, dd, h, COUNT(*), SUM(dailyMoves) FROM EpcMovement GROUP BY id, yyyy, mm, dd, h;
 
 
+)  AS x GROUP BY x.total ORDER BY x.total;
 
 
 UPDATE EpcMovement INNER JOIN Sales ON EpcMovement.id=Sales.id SET EpcMovement.soldTimestamp = Sales.soldTimestamp;
