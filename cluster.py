@@ -71,8 +71,7 @@ for o in myresultA:
 
     obj[storeId][styleGroup]['xSet'].append(o[3])
     obj[storeId][styleGroup]['ySet'].append(o[4])
-    else:
-        ignoredResults = ignoredResults + 1
+
     loadProgress = loadProgress + 1
     if(loadProgress%10000==0):
         print("Load " + str(loadProgress) + " of " + str(totalLoad) + " loaded with " + str(ignoredResults) + " ignored")
