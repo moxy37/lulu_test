@@ -8,8 +8,7 @@ import statistics
 import mysql.connector
 
 kSize = int(sys.argv[1])
-dbName = sys.argv[2]
-dailyMoves = int(sys.argv[3])
+dbName = 'lulu2'
 
 aaaa = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 bbbb = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
@@ -69,9 +68,9 @@ for o in myresultA:
         obj[storeId][styleGroup]['styleCodes'].append(styleCode)
     if productId not in obj[storeId][styleGroup]['productIds']:
         obj[storeId][styleGroup]['productIds'].append(productId)
-    if currentIdCount <= dailyMoves:
-        obj[storeId][styleGroup]['xSet'].append(o[3])
-        obj[storeId][styleGroup]['ySet'].append(o[4])
+
+    obj[storeId][styleGroup]['xSet'].append(o[3])
+    obj[storeId][styleGroup]['ySet'].append(o[4])
     else:
         ignoredResults = ignoredResults + 1
     loadProgress = loadProgress + 1

@@ -40,15 +40,59 @@ CREATE TABLE TempMe (
 	dd INTEGER,
 	h INTEGER,
 	total INTEGER,
-	allReads INTEGER
+	allReads INTEGER,
+	regionCount INTEGER,
+	maxTS DATETIME
 );
-SELECT x.total, COUNT(*) AS tags FROM (
+SELECT regionCount, total, COUNT(*) AS tags, AVG(allReads) FROM TempMe GROUP BY regionCount, total ORDER BY regionCount, total;
 
-INSERT INTO TempMe (id, yyyy, mm, dd, h, total, allReads) SELECT id, yyyy, mm, dd, h, COUNT(*), SUM(dailyMoves) FROM EpcMovement GROUP BY id, yyyy, mm, dd, h;
+INSERT INTO TempMe (id, yyyy, mm, dd, h, total, allReads, regionCount, maxTS) SELECT id, yyyy, mm, dd, h, COUNT(*), SUM(dailyMoves), COUNT(DISTINCT(regionId)), MAX(ts) FROM EpcMovement GROUP BY id, yyyy, mm, dd, h;
 
+SELECT SUM(isUpdated), SUM(isDeleted) FROM EpcMovement;
+
+DROP TABLE IF EXISTS SetUpDelete;
+CREATE TABLE SetUpDelete (
+	id VARCHAR(30),
+	yyyy INTEGER,
+	mm INTEGER, 
+	dd INTEGER,
+	h INTEGER,
+	m INTEGER,
+	regionId VARCHAR(40)
+);
+
+
+
+
+DROP TABLE IF EXISTS ToDelete;
+CREATE TABLE ToDelete (
+	id VARCHAR(30),
+	yyyy INTEGER,
+	mm INTEGER, 
+	dd INTEGER,
+	h INTEGER,
+	x FLOAT,
+	y FLOAT
+);
+
+
+INSERT INTO ToDelete (id, yyyy, mm, dd, h, x, y) SELECT id, yyyy, mm, dd, h, AVG(x), AVG(y) FROM EpcMovement WHERE isDeleted=1 GROUP BY id, yyyy, mm, dd, h;
+
+DELETE FROM EpcMovement WHERE isDeleted=1 AND isUpdated=0;
+
+
+
+SELECT COUNT(*) FROM EpcMovement WHERE isUpdated=1 AND isDeleted=1;
+
+UPDATE EpcMovement INNER JOIN ToDelete ON EpcMovement.id=ToDelete.id AND EpcMovement.yyyy=ToDelete.yyyy AND EpcMovement.mm=ToDelete.mm AND EpcMovement.dd=ToDelete.dd AND EpcMovement.h=ToDelete.h SET EpcMovement.x=ToDelete.x, EpcMovement.y=ToDelete.y;
+
+UPDATE EpcMovement SET isDeleted=0, isUpdated=0;
 
 )  AS x GROUP BY x.total ORDER BY x.total;
 
+SELECT COUNT(*) FROM TempMe WHERE allReads>20;
+
+SELECT regionCount, COUNT(*), AVG(allReads) FROM TempMe WHERE allReads>20 GROUP BY regionCount ORDER BY regionCount;
 
 UPDATE EpcMovement INNER JOIN Sales ON EpcMovement.id=Sales.id SET EpcMovement.soldTimestamp = Sales.soldTimestamp;
 

@@ -111,7 +111,7 @@ INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('',
 
 
 
-INSERT INTO EpcMovement_Temp (id, productId, storeId, storeName, regionId, regionName, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isValid, yyyy, mm, dd, h, m, styleCode, styleGroup, dailyMoves, tempKey) SELECT id, productId, storeId, MAX(storeName), regionId, MAX(regionName), MAX(ts), AVG(x), AVG(y), MAX(confidence), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isValid), yyyy, mm, dd, h, m, MAX(styleCode), MAX(styleGroup), SUM(dailyMoves), MAX(tempKey) FROM EpcMovement GROUP BY id, productId, storeId, regionId,  yyyy, mm, dd, h, m;
+INSERT INTO EpcMovement_Temp (id, productId, storeId, storeName, regionId, regionName, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isValid, yyyy, mm, dd, h, m, styleCode, styleGroup, dailyMoves, tempKey) SELECT id, productId, storeId, MAX(storeName), regionId, MAX(regionName), MAX(ts), AVG(x), AVG(y), MAX(confidence), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isValid), yyyy, mm, dd, h, m, MAX(styleCode), MAX(styleGroup), SUM(dailyMoves), MAX(tempKey) FROM EpcMovement WHERE isDeleted=1 AND isUpdated=0 GROUP BY id, productId, storeId, regionId,  yyyy, mm, dd, h, m;
 
 
 
