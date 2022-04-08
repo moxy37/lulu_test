@@ -18,11 +18,13 @@ e1 = eeee.cursor()
 e1.execute("SELECT productId, xCenter, yCenter FROM Zones WHERE k-2 AND isHome=1")
 myzones = e1.fetchall()
 zones = {}
+print("getting zones")
 for z in myzones:
     zones[z[0]] = {}
     zones[z[0]]['x'] = z[1]
     zones[z[0]]['y'] = z[2]
 
+print("Got zones now getting movements")
 d3 = dddd.cursor()
 d3.execute("SELECT id, productId, regionId, x, y, yyyy, mm, dd, h, m, ts FROM EpcMovement ORDER BY id, ts")
 myres = d3.fetchall()
