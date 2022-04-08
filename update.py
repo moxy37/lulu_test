@@ -110,6 +110,7 @@ while True:
                         cnxn.commit()
                         updated = updated + 1
                     except Exception as e:
+                        print(str(e))
                         deleted = deleted + 1
                 print("Added: " + str(added) + ", Updated: "+ str(updated)+ ",  Duplicates: " + str(deleted) + ", for store: " + str(siteId) + " at: " + str(now))
         except Exception as e:
