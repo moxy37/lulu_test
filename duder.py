@@ -18,7 +18,7 @@ eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..
 d3 = dddd.cursor()
 d3.execute("SELECT id, yyyy, mm, dd, h, maxTS FROM TempMe WHERE allReads>20")
 myres = d3.fetchall()
-print("I found " + str(len(myres) + " results")
+print("I found " + str(len(myres)) + " results")
 for r in myres:
     sql = "UPDATE EpcMovement SET isDeleted=1 WHERE yyyy=%s AND mm=%s AND dd=%s AND h=%s AND id=%s"
     vals = (r[1], r[2], r[3], r[4], r[0])
