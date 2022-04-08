@@ -5,6 +5,7 @@ from time import sleep
 import mysql.connector
 import sys
 import math
+from numpy import sqrt 
 
 dbName = 'lulu2'
 
