@@ -10,6 +10,7 @@ dbName = 'lulu2'
 
 added = 0
 failed = 0
+updated = 0
 cnxn = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 dddd = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
 eeee = mysql.connector.connect(host="localhost", user="luluuser", passwd="Moxy..37Moxy..37", database=dbName)
@@ -32,6 +33,7 @@ for r in myres:
             c22 = cnxn.cursor()
             c22.execute(sql, vals)
             cnxn.commit()
+            updated = updated + 1
         except Exception as e:
             print(str(e))
             failed = failed + 1
@@ -39,4 +41,4 @@ for r in myres:
         print(str(e))
         failed = failed + 1
     
-    print("Added: " + str(added) + ", Failed: " + str(failed))
+    print("Added: " + str(added) + ", Failed: " + str(failed) + ", Updated: " + str(updated))
