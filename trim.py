@@ -73,7 +73,7 @@ current = current + 1
 
 #Step 10
 c = cnxn.cursor()
-c.execute("UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(FLOOR(MINUTE(ts/20.0)) AS CHAR))")
+c.execute("UPDATE EpcMovement SET tempKey = CONCAT(id, '_', regionId, '_', CAST(yyyy AS CHAR), '_', CAST(mm AS CHAR), '_', CAST(dd AS CHAR),'_', CAST(HOUR(ts) AS CHAR),'_', CAST(MINUTE(ts) AS CHAR))")
 cnxn.commit()
 print("Command " + str(current) + " of " + str(total))
 current = current + 1

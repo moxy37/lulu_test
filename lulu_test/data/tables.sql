@@ -67,7 +67,7 @@ CREATE TABLE Sales (
 );
 
 DROP TABLE IF EXISTS EpcMovement;
-CREATE TABLE EpcMovement (
+CREATE TABLE EpcMovement_Temp (
 	id VARCHAR(30) NOT NULL,
 	productId VARCHAR(40) NOT NULL,
 	storeId VARCHAR(40) NOT NULL,
@@ -90,9 +90,11 @@ CREATE TABLE EpcMovement (
 	isRegion INTEGER NOT NULL DEFAULT 0,
 	isSold INTEGER NOT NULL DEFAULT 0,
 	isValid INTEGER NOT NULL DEFAULT 0,
-	yyyy INTEGER,
-	mm INTEGER,
-	dd INTEGER,
+	yyyy INTEGER DEFAULT 0,
+	mm INTEGER DEFAULT 0,
+	dd INTEGER DEFAULT 0,
+	h INTEGER DEFAULT 0,
+	m INTEGER  DEFAULT 0,
 	lastX FLOAT DEFAULT 0,
 	lastY FLOAT DEFAULT 0,
 	dLast FLOAT DEFAULT 0,
@@ -102,11 +104,22 @@ CREATE TABLE EpcMovement (
 	dailyMoves INTEGER DEFAULT 0,
 	styleCode VARCHAR(50) DEFAULT '',
 	styleGroup VARCHAR(20) DEFAULT '',
-	PRIMARY KEY (id, productId, storeId, regionId, ts, x, y)
+	PRIMARY KEY (id, productId, storeId, regionId, yyyy, mm, dd, h, m)
 );
 
 INSERT INTO EpcMovement (id, productId, storeId, ts, regionId, x, y) VALUES ('', '9999999','1597647a-7056-3fe9-94c1-ae5c9d16d69b', DATE_SUB(NOW(), INTERVAL 2 DAY), '', 0, 0);
 
+
+
+INSERT INTO EpcMovement_Temp (id, productId, storeId, storeName, regionId, regionName, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isValid, yyyy, mm, dd, h, m, styleCode, styleGroup, dailyMoves, tempKey) SELECT id, productId, storeId, MAX(storeName), regionId, MAX(regionName), MAX(ts), AVG(x), AVG(y), MAX(confidence), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isValid), yyyy, mm, dd, h, m, MAX(styleCode), MAX(styleGroup), SUM(dailyMoves), MAX(tempKey) FROM EpcMovement GROUP BY id, productId, storeId, regionId,  yyyy, mm, dd, h, m;
+
+
+
+	isUpdated INTEGER DEFAULT 0,
+	tempKey VARCHAR(255) DEFAULT '',
+	dailyMoves INTEGER DEFAULT 0,
+	styleCode VARCHAR(50) DEFAULT '',
+	styleGroup VARCHAR(20) DEFAULT '',)
 
 
 TRUNCATE TABLE EpcMovement;

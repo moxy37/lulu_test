@@ -12,6 +12,33 @@ UPDATE EpcMovement SET isSold=1 WHERE ts>DATE_ADD(soldTimestamp, INTERVAL -3 HOU
 
 DELETE FROM EpcMovement WHERE productId IN ('9999999', '8888888');
 
+CREATE TABLE TempMe (
+	id VARCHAR(30),
+	productId VARCHAR(20),
+	yyyy INTEGER,
+	mm INTEGER, 
+	dd INTEGER,
+	h INTEGER,
+	m INTEGER,
+	ts DATETIME, 
+	soldTimestamp DATETIME
+);
+
+INSERT INTO TempMe (id, productId, yyyy, mm, dd, h, m, ts, soldTimestamp) SELECT EpcMovement.id, EpcMovement.productId, EpcMovement.yyyy, EpcMovement.mm, EpcMovement.dd, EpcMovement.h, EpcMovement.m, EpcMovement.ts, Sales.soldTimestamp FROM EpcMovement JOIN Sales ON EpcMovement.id=Sales.id;
+
+UPDATE TempMe SET ts=DATE_ADD(ts, INTERVAL -3 HOUR), soldTimestamp=DATE_ADD(soldTimestamp, INTERVAL 7 HOUR);
+
+DELETE FROM TempMe WHERE ts<soldTimestamp;
+
+UPDATE EpcMovement INNER JOIN TempMe ON EpcMovement.yyyy=TempMe.yyyy AND EpcMovement.mm=TempMe.mm AND EpcMovement.dd=TempMe.dd AND EpcMovement.h=TempMe.h AND EpcMovement.m=TempMe.m SET isSold=1;
+
+DROP TABLE IF EXISTS TempMe;
+
+
+
+
+UPDATE EpcMovement INNER JOIN Sales ON EpcMovement.id=Sales.id SET EpcMovement.soldTimestamp = Sales.soldTimestamp;
+
 
 
 --DELETE FROM EpcMovement WHERE productId NOT IN (SELECT sku FROM Products);
@@ -96,4 +123,10 @@ CREATE TABLE EpcMovement_Test (
 );
 
 INSERT INTO EpcMovement_Test (id, productId, storeId, regionId, x, y, z, ts, confidence, isDeleted, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, yyyy, mm, dd, h, m ) SELECT id, productId, storeId, regionId, x, y, z, MAX(ts), MAX(confidence), MAX(isDeleted), MAX(isDeparture), MAX(isExit), MAX(isGhost), MAX(isMissing), MAX(isMove), MAX(isReacquired), MAX(isRegion), MAX(isSold), MAX(isValid), YEAR(ts), MONTH(ts), DAY(ts), HOUR(ts), MINUTE(ts) FROM EpcMovement GROUP BY id, productId, storeId, regionId, x, y, z, YEAR(ts), MONTH(ts), DAY(ts), HOUR(ts), MINUTE(ts);
+
+
+
+
+
+SELECT DATE_ADD(NOW(), INTERVAL -3 HOUR);
 
