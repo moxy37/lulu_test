@@ -102,7 +102,7 @@ while True:
                     added = added + 1
                 except Exception as e:
                     sql = "UPDATE EpcMovement SET isExit=FLOOR(0.5*((isExit + %s) + ABS(isExit - %s))), isGhost=FLOOR(0.5*((isGhost + %s) + ABS(isGhost - %s))), isMissing=FLOOR(0.5*((isMissing + %s) + ABS(isMissing - %s))), isMove=FLOOR(0.5*((isMove + %s) + ABS(isMove - %s))), isReacquired=FLOOR(0.5*((isReacquired + %s) + ABS(isReacquired - %s))), isRegion=FLOOR(0.5*((isRegion + %s) + ABS(isRegion - %s))), isValid=FLOOR(0.5*((isValid + %s) + ABS(isValid - %s))), dailyMoves=dailyMoves+1, x = (x*CAST(dailyMoves AS DECIMAL) + %s)/(CAST(dailyMoves AS DECIMAL) + 1.0), y = (y*CAST(dailyMoves AS DECIMAL) + %s)/(CAST(dailyMoves AS DECIMAL) + 1.0) WHERE id=%s  AND x=%s AND y=%s AND yyyy=%s AND mm=%s AND dd=%s AND h=%s AND m=%s"
-                    vals = (isExit, isExit, isGhost, isGhost, isMissing, isMissing, isMove, isMove, isReacquired isReacquired, isRegion, isRegion, isValid, isValid, o['x'], o['y'], o['id'], o['x'], o['y'], yyyy, mm, dd, h, m)
+                    vals = (isExit, isExit, isGhost, isGhost, isMissing, isMissing, isMove, isMove, isReacquired, isReacquired, isRegion, isRegion, isValid, isValid, o['x'], o['y'], o['id'], o['x'], o['y'], yyyy, mm, dd, h, m)
   
                     try:
                         cursor = cnxn.cursor()
