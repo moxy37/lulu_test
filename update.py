@@ -101,8 +101,8 @@ while True:
                     cnxn.commit()
                     added = added + 1
                 except Exception as e:
-                    sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s, dailyMoves=dailyMoves+1, x = (x*CAST(dailyMoves AS FLOAT) + %s)/CAST((dailyMoves + 1) AS FLOAT), y = (y*CAST(dailyMoves AS FLOAT) + %s)/CAST((dailyMoves + 1) AS FLOAT) WHERE id=%s AND ts=%s AND x=%s AND y=%s"
-                    vals = (isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, o['id'], ts, o['x'], o['y'], o['x'], o['y'])
+                    sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s, dailyMoves=dailyMoves+1, x = (x*dailyMoves::float + %s)/(dailyMoves::float + 1), y = (y*dailyMoves::float + %s)/(dailyMoves::float + 1) WHERE id=%s AND ts=%s AND x=%s AND y=%s"
+                    vals = (isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, o['x'], o['y'], o['id'], ts, o['x'], o['y'])
   
                     try:
                         cursor = cnxn.cursor()
