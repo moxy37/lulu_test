@@ -19,14 +19,14 @@ d3.execute("SELECT id, yyyy, mm, dd, h, maxTS FROM TempMe WHERE allReads>20")
 myres = d3.fetchall()
 for r in myres:
     sql = "UPDATE EpcMovement SET isDeleted=1 WHERE yyyy=%s AND mm=%s AND dd=%s AND h=%s AND m=%s AND id=%s"
-    vals = (r[1], r[2], r[3], r[4], r[5], r[0])
+    vals = (r[1], r[2], r[3], r[4], r[0])
     try:
         cursor = cnxn.cursor()
         cursor.execute(sql, vals)
         cnxn.commit()
         added = added + 1
         sql = "UPDATE EpcMovement SET isUpdated=1 WHERE ts=%s AND id=%s"
-        vals = (r[6], r[0])
+        vals = (r[5], r[0])
         try:
             c22 = cnxn.cursor()
             c22.execute(sql, vals)
