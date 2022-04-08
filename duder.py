@@ -43,7 +43,7 @@ for r in myres:
     dd = r[7]
     h = r[8]
     m = r[9]
-    if productId om zones:
+    if productId in zones:
         dHome = sqrt((x - zones[productId]['x'])*(x - zones[productId]['x']) + (y - zones[productId]['y'])*(y - zones[productId]['y']))
     if r[0]==lastId:
         #Means we can update the dHome, and dLast features
