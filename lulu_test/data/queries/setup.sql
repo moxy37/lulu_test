@@ -69,7 +69,12 @@ CREATE TABLE LastCord (
 CREATE INDEX lastIdxIndex ON LastCord(idx, lastIdx, id);
 
 
-INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, homeX, homeY, dHome) SELECT id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, homeX, homeY, dHome FROM EpcMovement ORDER BY id, ts;
+INSERT INTO EpcMoveCombined (id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, homeX, homeY, dHome) SELECT id, productId, storeId, regionId, ts, x, y, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isSold, isValid, 0, 0, 0 FROM EpcMovement ORDER BY id, ts;
+
+UPDATE EpcMoveCombined INNER JOIN Zones ON EpcMoveCombined.productId=Zones.productId AND Zones.k=2 AND Zones.isHome=1 SET EpcMoveCombined.homeX=Zones.xCenter, EpcMoveCombined.homeY=Zones.yCenter;
+
+UPDATE EpcMoveCombined SET dHome = SQRT((x - homeX)*(x - homeX) + (y - homeY)*(y - homeY)) WHERE homeX>0 AND homeY>0;
+
 
 INSERT INTO LastCord (idx, x, y, id, storeId) SELECT idx, x, y, id, storeId FROM EpcMoveCombined ORDER BY idx;
 
