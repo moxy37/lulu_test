@@ -64,7 +64,7 @@ while True:
                 x1 = o['timestamp'].split('T')
                 x2 = x1[1].split(':')
                 h = int(str(x2[0]))
-                tempM = float(str(x2[1]))/20
+                tempM = float(str(x2[1]))
                 m = math.floor(tempM)
                 ts = o['timestamp'].replace('T', ' ')
                 ts = ts.replace('Z', '')
@@ -94,14 +94,14 @@ while True:
                     isDeparture = 1
                 if 'VALID' in o['events']:
                     isValid = 1
-                sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd, tempKey) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ", '" + str(tempKey) + "')"
+                sql = "INSERT INTO EpcMovement (id, productId, storeId, storeName, regionId, regionName, ts, x, y, z, confidence, isDeparture, isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, yyyy, mm, dd, h, m, tempKey, dailyMoves) VALUES ('" + o['id'] + "', '" + o['productId'] + "', '" + o['site'] + "', '" + o['siteName'] + "', '" + o['region'] + "', '" + o['regionName'] + "', '" + str(ts) + "', " + str(o['x']) + ", " + str(o['y']) + ", " + str(o['z']) + ", " + str(o['confidence']) + ", " + str(isDeparture) + ", " + str(isExit) + ", " + str(isGhost) + ", " + str(isMissing) + ", " + str(isMove) + ", " + str(isReacquired) + ", " + str(isRegion) + ", " + str(isValid) + ", " + str(yyyy) + ", " + str(mm) + ", " + str(dd) + ", " + str(h) + ", " + str(m) + ", '" + str(tempKey) + "', 1)"
                 try:
                     cursor = cnxn.cursor()
                     cursor.execute(sql)
                     cnxn.commit()
                     added = added + 1
                 except Exception as e:
-                    sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s WHERE id=%s AND ts=%s AND x=%s AND y=%s"
+                    sql = "UPDATE EpcMovement SET isExit=isExit+%s, isGhost=isGhost+%s, isMissing=isMissing+%s, isMove=isMove+%s, isReacquired=isReacquired+%s, isRegion=isRegion+%s, isValid=isValid+%s, dailyMoves=dailyMoves+1 WHERE id=%s AND ts=%s AND x=%s AND y=%s"
                     vals = (isExit, isGhost, isMissing, isMove, isReacquired, isRegion, isValid, o['id'], ts, o['x'], o['y'])
   
                     try:
